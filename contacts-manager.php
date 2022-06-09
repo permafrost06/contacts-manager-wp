@@ -98,7 +98,7 @@ class contacts_manager_plugin
 
     $create_table_query = "
             CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}contacts_manager_table` (
-              `id` bigint(20) unsigned NOT NULL default '0',
+              `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
               `name` text NOT NULL,
               `email` text NOT NULL,
               `phone` text NOT NULL,
@@ -199,19 +199,6 @@ class contacts_manager_plugin
    */
   function ajax_handler()
   {
-    function generate_random_id()
-    {
-      $characters = '0123456789';
-      $result = '';
-      for ($i = 0; $i < 11; $i++)
-        $result .= $characters[mt_rand(0, 63)];
-
-      return $result;
-    }
-
-    // Handle the ajax request here
-    $id = generate_random_id();
-
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
@@ -220,7 +207,7 @@ class contacts_manager_plugin
     global $wpdb;
     $table_name = $wpdb->prefix . 'contacts_manager_table';
 
-    $wpdb->insert($table_name, array('id' => $id, 'name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address));
+    $wpdb->insert($table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address));
 
     wp_send_json_success(array('message' => 'Successfully added contact!'));
 
