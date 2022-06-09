@@ -1,4 +1,5 @@
 # contacts-manager-wp
+
 A wordpress plugin to add and manage contacts.
 
 Install the plugin and visit any page in the wordpress site with request parameter `contact-form`
@@ -12,5 +13,8 @@ A parameter `id` can be passed to display inidividual contact.
 Example: `[contacts-manager id="23"]` will display the contact with id "23".
 
 ## Todo:
-* Add/remove/edit functionality in the admin panel.
-* Add actions and filters.
+
+- Add/remove/edit functionality in the admin panel.
+- Add actions and filters.
+
+### Note: Does not check for edge-cases. E.g. if not existent ID is supplied etc.
