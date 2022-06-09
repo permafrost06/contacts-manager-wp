@@ -69,8 +69,6 @@ class contacts_manager_plugin
 
     $output = '<div class="contacts-mgr-box">';
 
-    $output .= '<h2>Contacts Manager</h2>';
-
     if (array_key_exists('id', $atts)) {
       $output .= $this->render_contact_card($atts['id']);
     } else {
