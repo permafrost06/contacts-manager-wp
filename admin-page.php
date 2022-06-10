@@ -2,7 +2,7 @@
 if (isset($_GET['confirm'])) {
   if (isset($_GET['id'])) {
     if ('delete' == $_GET['confirm']) {
-      $this->remove_contact($_GET['id']);
+      self::$contacts_controller->remove_contact($_GET['id']);
 ?>
       <div class="notice notice-error settings-error is-dismissible">
         <p><strong>User <?php echo $_GET['id'] ?> removed</strong></p>
@@ -11,7 +11,7 @@ if (isset($_GET['confirm'])) {
     }
 
     if ('edit' == $_GET['confirm']) {
-      $this->update_contact($_GET['id'], $_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address']);
+      self::$contacts_controller->update_contact($_GET['id'], $_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address']);
     ?>
       <div class="notice notice-success settings-error is-dismissible">
         <p><strong>User <?php echo $_GET['id'] ?> updated</strong></p>
@@ -21,7 +21,7 @@ if (isset($_GET['confirm'])) {
   }
 
   if ('add' == $_GET['confirm']) {
-    $this->add_contact($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address']);
+    self::$contacts_controller->add_contact($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address']);
     ?>
     <div class="notice notice-success settings-error is-dismissible">
       <p><strong>User added</strong></p>
@@ -32,7 +32,7 @@ if (isset($_GET['confirm'])) {
 
 if (isset($_GET['action'])) {
   if (isset($_GET['id'])) {
-    $data = $this->get_contact($_GET['id']);
+    $data = self::$contacts_controller->get_contact($_GET['id']);
 
     if ('edit' == $_GET['action']) {
     ?>
