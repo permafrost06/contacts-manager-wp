@@ -158,11 +158,6 @@ class contacts_manager_plugin
     return $output;
   }
 
-  /**
-   * Enqueue my scripts and assets.
-   *
-   * @param $hook
-   */
   function enqueue_plugin_scripts()
   {
     wp_enqueue_style('base-style', plugin_dir_url(__FILE__) . '/styles/base.css');
@@ -184,9 +179,6 @@ class contacts_manager_plugin
     );
   }
 
-  /**
-   * Handles my AJAX request.
-   */
   function ajax_handler()
   {
     $name = $_POST['name'];
@@ -198,6 +190,6 @@ class contacts_manager_plugin
 
     wp_send_json_success(array('message' => 'Successfully added contact!'));
 
-    wp_die(); // All ajax handlers die when finished
+    wp_die();
   }
 }
