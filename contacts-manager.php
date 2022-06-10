@@ -46,21 +46,225 @@ class contacts_manager_plugin
 
   function admin_settings_page()
   {
-    add_options_page("Contacts Manager Settings", "Contacts Manager", "manage_options", "contacts-manager-settings", array($this, "admin_settings_html"));
+    add_menu_page("Contacts Manager Settings", "Contacts Manager", "manage_options", "contacts-manager-settings", array($this, "admin_settings_html"));
   }
 
   function admin_settings_html()
   {
-    $exampleListTable = new Example_List_Table();
-    $exampleListTable->prepare_items();
+    if (isset($_GET['confirm'])) {
+      if (isset($_GET['id'])) {
+        if ('delete' == $_GET['confirm']) {
+          $this->remove_contact($_GET['id']);
 ?>
-    <div class="wrap">
-      <h1>Contacts Manager Settings</h1>
-      <div id="icon-users" class="icon32"></div>
-      <h2>Example List Table Page</h2>
-      <?php $exampleListTable->display(); ?>
-    </div>
+          <div class="notice notice-error settings-error is-dismissible">
+            <p><strong>User <?php echo $_GET['id'] ?> removed</strong></p>
+          </div>
+        <?php
+        }
+
+        if ('edit' == $_GET['confirm']) {
+          $this->update_contact($_GET['id'], $_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address']);
+        ?>
+          <div class="notice notice-success settings-error is-dismissible">
+            <p><strong>User <?php echo $_GET['id'] ?> updated</strong></p>
+          </div>
+        <?php
+        }
+      }
+
+      if ('add' == $_GET['confirm']) {
+        $this->add_contact($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address']);
+        ?>
+        <div class="notice notice-success settings-error is-dismissible">
+          <p><strong>User added</strong></p>
+        </div>
+        <?php
+      }
+    }
+
+    if (isset($_GET['action'])) {
+      if (isset($_GET['id'])) {
+        $data = $this->get_contact($_GET['id']);
+
+        if ('edit' == $_GET['action']) {
+        ?>
+          <h1>Contact Manager Settings</h1>
+          <h2>Edit Contact</h2>
+          <form action="?page=contacts-manager-settings&confirm=edit&id=<?php echo $_GET['id'] ?>" method="post">
+            <table class="form-table">
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    <span>ID</span>
+                  </th>
+                  <td>
+                    <span><?php echo $data['id'] ?></span>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row"><label for="name_input">Name</label></th>
+                  <td>
+                    <input name="name" id="name_input" value="<?php echo $data['name'] ?>" type="text">
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row"><label for="email_input">Email</label></th>
+                  <td>
+                    <input name="email" id="email_input" value="<?php echo $data['email'] ?>" type="text">
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row"><label for="phone_input">Phone</label></th>
+                  <td>
+                    <input name="phone" id="phone_input" value="<?php echo $data['phone'] ?>" type="text">
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row"><label for="address_input">Address</label></th>
+                  <td>
+                    <textarea name="address" id="address_input" type="text"><?php echo $data['address'] ?></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="?page=contacts-manager-settings&confirm=edit&id=<?php echo $_GET['id'] ?>">
+                      <button class="button button-primary">Submit</button>
+                    </a>
+                    <a href="?page=contacts-manager-settings">
+                      <button type="button" class="button">Cancel</button>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        <?php
+        } elseif ('delete' == $_GET['action']) {
+        ?>
+          <h1>Contacts Manager Settings</h1>
+          <p>Are you sure you want to delete contact with ID <?php echo $_GET['id'] ?>?</p>
+          <p><?php echo $data['name'] ?></p>
+          <p><?php echo $data['email'] ?></p>
+          <p><?php echo $data['phone'] ?></p>
+          <p><?php echo $data['address'] ?></p>
+          <p>
+            <a href="?page=contacts-manager-settings&confirm=delete&id=<?php echo $_GET['id'] ?>">
+              <button class="button button-link-delete">Delete</button>
+            </a>
+            <a href="?page=contacts-manager-settings">
+              <button class="button button-primary">Cancel</button>
+            </a>
+          </p>
+        <?php
+        }
+      }
+      if ('add' == $_GET['action']) {
+        ?>
+        <h1>Contact Manager Settings</h1>
+        <h2>Edit Contact</h2>
+        <form enctype="multipart/form-data" action="?page=contacts-manager-settings&confirm=add" method="post">
+          <table class="form-table">
+            <tbody>
+              <tr>
+                <th scope="row"><label for="name_input">Name</label></th>
+                <td>
+                  <input name="name" id="name_input" type="text">
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><label for="email_input">Email</label></th>
+                <td>
+                  <input name="email" id="email_input" type="text">
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><label for="phone_input">Phone</label></th>
+                <td>
+                  <input name="phone" id="phone_input" type="text">
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><label for="address_input">Address</label></th>
+                <td>
+                  <textarea name="address" id="address_input" type="text"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="?page=contacts-manager-settings&confirm=add">
+                    <button class="button button-primary">Add</button>
+                  </a>
+                  <a href="?page=contacts-manager-settings">
+                    <button type="button" class="button">Cancel</button>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      <?php
+      }
+    } else {
+      $exampleListTable = new Example_List_Table();
+      $exampleListTable->prepare_items();
+      ?>
+      <div class="wrap">
+        <h1>Contacts Manager Settings</h1>
+        <div id="icon-users" class="icon32"></div>
+        <h2>Contacts List</h2>
+        <p>
+          <a href="?page=contacts-manager-settings&action=add">
+            <button class="button button-primary">Add new contact</button>
+          </a>
+        </p>
+        <?php $exampleListTable->display(); ?>
+      </div>
 <?php
+    }
+  }
+
+  function add_contact($name, $email, $phone, $address)
+  {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'contacts_manager_table';
+
+    $wpdb->insert($table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address));
+  }
+
+  function get_contact($id)
+  {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'contacts_manager_table';
+
+    $data = $wpdb->get_row("SELECT * FROM $table_name WHERE `id` = '$id'", "ARRAY_A");
+
+    return $data;
+  }
+
+  function get_all_contacts()
+  {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'contacts_manager_table';
+
+    $data = $wpdb->get_results("SELECT * FROM $table_name", "ARRAY_A");
+
+    return $data;
+  }
+
+  function remove_contact($id)
+  {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'contacts_manager_table';
+
+    $wpdb->delete($table_name, array('id' => $id));
+  }
+
+  function update_contact($id, $name, $email, $phone, $address)
+  {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'contacts_manager_table';
+
+    $wpdb->update($table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address), array('id' => $id));
   }
 
   function contacts_manager_shortcode($atts = [], $content = null, $tag = '')
@@ -118,13 +322,7 @@ class contacts_manager_plugin
 
   function render_contact_card($id)
   {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'contacts_manager_table';
-
-    $data = $wpdb->get_row("SELECT * FROM $table_name WHERE `id` = '$id'", "ARRAY_A");
-
-    write_log($id);
-    write_log($data);
+    $data = $this->get_contact($id);
 
     $output = "<div>";
 
@@ -139,10 +337,7 @@ class contacts_manager_plugin
 
   function render_complete_table()
   {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'contacts_manager_table';
-
-    $data = $wpdb->get_results("SELECT * FROM $table_name", "ARRAY_A");
+    $data = $this->get_all_contacts();
 
     $output = '<table>
       <thead>
@@ -202,10 +397,7 @@ class contacts_manager_plugin
     $phone = $_POST['phone'];
     $address = $_POST['address'];
 
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'contacts_manager_table';
-
-    $wpdb->insert($table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address));
+    $this->add_contact($name, $email, $phone, $address);
 
     wp_send_json_success(array('message' => 'Successfully added contact!'));
 
@@ -315,8 +507,8 @@ class Example_List_Table extends WP_List_Table
   protected function column_actions($item)
   {
     return sprintf(
-      '<a href="?page=edit&id=%s"><button class="button button-primary">Edit</button></a>
-      <a href="?page=delete&id=%s"><button class="button button-primary">Remove</button></a>',
+      '<a href="?page=contacts-manager-settings&action=edit&id=%s"><button class="button button-primary">Edit</button></a>
+      <a href="?page=contacts-manager-settings&action=delete&id=%s"><button class="button button-link-delete">Remove</button></a>',
       $item['id'],
       $item['id']
     );
