@@ -17,4 +17,4 @@ Example: `[contacts-manager id="23"]` will display the contact with id "23".
 - Add/remove/edit functionality in the admin panel.
 - Add actions and filters.
 
-### Note: Does not check for edge-cases. E.g. if not existent ID is supplied etc.
+### Note: No error checking. E.g. if not existent ID is supplied etc.

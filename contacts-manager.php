@@ -265,6 +265,7 @@ class Example_List_Table extends WP_List_Table
       'email'       => 'Email',
       'phone'       => 'Phone',
       'address'     => 'Address',
+      'actions'     => 'Actions'
     );
 
     return $columns;
@@ -311,6 +312,16 @@ class Example_List_Table extends WP_List_Table
     return $data;
   }
 
+  protected function column_actions($item)
+  {
+    return sprintf(
+      '<a href="?page=edit&id=%s"><button class="button button-primary">Edit</button></a>
+      <a href="?page=delete&id=%s"><button class="button button-primary">Remove</button></a>',
+      $item['id'],
+      $item['id']
+    );
+  }
+
   /**
    * Define what data to show on each column of the table
    *
@@ -342,7 +353,7 @@ class Example_List_Table extends WP_List_Table
   private function sort_data($a, $b)
   {
     // Set defaults
-    $orderby = 'name';
+    $orderby = 'id';
     $order = 'asc';
 
     // If orderby is set, use this as the sort column
