@@ -5,10 +5,10 @@
  */
 
 $dir = plugin_dir_path(__FILE__);
+include($dir . "contacts-controller.php");
 include($dir . "admin-table.php");
 
 if (!function_exists('write_log')) {
-
   function write_log($log)
   {
     if (true === WP_DEBUG) {
@@ -27,6 +27,8 @@ if (!defined('ABSPATH')) {
 
 class contacts_manager_plugin
 {
+  private static $contacts_controller = null;
+
   function __construct()
   {
     add_action('admin_menu', array($this, 'admin_settings_page'));
@@ -45,6 +47,8 @@ class contacts_manager_plugin
 
     // add db table registration hook
     register_activation_hook(__FILE__, array($this, "create_table"));
+
+    self::$contacts_controller = new  Contacts_Controller();
   }
 
   function admin_settings_page()
@@ -56,50 +60,6 @@ class contacts_manager_plugin
   {
     $dir = plugin_dir_path(__FILE__);
     include($dir . "admin-page.php");
-  }
-
-  function add_contact($name, $email, $phone, $address)
-  {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'contacts_manager_table';
-
-    $wpdb->insert($table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address));
-  }
-
-  function get_contact($id)
-  {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'contacts_manager_table';
-
-    $data = $wpdb->get_row("SELECT * FROM $table_name WHERE `id` = '$id'", "ARRAY_A");
-
-    return $data;
-  }
-
-  function get_all_contacts()
-  {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'contacts_manager_table';
-
-    $data = $wpdb->get_results("SELECT * FROM $table_name", "ARRAY_A");
-
-    return $data;
-  }
-
-  function remove_contact($id)
-  {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'contacts_manager_table';
-
-    $wpdb->delete($table_name, array('id' => $id));
-  }
-
-  function update_contact($id, $name, $email, $phone, $address)
-  {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'contacts_manager_table';
-
-    $wpdb->update($table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address), array('id' => $id));
   }
 
   function contacts_manager_shortcode($atts = [], $content = null, $tag = '')
@@ -157,7 +117,7 @@ class contacts_manager_plugin
 
   function render_contact_card($id)
   {
-    $data = $this->get_contact($id);
+    $data = self::$contacts_controller->get_contact($id);
 
     $output = "<div>";
 
@@ -172,7 +132,7 @@ class contacts_manager_plugin
 
   function render_complete_table()
   {
-    $data = $this->get_all_contacts();
+    $data = self::$contacts_controller->get_all_contacts();
 
     $output = '<table>
       <thead>
@@ -234,7 +194,7 @@ class contacts_manager_plugin
     $phone = $_POST['phone'];
     $address = $_POST['address'];
 
-    $this->add_contact($name, $email, $phone, $address);
+    self::$contacts_controller->add_contact($name, $email, $phone, $address);
 
     wp_send_json_success(array('message' => 'Successfully added contact!'));
 
