@@ -35,7 +35,7 @@ class contacts_manager_plugin
     add_action('wp_head', array($this, 'render_contact_form'));
 
     // enqueue jquery script to send ajax request and handle response
-    add_action('wp_enqueue_scripts', array($this, "enqueue_ajax_script"));
+    add_action('wp_enqueue_scripts', array($this, "enqueue_plugin_scripts"));
 
     // handle jquery response
     add_action('wp_ajax_contacts_manager_handle_ajax', array($this, 'ajax_handler'));
@@ -200,8 +200,10 @@ class contacts_manager_plugin
    *
    * @param $hook
    */
-  function enqueue_ajax_script()
+  function enqueue_plugin_scripts()
   {
+    wp_enqueue_style('base-style', plugin_dir_url(__FILE__) . '/styles/base.css');
+
     wp_enqueue_script(
       'ajax-script',
       plugins_url('/js/form-ajax-handler.js', __FILE__),

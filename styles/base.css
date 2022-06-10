@@ -1,0 +1,97 @@
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.container > * {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+.container h1 {
+  text-align: center;
+  font-size: 4rem;
+}
+
+.signup {
+  text-align: center;
+}
+
+.signup .input-outer {
+  margin: 0 0 1rem 0;
+}
+
+.signup .input-wrapper {
+  max-width: 25rem;
+}
+
+.signup .input-label {
+  display: block;
+  margin: 0 inherit 0 inherit;
+  padding: 0 0 0.5rem 0;
+
+  text-align: left;
+
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.125rem;
+}
+.signup .input-inner {
+  position: relative;
+  box-shadow: 0 0 0 1px #94929c;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.signup input {
+  display: block;
+  width: 100%;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.125rem;
+
+  appearance: none;
+  border: none;
+}
+
+.signup button {
+  background: #0275ff;
+  color: #fff;
+
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: inline-flex;
+  width: auto;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  margin: inherit;
+  position: relative;
+  transition: filter 0.25s;
+  border: 1px solid transparent;
+  line-height: 1.3rem;
+}
+
+.signup button:disabled {
+  background: #0275ff73;
+}
+
+.signup button::before {
+  box-sizing: border-box;
+  content: "";
+  width: 0;
+  margin-right: 0;
+  height: 1.28571428em;
+  border: 0 solid transparent;
+  border-radius: 1.28571428em;
+  transition: width 0.25s, border 0.25s, margin-right 0.25s;
+}
+
+#error-message {
+  color: red;
+}
