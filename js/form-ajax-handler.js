@@ -9,7 +9,10 @@ jQuery(document).ready(function ($) {
     const phone = $("#contact_phone").val();
     const address = $("#contact_address").val();
 
-    const messageEl = $("#message");
+    $("button").prop("disabled", true);
+
+    const successEl = $("#success-message");
+    const errorEl = $("#error-message");
 
     var this2 = this; //use in callback
     $.post(
@@ -25,10 +28,23 @@ jQuery(document).ready(function ($) {
       },
       function (data) {
         if (data.success) {
-          messageEl.text(data.data.message);
-          console.log(data);
-        } else console.log("failure");
+          successEl.text(data.data.message);
+        } else {
+          errorEl.text(data.data.message);
+        }
       }
     );
   });
+
+  $("input").on("input", clearMessage);
+
+  function clearMessage() {
+    const successEl = $("#success-message");
+    const errorEl = $("#error-message");
+
+    $("button").prop("disabled", false);
+
+    successEl.text("");
+    errorEl.text("");
+  }
 });
