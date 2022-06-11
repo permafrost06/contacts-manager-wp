@@ -66,7 +66,7 @@ class contacts_manager_plugin
   {
     $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
-    $output = '<div class="contacts-mgr-box">';
+    $output = '';
 
     if (array_key_exists('id', $atts)) {
       $output .= $this->render_contact_card($atts['id']);
@@ -77,8 +77,6 @@ class contacts_manager_plugin
     if (!is_null($content)) {
       $output .= apply_filters('the_content', $content);
     }
-
-    $output .= '</div>';
 
     return $output;
   }
@@ -119,13 +117,13 @@ class contacts_manager_plugin
   {
     $data = self::$contacts_controller->get_contact($id);
 
-    $output = "<div>";
+    $output = '<div class="contacts-mgr-box"><div>';
 
     foreach ($data as $field) {
       $output .= "<p>" . $field . "</p>";
     }
 
-    $output .= "</div>";
+    $output .= "</div></div>";
 
     return $output;
   }
@@ -134,14 +132,16 @@ class contacts_manager_plugin
   {
     $data = self::$contacts_controller->get_all_contacts();
 
-    $output = '<table>
+    $output = '<div class="contacts-mgr-box contacts-table"><table class="table table-hover">
       <thead>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Address</th>
-      </thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Address</th>
+        </tr>
+        </thead>
       <tbody>';
 
     foreach ($data as $row) {
@@ -153,14 +153,14 @@ class contacts_manager_plugin
     }
 
     $output .= '</tbody>
-    </table>';
+    </table></div>';
 
     return $output;
   }
 
   function enqueue_plugin_scripts()
   {
-    wp_enqueue_style('base-style', plugin_dir_url(__FILE__) . '/styles/base.css');
+    wp_enqueue_style('base-style', plugin_dir_url(__FILE__) . 'styles/base.css');
 
     wp_enqueue_script(
       'ajax-script',
