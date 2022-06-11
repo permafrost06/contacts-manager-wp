@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) {
 
 class contacts_manager_plugin
 {
-  private static $contacts_controller = null;
+  private $contacts_controller = null;
 
   function __construct()
   {
@@ -48,7 +48,7 @@ class contacts_manager_plugin
     // add db table registration hook
     register_activation_hook(__FILE__, array($this, "create_table"));
 
-    self::$contacts_controller = new  Contacts_Controller();
+    $this->contacts_controller = new Contacts_Controller();
   }
 
   function admin_settings_page()
@@ -115,24 +115,28 @@ class contacts_manager_plugin
 
   function render_contact_card($id)
   {
-    $data = self::$contacts_controller->get_contact($id);
+    try {
+      $data = $this->contacts_controller->get_contact($id);
 
-    $output = '<div class="contacts-mgr-box"><div>';
-
-    foreach ($data as $field) {
-      $output .= "<p>" . $field . "</p>";
+      $output = '<div class="contacts-mgr-box"><div>
+    <p class="field">' . $data['name'] . '</p>
+    <p class="field">' . $data['email'] . '</p>
+    <p class="field">' . $data['phone'] . '</p>
+    <p class="field">' . $data['address'] . '</p>
+    </div></div>';
+    } catch (Exception $error) {
+      $output = '<div class="contacts-mgr-box"><p>Invalid contact selected</p></div>';
     }
-
-    $output .= "</div></div>";
 
     return $output;
   }
 
   function render_complete_table()
   {
-    $data = self::$contacts_controller->get_all_contacts();
+    try {
+      $data = $this->contacts_controller->get_all_contacts();
 
-    $output = '<div class="contacts-mgr-box contacts-table"><table class="table table-hover">
+      $output = '<div class="contacts-mgr-box contacts-table"><table class="table table-hover">
       <thead>
         <tr>
           <th>ID</th>
@@ -144,16 +148,19 @@ class contacts_manager_plugin
         </thead>
       <tbody>';
 
-    foreach ($data as $row) {
-      $output .= '<tr>';
-      foreach ($row as $field) {
-        $output .= '<td>' . $field . '</td>';
+      foreach ($data as $row) {
+        $output .= '<tr>';
+        foreach ($row as $field) {
+          $output .= '<td>' . $field . '</td>';
+        }
+        $output .= '</tr>';
       }
-      $output .= '</tr>';
-    }
 
-    $output .= '</tbody>
+      $output .= '</tbody>
     </table></div>';
+    } catch (Exception $error) {
+      $output = '<div class="contacts-mgr-box"><p>Could not get table</p></div>';
+    }
 
     return $output;
   }
@@ -186,10 +193,12 @@ class contacts_manager_plugin
     $phone = $_POST['phone'];
     $address = $_POST['address'];
 
-    self::$contacts_controller->add_contact($name, $email, $phone, $address);
+    try {
+      $this->contacts_controller->add_contact($name, $email, $phone, $address);
 
-    wp_send_json_success(array('message' => 'Successfully added contact!'));
-
-    wp_die();
+      wp_send_json_success(array('message' => 'Successfully added contact!'));
+    } catch (Exception $error) {
+      wp_send_json_error(array('message' => 'Could not add contact!'));
+    }
   }
 }
