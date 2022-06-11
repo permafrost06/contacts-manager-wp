@@ -15,5 +15,6 @@ Example: `[contacts-manager id="23"]` will display the contact with id "23".
 ## Todo:
 
 - Add actions and filters.
-
-### Note: No error checking. E.g. if not existent ID is supplied etc.
+- Handle errors
+- Sanitize inputs
+- Separate concerns
