@@ -25,23 +25,31 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 /**
  * The main plugin class
  */
 
 final class Contacts_Manager
 {
+  /**
+   * Plugin version
+   * 
+   * @var string
+   */
+  const version = '1.0';
+
   private $contacts_controller = null;
 
-  /*
-  * Class constructor
-  */
+  /**
+   * Class constructor
+   */
   private function __construct()
   {
-    add_action('admin_menu', array($this, 'admin_settings_page'));
+    $this->define_constants();
 
-    // init shortcode
-    add_action('init', array($this, 'shortcodes_init'));
+    add_action('plugins_loaded', [$this, 'init_plugin']);
 
     // render custom page
     add_action('wp_head', array($this, 'render_contact_form'));
@@ -53,16 +61,16 @@ final class Contacts_Manager
     add_action('wp_ajax_contacts_manager_handle_ajax', array($this, 'ajax_handler'));
 
     // add db table registration hook
-    register_activation_hook(__FILE__, array($this, "create_table"));
+    register_activation_hook(__FILE__, [$this, 'activate']);
 
     $this->contacts_controller = new Contacts_Controller();
   }
 
-  /*
-  * Initializes a singleton instance
-  * 
-  * @return \Contacts_Manager
-  */
+  /**
+   * Initializes a singleton instance
+   * 
+   * @return \Contacts_Manager
+   */
   public static function init()
   {
     static $instance = false;
@@ -74,39 +82,48 @@ final class Contacts_Manager
     return $instance;
   }
 
-  function admin_settings_page()
+  /**
+   * Define the required plugin constants
+   * 
+   * @return void
+   */
+  public function define_constants()
   {
-    add_menu_page("Contacts Manager Settings", "Contacts Manager", "manage_options", "contacts-manager-settings", array($this, "admin_settings_html"));
+    define('CONTACTS_MANAGER_VERSION', self::version);
+    define('CONTACTS_MANAGER_FILE', __FILE__);
+    define('CONTACTS_MANAGER_PATH', __DIR__);
+    define('CONTACTS_MANAGER_URL', plugins_url('', CONTACTS_MANAGER_PATH));
+    define('CONTACTS_MANAGER_ASSETS', CONTACTS_MANAGER_URL . '/assets');
   }
 
-  function admin_settings_html()
+  /**
+   * Initialize the plugin
+   * 
+   * @return void
+   */
+  public function init_plugin()
   {
-    $dir = plugin_dir_path(__FILE__);
-    include($dir . "admin-page.php");
-  }
-
-  function contacts_manager_shortcode($atts = [], $content = null, $tag = '')
-  {
-    $atts = array_change_key_case((array) $atts, CASE_LOWER);
-
-    $output = '';
-
-    if (array_key_exists('id', $atts)) {
-      $output .= $this->render_contact_card($atts['id']);
+    if (is_admin()) {
+      new Contacts\Manager\Admin();
     } else {
-      $output .= $this->render_complete_table();
+      new \Contacts\Manager\Frontend();
     }
-
-    if (!is_null($content)) {
-      $output .= apply_filters('the_content', $content);
-    }
-
-    return $output;
   }
 
-  function shortcodes_init()
+  /**
+   * Plugin activation function
+   * 
+   * @return void
+   */
+  public function activate()
   {
-    add_shortcode('contacts-manager', array($this, 'contacts_manager_shortcode'));
+    $installed = get_option('contacts_manager_installed');
+
+    if (!$installed) {
+      update_option('contacts_manager_installed', time());
+    }
+
+    update_option('contacts_manager_version', CONTACTS_MANAGER_VERSION);
   }
 
   function create_table()
@@ -134,58 +151,6 @@ final class Contacts_Manager
       include($dir . "contact-form.php");
       exit();
     }
-  }
-
-  function render_contact_card($id)
-  {
-    try {
-      $data = $this->contacts_controller->get_contact($id);
-
-      $output = '<div class="contacts-mgr-box"><div>
-    <p class="field">' . $data['name'] . '</p>
-    <p class="field">' . $data['email'] . '</p>
-    <p class="field">' . $data['phone'] . '</p>
-    <p class="field">' . $data['address'] . '</p>
-    </div></div>';
-    } catch (Exception $error) {
-      $output = '<div class="contacts-mgr-box"><p>Invalid contact selected</p></div>';
-    }
-
-    return $output;
-  }
-
-  function render_complete_table()
-  {
-    try {
-      $data = $this->contacts_controller->get_all_contacts();
-
-      $output = '<div class="contacts-mgr-box contacts-table"><table class="table table-hover">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>Address</th>
-        </tr>
-        </thead>
-      <tbody>';
-
-      foreach ($data as $row) {
-        $output .= '<tr>';
-        foreach ($row as $field) {
-          $output .= '<td>' . $field . '</td>';
-        }
-        $output .= '</tr>';
-      }
-
-      $output .= '</tbody>
-    </table></div>';
-    } catch (Exception $error) {
-      $output = '<div class="contacts-mgr-box"><p>Could not get table</p></div>';
-    }
-
-    return $output;
   }
 
   function enqueue_plugin_scripts()
