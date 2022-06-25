@@ -161,5 +161,3 @@ class Example_List_Table extends WP_List_Table
     return -$result;
   }
 }
-
-$contacts_manager_plugin = new contacts_manager_plugin();
