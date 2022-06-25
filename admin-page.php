@@ -2,40 +2,96 @@
 if (isset($_GET['confirm'])) {
   if (isset($_GET['id'])) {
     if ('delete' == $_GET['confirm']) {
-      self::$contacts_controller->remove_contact($_GET['id']);
+      try {
+        $this->contacts_controller->remove_contact($_GET['id']);
 ?>
-      <div class="notice notice-error settings-error is-dismissible">
-        <p><strong>User <?php echo $_GET['id'] ?> removed</strong></p>
-      </div>
-    <?php
+        <div class="notice notice-error settings-error is-dismissible">
+          <p><strong>User <?php echo $_GET['id'] ?> removed</strong></p>
+        </div>
+        <?php
+      } catch (Exception $error) {
+        if ("Contact does not exist" == $error->getMessage()) {
+        ?>
+          <div class="notice notice-error settings-error is-dismissible">
+            <p><strong>User with ID <?php echo $_GET['id'] ?> does not exist</strong></p>
+          </div>
+        <?php
+        } else {
+        ?>
+          <div class="notice notice-error settings-error is-dismissible">
+            <p><strong>User <?php echo $_GET['id'] ?> could not be removed</strong></p>
+          </div>
+        <?php
+        }
+      }
     }
 
     if ('edit' == $_GET['confirm']) {
-      self::$contacts_controller->update_contact($_GET['id'], $_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address']);
-    ?>
-      <div class="notice notice-success settings-error is-dismissible">
-        <p><strong>User <?php echo $_GET['id'] ?> updated</strong></p>
-      </div>
-    <?php
+      if (!isset($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address'])) {
+        ?>
+        <div class="notice notice-error settings-error is-dismissible">
+          <p><strong>Invalid method of access</strong></p>
+        </div>
+        <?php
+      } else {
+        try {
+          $this->contacts_controller->update_contact($_GET['id'], $_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address']);
+        ?>
+          <div class="notice notice-success settings-error is-dismissible">
+            <p><strong>User <?php echo $_GET['id'] ?> updated</strong></p>
+          </div>
+          <?php
+        } catch (Exception $error) {
+          if ("Contact does not exist" == $error->getMessage()) {
+          ?>
+            <div class="notice notice-error settings-error is-dismissible">
+              <p><strong>User with ID <?php echo $_GET['id'] ?> does not exist</strong></p>
+            </div>
+          <?php
+          } else {
+          ?>
+            <div class="notice notice-error settings-error is-dismissible">
+              <p><strong>User <?php echo $_GET['id'] ?> could not be updated</strong></p>
+            </div>
+      <?php
+          }
+        }
+      }
     }
   }
 
   if ('add' == $_GET['confirm']) {
-    self::$contacts_controller->add_contact($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address']);
-    ?>
-    <div class="notice notice-success settings-error is-dismissible">
-      <p><strong>User added</strong></p>
-    </div>
-    <?php
+    if (!isset($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address'])) {
+      ?>
+      <div class="notice notice-error settings-error is-dismissible">
+        <p><strong>Invalid method of access</strong></p>
+      </div>
+      <?php
+    } else {
+      try {
+        $this->contacts_controller->add_contact($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address']);
+      ?>
+        <div class="notice notice-success settings-error is-dismissible">
+          <p><strong>User added</strong></p>
+        </div>
+      <?php
+      } catch (Exception $error) {
+      ?>
+        <div class="notice notice-error settings-error is-dismissible">
+          <p><strong>Could not add contact</strong></p>
+        </div>
+      <?php
+      }
+    }
   }
 }
 
 if (isset($_GET['action'])) {
   if (isset($_GET['id'])) {
-    $data = self::$contacts_controller->get_contact($_GET['id']);
+    $data = $this->contacts_controller->get_contact($_GET['id']);
 
     if ('edit' == $_GET['action']) {
-    ?>
+      ?>
       <h1>Contact Manager Settings</h1>
       <h2>Edit Contact</h2>
       <form action="?page=contacts-manager-settings&confirm=edit&id=<?php echo $_GET['id'] ?>" method="post">
