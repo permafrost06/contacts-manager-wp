@@ -14,7 +14,7 @@ class Contacts_Controller
 
   public function add_contact($name, $email, $phone, $address)
   {
-    $response = $this->db->insert($this->this->table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address));
+    $response = $this->db->insert($this->table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address));
     if (!$response) {
       throw new Exception("Could not insert contact");
     }
