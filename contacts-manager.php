@@ -25,11 +25,18 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-class contacts_manager_plugin
+/**
+ * The main plugin class
+ */
+
+final class Contacts_Manager
 {
   private $contacts_controller = null;
 
-  function __construct()
+  /*
+  * Class constructor
+  */
+  private function __construct()
   {
     add_action('admin_menu', array($this, 'admin_settings_page'));
 
@@ -49,6 +56,22 @@ class contacts_manager_plugin
     register_activation_hook(__FILE__, array($this, "create_table"));
 
     $this->contacts_controller = new Contacts_Controller();
+  }
+
+  /*
+  * Initializes a singleton instance
+  * 
+  * @return \Contacts_Manager
+  */
+  public static function init()
+  {
+    static $instance = false;
+
+    if (!$instance) {
+      $instance = new self();
+    }
+
+    return $instance;
   }
 
   function admin_settings_page()
@@ -202,3 +225,10 @@ class contacts_manager_plugin
     }
   }
 }
+
+function contacts_manager()
+{
+  return Contacts_Manager::init();
+}
+
+contacts_manager();
