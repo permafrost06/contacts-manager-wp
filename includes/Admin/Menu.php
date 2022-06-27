@@ -7,21 +7,17 @@ namespace Contacts\Manager\Admin;
  */
 class Menu
 {
+  public $contacts_table;
 
-  function __construct()
+  function __construct($contacts_table)
   {
+    $this->contacts_table = $contacts_table;
+
     add_action('admin_menu', [$this, 'admin_menu']);
   }
 
   public function admin_menu()
   {
-    add_menu_page("Contacts Manager Settings", "Contacts Manager", "manage_options", "contacts-manager-settings", [$this, 'plugin_page']);
-  }
-
-  public function plugin_page()
-  {
-    echo 'Hello World';
-    // $dir = plugin_dir_path(__FILE__);
-    // include($dir . "admin-page.php");
+    add_menu_page("Contacts Manager Settings", "Contacts Manager", "manage_options", "contacts-manager", [$this->contacts_table, 'plugin_page']);
   }
 }
