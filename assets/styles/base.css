@@ -1,29 +1,13 @@
-.container {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.container > * {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
-}
-
-.container h1 {
+/* .signup {
   text-align: center;
-  font-size: 4rem;
-}
-
-.signup {
-  text-align: center;
-}
+} */
 
 .signup .input-outer {
   margin: 0 0 1rem 0;
 }
 
 .signup .input-wrapper {
-  max-width: 25rem;
+  max-width: 100%;
 }
 
 .signup .input-label {
