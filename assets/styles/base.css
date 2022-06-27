@@ -43,7 +43,8 @@
   border: none;
 }
 
-.signup button {
+.signup button,
+.signup input[type="submit"] {
   background: #0275ff;
   color: #fff;
 
@@ -61,11 +62,13 @@
   line-height: 1.3rem;
 }
 
-.signup button:disabled {
+.signup button:disabled,
+.signup input[type="submit"]:disabled {
   background: #0275ff73;
 }
 
-.signup button::before {
+.signup button::before,
+.signup input[type="submit"]::before {
   box-sizing: border-box;
   content: "";
   width: 0;

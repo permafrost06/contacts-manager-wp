@@ -27,6 +27,10 @@ class ContactsController
 
   public static function add_contact($name, $email, $phone, $address)
   {
+    if (empty($name)) {
+      throw new \Exception("Name is empty");
+    }
+
     $response = self::$db->insert(self::$table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address));
     if (!$response) {
       throw new \Exception("Could not insert contact");

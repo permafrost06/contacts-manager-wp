@@ -32,15 +32,6 @@ final class Contacts_Manager
 
     add_action('plugins_loaded', [$this, 'init_plugin']);
 
-    // render custom page
-    add_action('wp_head', array($this, 'render_contact_form'));
-
-    // enqueue jquery script to send ajax request and handle response
-    add_action('wp_enqueue_scripts', array($this, "enqueue_plugin_scripts"));
-
-    // handle jquery response
-    add_action('wp_ajax_contacts_manager_handle_ajax', array($this, 'ajax_handler'));
-
     // add db table registration hook
     register_activation_hook(__FILE__, [$this, 'activate']);
   }
@@ -82,14 +73,18 @@ final class Contacts_Manager
    */
   public function init_plugin()
   {
-    new \Contacts\Manager\Assets();
+    new Contacts\Manager\Assets();
 
-    \Contacts\Manager\ContactsController::init();
+    Contacts\Manager\ContactsController::init();
+
+    if (defined('DOING_AJAX') && DOING_AJAX) {
+      new Contacts\Manager\Ajax();
+    }
 
     if (is_admin()) {
       new Contacts\Manager\Admin();
     } else {
-      new \Contacts\Manager\Frontend();
+      new Contacts\Manager\Frontend();
     }
   }
 
@@ -102,50 +97,6 @@ final class Contacts_Manager
   {
     $installer = new \Contacts\Manager\Installer();
     $installer->run();
-  }
-
-  function render_contact_form()
-  {
-    if (isset($_GET['contact-form'])) {
-      $dir = plugin_dir_path(__FILE__);
-      include($dir . "contact-form.php");
-      exit();
-    }
-  }
-
-  function enqueue_plugin_scripts()
-  {
-    wp_enqueue_script(
-      'ajax-script',
-      plugins_url('/js/form-ajax-handler.js', __FILE__),
-      array('jquery'),
-      '1.0.0'
-    );
-
-    wp_localize_script(
-      'ajax-script',
-      'my_ajax_obj',
-      array(
-        'ajax_url' => admin_url('admin-ajax.php'),
-        'nonce'    => wp_create_nonce('title_example'),
-      )
-    );
-  }
-
-  function ajax_handler()
-  {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-
-    try {
-      $this->contacts_controller->add_contact($name, $email, $phone, $address);
-
-      wp_send_json_success(array('message' => 'Successfully added contact!'));
-    } catch (Exception $error) {
-      wp_send_json_error(array('message' => 'Could not add contact!'));
-    }
   }
 }
 
