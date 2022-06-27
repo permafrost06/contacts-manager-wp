@@ -22,6 +22,7 @@ class Shortcode
    */
   function render_shortcode($atts = [], $content = null)
   {
+    wp_enqueue_style('cm-base-style');
     $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
     $output = '';
