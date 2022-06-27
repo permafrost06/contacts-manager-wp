@@ -40,8 +40,6 @@ final class Contacts_Manager
    */
   const version = '1.0';
 
-  private $contacts_controller = null;
-
   /**
    * Class constructor
    */
@@ -62,8 +60,6 @@ final class Contacts_Manager
 
     // add db table registration hook
     register_activation_hook(__FILE__, [$this, 'activate']);
-
-    $this->contacts_controller = new Contacts_Controller();
   }
 
   /**
@@ -103,6 +99,8 @@ final class Contacts_Manager
    */
   public function init_plugin()
   {
+    \Contacts\Manager\ContactsController::init();
+
     if (is_admin()) {
       new Contacts\Manager\Admin();
     } else {
@@ -117,31 +115,8 @@ final class Contacts_Manager
    */
   public function activate()
   {
-    $installed = get_option('contacts_manager_installed');
-
-    if (!$installed) {
-      update_option('contacts_manager_installed', time());
-    }
-
-    update_option('contacts_manager_version', CONTACTS_MANAGER_VERSION);
-  }
-
-  function create_table()
-  {
-    global $wpdb;
-    $charset_collate = $wpdb->get_charset_collate();
-
-    $create_table_query = "
-            CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}contacts_manager_table` (
-              `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-              `name` text NOT NULL,
-              `email` text NOT NULL,
-              `phone` text NOT NULL,
-              `address` text NOT NULL
-            ) {$charset_collate};
-    ";
-    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    dbDelta($create_table_query);
+    $installer = new \Contacts\Manager\Installer();
+    $installer->run();
   }
 
   function render_contact_form()
