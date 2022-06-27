@@ -22,34 +22,33 @@ class Shortcode
    */
   function render_shortcode($atts = [], $content = null)
   {
-    return 'Shortcode is working';
-    // $atts = array_change_key_case((array) $atts, CASE_LOWER);
+    $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
-    // $output = '';
+    $output = '';
 
-    // if (array_key_exists('id', $atts)) {
-    //   $output .= $this->render_contact_card($atts['id']);
-    // } else {
-    //   $output .= $this->render_complete_table();
-    // }
+    if (array_key_exists('id', $atts)) {
+      $output .= $this->render_contact_card($atts['id']);
+    } else {
+      $output .= $this->render_complete_table();
+    }
 
-    // if (!is_null($content)) {
-    //   $output .= apply_filters('the_content', $content);
-    // }
+    if (!is_null($content)) {
+      $output .= apply_filters('the_content', $content);
+    }
 
-    // return $output;
+    return $output;
   }
 
   function render_contact_card($id)
   {
     try {
-      $data = $this->contacts_controller->get_contact($id);
+      $contact = \Contacts\Manager\ContactsController::get_contact($id);
 
       $output = '<div class="contacts-mgr-box"><div>
-    <p class="field">' . $data['name'] . '</p>
-    <p class="field">' . $data['email'] . '</p>
-    <p class="field">' . $data['phone'] . '</p>
-    <p class="field">' . $data['address'] . '</p>
+    <p class="field">' . $contact->name . '</p>
+    <p class="field">' . $contact->email . '</p>
+    <p class="field">' . $contact->phone . '</p>
+    <p class="field">' . $contact->address . '</p>
     </div></div>';
     } catch (\Exception $error) {
       $output = '<div class="contacts-mgr-box"><p>Invalid contact selected</p></div>';
@@ -61,7 +60,7 @@ class Shortcode
   function render_complete_table()
   {
     try {
-      $data = $this->contacts_controller->get_all_contacts();
+      $data = \Contacts\Manager\ContactsController::get_all_contacts();
 
       $output = '<div class="contacts-mgr-box contacts-table"><table class="table table-hover">
       <thead>

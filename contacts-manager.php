@@ -71,7 +71,7 @@ final class Contacts_Manager
     define('CONTACTS_MANAGER_VERSION', self::version);
     define('CONTACTS_MANAGER_FILE', __FILE__);
     define('CONTACTS_MANAGER_PATH', __DIR__);
-    define('CONTACTS_MANAGER_URL', plugins_url('', CONTACTS_MANAGER_PATH));
+    define('CONTACTS_MANAGER_URL', plugins_url('', CONTACTS_MANAGER_FILE));
     define('CONTACTS_MANAGER_ASSETS', CONTACTS_MANAGER_URL . '/assets');
   }
 
@@ -82,6 +82,8 @@ final class Contacts_Manager
    */
   public function init_plugin()
   {
+    new \Contacts\Manager\Assets();
+
     \Contacts\Manager\ContactsController::init();
 
     if (is_admin()) {
@@ -113,8 +115,6 @@ final class Contacts_Manager
 
   function enqueue_plugin_scripts()
   {
-    wp_enqueue_style('base-style', plugin_dir_url(__FILE__) . 'styles/base.css');
-
     wp_enqueue_script(
       'ajax-script',
       plugins_url('/js/form-ajax-handler.js', __FILE__),
