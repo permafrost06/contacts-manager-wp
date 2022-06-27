@@ -9,7 +9,8 @@ class Shortcode
    */
   function __construct()
   {
-    add_shortcode('contacts-manager', [$this, 'render_shortcode']);
+    add_shortcode('contacts-manager', [$this, 'render_contacts']);
+    add_shortcode('contact-form', [$this, 'render_contact_form']);
   }
 
   /**
@@ -20,7 +21,7 @@ class Shortcode
    * 
    * @return string
    */
-  function render_shortcode($atts = [], $content = null)
+  function render_contacts($atts = [], $content = null)
   {
     wp_enqueue_style('cm-base-style');
     $atts = array_change_key_case((array) $atts, CASE_LOWER);
@@ -90,5 +91,12 @@ class Shortcode
     }
 
     return $output;
+  }
+
+  public function render_contact_form($atts = [], $content = null)
+  {
+    ob_start();
+    include __DIR__ . '/views/contact-form.php';
+    return ob_get_clean();
   }
 }
