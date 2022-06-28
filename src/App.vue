@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { sendAJAX } from "./composable";
 
 const message = ref("");
@@ -7,7 +7,7 @@ const input = ref("");
 
 const sendAjaxRequest = () => {
   sendAJAX(
-    "ajax_test_invalid",
+    "ajax_test",
     { message: input.value },
     (data) => {
       if (data.success) {
