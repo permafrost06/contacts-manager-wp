@@ -6,8 +6,17 @@ class Ajax
 {
   function __construct()
   {
-    add_action('wp_ajax_cm_contact_form', [$this, 'submit_form']);
-    add_action('wp_ajax_ajax_test', [$this, 'ajax_test']);
+    foreach ($this->get_actions() as $action => $handler) {
+      add_action('wp_ajax_' . $action, [$this, $handler]);
+    }
+  }
+
+  function get_actions()
+  {
+    return [
+      'cm_contact_form' => 'submit_form',
+      'ajax_test' => 'ajax_test'
+    ];
   }
 
   public function submit_form()
