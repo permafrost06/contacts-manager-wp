@@ -6,14 +6,14 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "Table",
+      name: "Contacts Table",
       component: TableView,
     },
-    // {
-    //   path: "/path",
-    //   name: "Path Name",
-    //   component: () => import("../views/PathView.vue"),
-    // },
+    {
+      path: "/add-new",
+      name: "Add New Contact",
+      component: () => import("../views/AddNewView.vue"),
+    },
   ],
 });
 

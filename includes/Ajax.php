@@ -18,7 +18,8 @@ class Ajax
     return [
       'contact_form' => 'submit_form',
       'ajax_test' => 'ajax_test',
-      'get_all_contacts' => 'handle_get_all_contacts'
+      'get_all_contacts' => 'handle_get_all_contacts',
+      'add_contact' => 'handle_add_contact',
     ];
   }
 
@@ -36,7 +37,7 @@ class Ajax
     $address = $_POST['address'];
 
     try {
-      \Contacts\Manager\ContactsController::add_contact($name, $email, $phone, $address);
+      ContactsController::add_contact($name, $email, $phone, $address);
 
       wp_send_json_success(['message' => 'Successfully added contact!']);
     } catch (\Exception $error) {
@@ -56,11 +57,27 @@ class Ajax
   public function handle_get_all_contacts()
   {
     try {
-      $contacts = \Contacts\Manager\ContactsController::get_all_contacts();
+      $contacts = ContactsController::get_all_contacts();
 
       wp_send_json_success(['contacts' => $contacts]);
     } catch (\Exception $error) {
       wp_send_json_error(['error' => $error]);
+    }
+  }
+
+  public function handle_add_contact()
+  {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+
+    try {
+      ContactsController::add_contact($name, $email, $phone, $address);
+
+      wp_send_json_success();
+    } catch (\Exception $error) {
+      wp_send_json_error(['message' => $error]);
     }
   }
 }

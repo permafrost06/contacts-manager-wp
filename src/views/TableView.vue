@@ -1,9 +1,11 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { sendAJAX } from "../composable";
 
 const contacts = ref([]);
 const error = ref("");
+const router = useRouter();
 
 sendAJAX("get_all_contacts", {}, (res) => {
   if (res.success) {
@@ -13,7 +15,15 @@ sendAJAX("get_all_contacts", {}, (res) => {
   }
 });
 
+const handleAddNew = () => {
+  router.push({ name: "Add New Contact" });
+};
+
 const handleEdit = (id) => {
+  console.log(id);
+};
+
+const handleDelete = (id) => {
   console.log(id);
 };
 </script>
@@ -24,7 +34,7 @@ const handleEdit = (id) => {
       <h2>Contacts List</h2>
     </el-col>
     <el-col class="button_center" :span="6">
-      <el-button>Add new contact</el-button>
+      <el-button @click="handleAddNew">Add new contact</el-button>
     </el-col>
     <el-col>
       <el-table :data="contacts" style="width: 100%">
