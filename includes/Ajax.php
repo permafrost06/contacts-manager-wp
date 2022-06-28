@@ -22,6 +22,7 @@ class Ajax
       'add_contact' => 'handle_add_contact',
       'get_contact' => 'handle_get_contact',
       'update_contact' => 'handle_update_contact',
+      'delete_contact' => 'handle_delete_contact',
     ];
   }
 
@@ -106,6 +107,19 @@ class Ajax
 
     try {
       ContactsController::update_contact($id, $name, $email, $phone, $address);
+
+      wp_send_json_success();
+    } catch (\Exception $error) {
+      wp_send_json_error(['message' => $error]);
+    }
+  }
+
+  public function handle_delete_contact()
+  {
+    $id = $_POST['id'];
+
+    try {
+      ContactsController::delete_contact($id);
 
       wp_send_json_success();
     } catch (\Exception $error) {

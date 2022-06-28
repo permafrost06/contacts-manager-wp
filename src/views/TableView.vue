@@ -4,16 +4,22 @@ import { useRouter } from "vue-router";
 import { sendAJAX } from "../composable";
 
 const contacts = ref([]);
+const deleteID = ref("");
 const error = ref("");
 const router = useRouter();
+const dialogVisible = ref(false);
 
-sendAJAX("get_all_contacts", {}, (res) => {
-  if (res.success) {
-    contacts.value = res.data.contacts;
-  } else {
-    error.value = res.data.error;
-  }
-});
+const getAllContacts = () => {
+  sendAJAX("get_all_contacts", {}, (res) => {
+    if (res.success) {
+      contacts.value = res.data.contacts;
+    } else {
+      error.value = res.data.error;
+    }
+  });
+};
+
+getAllContacts();
 
 const handleAddNew = () => {
   router.push({ name: "Add New Contact" });
@@ -24,7 +30,18 @@ const handleEdit = (id) => {
 };
 
 const handleDelete = (id) => {
-  console.log(id);
+  deleteID.value = id;
+  dialogVisible.value = true;
+};
+
+const confirmDelete = () => {
+  sendAJAX("delete_contact", { id: deleteID.value }, ({ success }) => {
+    if (success) {
+      getAllContacts();
+    }
+  });
+
+  dialogVisible.value = false;
 };
 </script>
 
@@ -36,6 +53,8 @@ const handleDelete = (id) => {
     <el-col class="button_center" :span="6">
       <el-button @click="handleAddNew">Add new contact</el-button>
     </el-col>
+  </el-row>
+  <el-row>
     <el-col>
       <el-table :data="contacts" style="width: 100%">
         <el-table-column prop="id" label="id" width="40" />
@@ -54,6 +73,15 @@ const handleDelete = (id) => {
       </el-table>
     </el-col>
   </el-row>
+  <el-dialog v-model="dialogVisible" title="Tips" width="30%">
+    <span>Are you sure you want to delete contact with ID {{ deleteID }}?</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="danger" @click="confirmDelete"> Confirm </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <style>
