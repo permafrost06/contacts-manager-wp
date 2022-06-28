@@ -20,3 +20,5 @@ Run `npm run watch` to watch src folder for changes.
 ## Todo:
 
 - Sanitize inputs
+- Handle errors on admin app
+- Add pagination to admin table
