@@ -1,13 +1,13 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import TestView from "../views/TestView.vue";
+import TableView from "../views/TableView.vue";
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     {
       path: "/",
-      name: "Test",
-      component: TestView,
+      name: "Table",
+      component: TableView,
     },
     // {
     //   path: "/path",

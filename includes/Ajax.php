@@ -17,7 +17,8 @@ class Ajax
   {
     return [
       'contact_form' => 'submit_form',
-      'ajax_test' => 'ajax_test'
+      'ajax_test' => 'ajax_test',
+      'get_all_contacts' => 'handle_get_all_contacts'
     ];
   }
 
@@ -49,6 +50,17 @@ class Ajax
       wp_send_json_success();
     } else {
       wp_send_json_error();
+    }
+  }
+
+  public function handle_get_all_contacts()
+  {
+    try {
+      $contacts = \Contacts\Manager\ContactsController::get_all_contacts();
+
+      wp_send_json_success(['contacts' => $contacts]);
+    } catch (\Exception $error) {
+      wp_send_json_error(['error' => $error]);
     }
   }
 }

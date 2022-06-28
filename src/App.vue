@@ -4,7 +4,7 @@
   <div class="common-layout">
     <el-header>
       <el-row>
-        <el-col><h1>Vue.js is working</h1></el-col>
+        <el-col><h1>Contacts Manager Settings</h1></el-col>
       </el-row>
     </el-header>
     <el-main>
