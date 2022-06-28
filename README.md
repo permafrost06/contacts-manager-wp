@@ -17,6 +17,11 @@ Run `npm run build` to generate main js bundle.
 
 Run `npm run watch` to watch src folder for changes.
 
+### Production build
+
+Optionally delete all files in `assets/js/admin_app` folder.
+Change `mode` in `webpack.config.dev.js` to `"production"` and run `npm run build`.
+
 ## Todo:
 
 - Sanitize inputs
