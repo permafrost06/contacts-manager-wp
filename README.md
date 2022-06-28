@@ -11,6 +11,12 @@ Example: `[contacts-manager id="23"]` will display the contact with id "23".
 
 Shortcode `contact-form` can be used to create a form to add a new contact.
 
+## Installation
+
+Run `npm run build` to generate main js bundle.
+
+Run `npm run watch` to watch src folder for changes.
+
 ## Todo:
 
 - Sanitize inputs
