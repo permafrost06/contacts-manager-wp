@@ -1,11 +1,19 @@
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { sendAJAX } from "../composable";
 
 const router = useRouter();
+const route = useRoute();
+
+sendAJAX("get_contact", { id: route.params.id }, ({ success, data }) => {
+  if (success) {
+    newContact.value = data.contact;
+  }
+});
 
 const newContact = ref({
+  id: "",
   name: "",
   email: "",
   phone: "",
@@ -13,7 +21,7 @@ const newContact = ref({
 });
 
 const onSubmit = () => {
-  sendAJAX("add_contact", newContact.value, ({ success }) => {
+  sendAJAX("update_contact", newContact.value, ({ success }) => {
     if (success) {
       router.push({ name: "Contacts Table" });
     }
@@ -22,7 +30,7 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <h2>Add New Contact</h2>
+  <h2>Edit Contact</h2>
   <el-form @submit.prevent :model="newContact" label-width="100px">
     <el-form-item label="Name">
       <el-col :span="8">

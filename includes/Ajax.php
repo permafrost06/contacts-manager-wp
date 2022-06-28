@@ -20,6 +20,8 @@ class Ajax
       'ajax_test' => 'ajax_test',
       'get_all_contacts' => 'handle_get_all_contacts',
       'add_contact' => 'handle_add_contact',
+      'get_contact' => 'handle_get_contact',
+      'update_contact' => 'handle_update_contact',
     ];
   }
 
@@ -74,6 +76,36 @@ class Ajax
 
     try {
       ContactsController::add_contact($name, $email, $phone, $address);
+
+      wp_send_json_success();
+    } catch (\Exception $error) {
+      wp_send_json_error(['message' => $error]);
+    }
+  }
+
+  public function handle_get_contact()
+  {
+    $id = $_POST['id'];
+
+    try {
+      $contact = ContactsController::get_contact($id);
+
+      wp_send_json_success(['contact' => $contact]);
+    } catch (\Exception $error) {
+      wp_send_json_error(['message' => $error]);
+    }
+  }
+
+  public function handle_update_contact()
+  {
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+
+    try {
+      ContactsController::update_contact($id, $name, $email, $phone, $address);
 
       wp_send_json_success();
     } catch (\Exception $error) {

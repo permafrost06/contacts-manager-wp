@@ -20,7 +20,7 @@ const handleAddNew = () => {
 };
 
 const handleEdit = (id) => {
-  console.log(id);
+  router.push({ name: "Edit Contact", params: { id } });
 };
 
 const handleDelete = (id) => {
