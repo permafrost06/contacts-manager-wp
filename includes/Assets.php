@@ -83,5 +83,13 @@ class Assets
 
       wp_register_script($handle, $script['src'], $deps, $script['version'], $footer);
     }
+
+    wp_localize_script(
+      'admin-vue-app',
+      'contactsMgrAdmin',
+      [
+        'ajax_url' => admin_url('admin-ajax.php'),
+      ]
+    );
   }
 }

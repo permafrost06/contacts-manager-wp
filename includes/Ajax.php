@@ -7,6 +7,7 @@ class Ajax
   function __construct()
   {
     add_action('wp_ajax_cm_contact_form', [$this, 'submit_form']);
+    add_action('wp_ajax_ajax_test', [$this, 'ajax_test']);
   }
 
   public function submit_form()
@@ -28,6 +29,15 @@ class Ajax
       wp_send_json_success(['message' => 'Successfully added contact!']);
     } catch (\Exception $error) {
       wp_send_json_error(['message' => 'Could not add contact!']);
+    }
+  }
+
+  public function ajax_test()
+  {
+    if ('test' == $_POST['message']) {
+      wp_send_json_success();
+    } else {
+      wp_send_json_error();
     }
   }
 }
