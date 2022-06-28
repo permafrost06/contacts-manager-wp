@@ -1,5 +1,6 @@
 export const sendAJAX = (action, payload = {}, callback, onFail) => {
-  payload.action = action;
+  const prefix = "cm";
+  payload.action = `${prefix}_${action}`;
 
   window.jQuery
     .post(contactsMgrAdmin.ajax_url, payload, (data) => {

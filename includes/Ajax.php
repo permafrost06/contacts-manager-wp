@@ -4,17 +4,19 @@ namespace Contacts\Manager;
 
 class Ajax
 {
+  public $prefix = 'cm';
+
   function __construct()
   {
     foreach ($this->get_actions() as $action => $handler) {
-      add_action('wp_ajax_' . $action, [$this, $handler]);
+      add_action('wp_ajax_' . $this->prefix . '_' . $action, [$this, $handler]);
     }
   }
 
   function get_actions()
   {
     return [
-      'cm_contact_form' => 'submit_form',
+      'contact_form' => 'submit_form',
       'ajax_test' => 'ajax_test'
     ];
   }
