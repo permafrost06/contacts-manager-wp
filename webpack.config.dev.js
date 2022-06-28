@@ -6,7 +6,7 @@ module.exports = {
   mode: "development",
   entry: ["./src/main.js"],
   output: {
-    path: path.resolve(__dirname, "assets/js"),
+    path: path.resolve(__dirname, "assets/js/admin_app"),
   },
   module: {
     rules: [
