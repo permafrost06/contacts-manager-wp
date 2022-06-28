@@ -7,17 +7,21 @@ namespace Contacts\Manager\Admin;
  */
 class Menu
 {
-  public $contacts_table;
-
-  function __construct($contacts_table)
+  function __construct()
   {
-    $this->contacts_table = $contacts_table;
-
     add_action('admin_menu', [$this, 'admin_menu']);
   }
 
   public function admin_menu()
   {
-    add_menu_page("Contacts Manager Settings", "Contacts Manager", "manage_options", "contacts-manager", [$this->contacts_table, 'plugin_page']);
+    add_menu_page("Contacts Manager Settings", "Contacts Manager", "manage_options", "contacts-manager", [$this, 'vue_app_entrypoint']);
+  }
+
+  public function vue_app_entrypoint()
+  {
+?>
+    <div id="app"></div>
+<?php
+    wp_enqueue_script('admin-vue-app');
   }
 }
