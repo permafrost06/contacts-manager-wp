@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { sendAJAX } from "../composable";
+import { ElMessage } from "element-plus";
 
 const router = useRouter();
 
@@ -17,6 +18,10 @@ const onSubmit = () => {
     if (success) {
       router.push({ name: "Contacts Table" });
     }
+    ElMessage({
+      message: "Contact added",
+      type: "success",
+    });
   });
 };
 </script>

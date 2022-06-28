@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { sendAJAX } from "../composable";
+import { ElMessage } from "element-plus";
 
 const contacts = ref([]);
 const deleteID = ref("");
@@ -37,6 +38,10 @@ const handleDelete = (id) => {
 const confirmDelete = () => {
   sendAJAX("delete_contact", { id: deleteID.value }, ({ success }) => {
     if (success) {
+      ElMessage({
+        message: "Contact Deleted",
+        type: "success",
+      });
       getAllContacts();
     }
   });

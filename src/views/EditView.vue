@@ -2,8 +2,8 @@
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { sendAJAX } from "../composable";
+import { ElMessage } from "element-plus";
 
-const router = useRouter();
 const route = useRoute();
 
 sendAJAX("get_contact", { id: route.params.id }, ({ success, data }) => {
@@ -23,7 +23,10 @@ const newContact = ref({
 const onSubmit = () => {
   sendAJAX("update_contact", newContact.value, ({ success }) => {
     if (success) {
-      router.push({ name: "Contacts Table" });
+      ElMessage({
+        message: "Contact updated",
+        type: "success",
+      });
     }
   });
 };
