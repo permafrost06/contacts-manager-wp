@@ -3,25 +3,20 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { sendAJAX } from "../composable";
 import { ElMessage } from "element-plus";
+import ContactForm from "../components/ContactFormComponent.vue";
 
 const route = useRoute();
 
 sendAJAX("get_contact", { id: route.params.id }, ({ success, data }) => {
   if (success) {
-    newContact.value = data.contact;
+    oldContact.value = data.contact;
   }
 });
 
-const newContact = ref({
-  id: "",
-  name: "",
-  email: "",
-  phone: "",
-  address: "",
-});
+const oldContact = ref({});
 
-const onSubmit = () => {
-  sendAJAX("update_contact", newContact.value, ({ success }) => {
+const onSubmit = (contact) => {
+  sendAJAX("update_contact", contact, ({ success, data }) => {
     if (success) {
       ElMessage({
         message: "Contact updated",
@@ -39,34 +34,7 @@ const onSubmit = () => {
 
 <template>
   <h2>Edit Contact</h2>
-  <el-form @submit.prevent :model="newContact" label-width="100px">
-    <el-form-item label="Name">
-      <el-col :span="8">
-        <el-input v-model="newContact.name" />
-      </el-col>
-    </el-form-item>
-    <el-form-item label="Email">
-      <el-col :span="8">
-        <el-input v-model="newContact.email" />
-      </el-col>
-    </el-form-item>
-    <el-form-item label="Phone no.">
-      <el-col :span="8">
-        <el-input v-model="newContact.phone" />
-      </el-col>
-    </el-form-item>
-    <el-form-item label="Address">
-      <el-col :span="8">
-        <el-input v-model="newContact.address" type="textarea" />
-      </el-col>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="onSubmit">Add Contact</el-button>
-      <router-link :to="{ name: 'Contacts Table' }">
-        <el-button>Cancel</el-button>
-      </router-link>
-    </el-form-item>
-  </el-form>
+  <ContactForm :contact="oldContact" @form-submit="onSubmit" />
 </template>
 
 <style>
