@@ -59,6 +59,17 @@ const confirmDelete = () => {
 
 <template>
   <el-row>
+    <p class="message">
+      Use shortcode <pre>[contact-manager]</pre> to render contacts table. Specify ID with
+      <pre>id</pre> attribute to render a specific contact card. Example:
+      <pre>[contact-manager id="7"]</pre> to render contact card with ID 7.
+    </p>
+    <p class="message">
+      Use shortcode <pre>[contact-form]</pre> to render a contact form where visitors can
+      add new contacts.
+    </p>
+  </el-row>
+  <el-row>
     <el-col :span="3">
       <h2>Contacts List</h2>
     </el-col>
@@ -99,5 +110,13 @@ const confirmDelete = () => {
 <style>
 .button_center {
   align-self: center;
+}
+
+.message {
+  line-height: .1rem;
+}
+
+.message pre {
+  display: inline-block;
 }
 </style>
