@@ -9,20 +9,26 @@ class Ajax
   function __construct()
   {
     foreach ($this->get_actions() as $action => $handler) {
-      add_action('wp_ajax_' . $this->prefix . '_' . $action, [$this, $handler]);
+      $nopriv = isset($handler['nopriv']) ? $handler['nopriv'] : false;
+
+      if ($nopriv) {
+        add_action("wp_ajax_nopriv_{$this->prefix}_{$action}", $handler['function']);
+      }
+
+      add_action("wp_ajax_{$this->prefix}_{$action}", $handler['function']);
     }
   }
 
   function get_actions()
   {
     return [
-      'contact_form' => 'submit_form',
-      'ajax_test' => 'ajax_test',
-      'get_all_contacts' => 'handle_get_all_contacts',
-      'add_contact' => 'handle_add_contact',
-      'get_contact' => 'handle_get_contact',
-      'update_contact' => 'handle_update_contact',
-      'delete_contact' => 'handle_delete_contact',
+      'contact_form' => ['function' => [$this, 'submit_form'], 'nopriv' => true],
+      'ajax_test' => ['function' => [$this, 'ajax_test']],
+      'get_all_contacts' => ['function' => [$this, 'handle_get_all_contacts']],
+      'add_contact' => ['function' => [$this, 'handle_add_contact']],
+      'get_contact' => ['function' => [$this, 'handle_get_contact']],
+      'update_contact' => ['function' => [$this, 'handle_update_contact']],
+      'delete_contact' => ['function' => [$this, 'handle_delete_contact']],
     ];
   }
 
