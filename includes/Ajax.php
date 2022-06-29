@@ -64,7 +64,7 @@ class Ajax
 
       wp_send_json_success(['contacts' => $contacts]);
     } catch (\Exception $error) {
-      wp_send_json_error(['error' => $error]);
+      wp_send_json_error(['error' => $error->getMessage()]);
     }
   }
 
@@ -80,7 +80,7 @@ class Ajax
 
       wp_send_json_success();
     } catch (\Exception $error) {
-      wp_send_json_error(['error' => $error]);
+      wp_send_json_error(['error' => $error->getMessage()]);
     }
   }
 
@@ -93,7 +93,7 @@ class Ajax
 
       wp_send_json_success(['contact' => $contact]);
     } catch (\Exception $error) {
-      wp_send_json_error(['error' => $error]);
+      wp_send_json_error(['error' => $error->getMessage()]);
     }
   }
 
@@ -110,7 +110,7 @@ class Ajax
 
       wp_send_json_success();
     } catch (\Exception $error) {
-      wp_send_json_error(['error' => $error]);
+      wp_send_json_error(['error' => $error->getMessage()]);
     }
   }
 
@@ -123,7 +123,7 @@ class Ajax
 
       wp_send_json_success();
     } catch (\Exception $error) {
-      wp_send_json_error(['error' => $error]);
+      wp_send_json_error(['error' => $error->getMessage()]);
     }
   }
 }
