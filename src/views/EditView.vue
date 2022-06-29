@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { sendAJAX } from "../composable";
 import { ElMessage } from "element-plus";
 
@@ -26,6 +26,11 @@ const onSubmit = () => {
       ElMessage({
         message: "Contact updated",
         type: "success",
+      });
+    } else {
+      ElMessage({
+        message: "Could not update contact - " + data.error,
+        type: "error",
       });
     }
   });

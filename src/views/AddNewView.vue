@@ -14,14 +14,19 @@ const newContact = ref({
 });
 
 const onSubmit = () => {
-  sendAJAX("add_contact", newContact.value, ({ success }) => {
+  sendAJAX("add_contact", newContact.value, ({ success, data }) => {
     if (success) {
+      ElMessage({
+        message: "Contact added",
+        type: "success",
+      });
       router.push({ name: "Contacts Table" });
+    } else {
+      ElMessage({
+        message: "Could not add contact - " + data.error,
+        type: "error",
+      });
     }
-    ElMessage({
-      message: "Contact added",
-      type: "success",
-    });
   });
 };
 </script>

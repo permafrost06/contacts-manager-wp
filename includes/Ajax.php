@@ -80,7 +80,7 @@ class Ajax
 
       wp_send_json_success();
     } catch (\Exception $error) {
-      wp_send_json_error(['message' => $error]);
+      wp_send_json_error(['error' => $error]);
     }
   }
 
@@ -93,7 +93,7 @@ class Ajax
 
       wp_send_json_success(['contact' => $contact]);
     } catch (\Exception $error) {
-      wp_send_json_error(['message' => $error]);
+      wp_send_json_error(['error' => $error]);
     }
   }
 
@@ -110,7 +110,7 @@ class Ajax
 
       wp_send_json_success();
     } catch (\Exception $error) {
-      wp_send_json_error(['message' => $error]);
+      wp_send_json_error(['error' => $error]);
     }
   }
 
@@ -123,7 +123,7 @@ class Ajax
 
       wp_send_json_success();
     } catch (\Exception $error) {
-      wp_send_json_error(['message' => $error]);
+      wp_send_json_error(['error' => $error]);
     }
   }
 }

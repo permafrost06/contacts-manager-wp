@@ -6,16 +6,18 @@ import { ElMessage } from "element-plus";
 
 const contacts = ref([]);
 const deleteID = ref("");
-const error = ref("");
 const router = useRouter();
 const dialogVisible = ref(false);
 
 const getAllContacts = () => {
-  sendAJAX("get_all_contacts", {}, (res) => {
-    if (res.success) {
-      contacts.value = res.data.contacts;
+  sendAJAX("get_all_contacts", {}, ({ success, data }) => {
+    if (success) {
+      contacts.value = data.contacts;
     } else {
-      error.value = res.data.error;
+      ElMessage({
+        message: "Could not get contacts - " + data.error,
+        type: "error",
+      });
     }
   });
 };
@@ -36,13 +38,18 @@ const handleDelete = (id) => {
 };
 
 const confirmDelete = () => {
-  sendAJAX("delete_contact", { id: deleteID.value }, ({ success }) => {
+  sendAJAX("delete_contact", { id: deleteID.value }, ({ success, data }) => {
     if (success) {
       ElMessage({
         message: "Contact Deleted",
         type: "success",
       });
       getAllContacts();
+    } else {
+      ElMessage({
+        message: "Could not delete contact - " + data.error,
+        type: "error",
+      });
     }
   });
 
