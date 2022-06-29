@@ -70,11 +70,9 @@ const confirmDelete = () => {
     </p>
   </el-row>
   <el-row>
-    <el-col :span="3">
-      <h2>Contacts List</h2>
-    </el-col>
+    <h2 class="space-after">Contacts List</h2>
     <el-col class="button_center" :span="6">
-      <el-button @click="handleAddNew">Add new contact</el-button>
+      <el-button type="primary" @click="handleAddNew">Add new contact</el-button>
     </el-col>
   </el-row>
   <el-row>
@@ -108,6 +106,10 @@ const confirmDelete = () => {
 </template>
 
 <style>
+.space-after {
+  margin-right: 1rem;
+}
+
 .button_center {
   align-self: center;
 }
