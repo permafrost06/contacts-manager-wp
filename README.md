@@ -27,3 +27,5 @@ Change `mode` in `webpack.config.dev.js` to `"production"` and run `npm run buil
 - Sanitize inputs
 - Handle errors on admin app
 - Add pagination to admin table
+- Add a better production build script
+- Add tree shaking for element-plus
