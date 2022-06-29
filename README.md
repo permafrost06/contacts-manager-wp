@@ -28,4 +28,3 @@ Change `mode` in `webpack.config.dev.js` to `"production"` and run `npm run buil
 - Add pagination to admin table
 - Add a better production build script
 - Try to enable hmr for the vue app dev
-- Add form validation
