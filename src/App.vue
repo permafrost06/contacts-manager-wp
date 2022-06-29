@@ -12,9 +12,3 @@
     </el-main>
   </div>
 </template>
-
-<style>
-.el-row {
-  margin-bottom: 20px;
-}
-</style>
