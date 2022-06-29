@@ -64,6 +64,8 @@ const confirmDelete = () => {
       <pre>id</pre> attribute to render a specific contact card. Example:
       <pre>[contact-manager id="7"]</pre> to render contact card with ID 7.
     </p>
+  </el-row>
+  <el-row>
     <p class="message">
       Use shortcode <pre>[contact-form]</pre> to render a contact form where visitors can
       add new contacts.
