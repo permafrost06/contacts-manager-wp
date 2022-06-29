@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { sendAJAX } from "../composable";
 import { ElMessage } from "element-plus";
+import "element-plus/es/components/message/style/css";
 
 const contacts = ref([]);
 const deleteID = ref("");

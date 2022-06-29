@@ -2,6 +2,7 @@
 import { useRouter } from "vue-router";
 import { sendAJAX } from "../composable";
 import { ElMessage } from "element-plus";
+import "element-plus/es/components/message/style/css";
 import ContactForm from "../components/ContactFormComponent.vue";
 
 const router = useRouter();
