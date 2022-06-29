@@ -37,15 +37,3 @@ const onSubmit = (contact) => {
   <h2>Edit Contact</h2>
   <ContactForm :contact="oldContact" @form-submit="onSubmit" />
 </template>
-
-<style>
-.el-input > * > input[type="text"] {
-  border: none;
-  padding: 0;
-}
-
-.el-input > * > input[type="text"]:focus {
-  box-shadow: none;
-  outline: none;
-}
-</style>
