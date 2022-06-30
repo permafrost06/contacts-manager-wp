@@ -21,5 +21,3 @@ Run `npm run watch` to watch src folder for changes.
 ## Todo:
 
 - Try to enable hmr for the vue app dev
-- Add plugin description, version etc.
-- Move plugin menu and change icon

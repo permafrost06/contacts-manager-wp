@@ -14,7 +14,7 @@ class Menu
 
   public function admin_menu()
   {
-    add_menu_page("Contacts Manager Settings", "Contacts Manager", "manage_options", "contacts-manager", [$this, 'vue_app_entrypoint']);
+    add_menu_page('Contacts Manager Settings', 'Contacts Manager', 'manage_options', 'contacts-manager', [$this, 'vue_app_entrypoint'], 'dashicons-id-alt', 25);
   }
 
   public function vue_app_entrypoint()
