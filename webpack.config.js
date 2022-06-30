@@ -5,7 +5,7 @@ const Components = require("unplugin-vue-components/webpack");
 const { ElementPlusResolver } = require("unplugin-vue-components/resolvers");
 const path = require("path");
 
-module.exports = {
+const config = {
   mode: "development",
   entry: ["./src/main.js"],
   output: {
@@ -36,4 +36,12 @@ module.exports = {
       resolvers: [ElementPlusResolver()],
     }),
   ],
+};
+
+module.exports = (env, argv) => {
+  if (argv.mode === "production") {
+    config.output.clean = true;
+  }
+
+  return config;
 };

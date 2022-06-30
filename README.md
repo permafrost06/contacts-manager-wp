@@ -15,15 +15,10 @@ Shortcode `contact-form` can be used to create a form to add a new contact.
 
 Run `npm run build` to generate main js bundle.
 
+Run `npm run build:dev` to generate dev bundle.
 Run `npm run watch` to watch src folder for changes.
-
-### Production build
-
-Optionally delete all files in `assets/js/admin_app` folder.
-Change `mode` in `webpack.config.dev.js` to `"production"` and run `npm run build`.
 
 ## Todo:
 
 - Sanitize inputs
-- Add a better production build script
 - Try to enable hmr for the vue app dev
