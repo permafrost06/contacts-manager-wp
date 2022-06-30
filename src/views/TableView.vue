@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { sendAJAX } from "../composable";
 import { ElMessage } from "element-plus";
@@ -57,7 +57,14 @@ const confirmDelete = () => {
   });
 
   dialogVisible.value = false;
-};
+}
+
+const currentPage = ref(1);
+const pageSize = ref(10);
+
+const contactsPage = computed(() => {
+  return contacts.value.slice(pageSize.value * (currentPage.value - 1), pageSize.value * currentPage.value);
+})
 </script>
 
 <template>
@@ -74,15 +81,23 @@ const confirmDelete = () => {
       add new contacts.
     </p>
   </el-row>
-  <el-row>
-    <h2 class="space-after">Contacts List</h2>
-    <el-col class="button_center" :span="6">
+  <el-row justify="space-between">
+    <el-col class="flex-align-center" :span="9">
+      <h2 class="inline space-after">Contacts List</h2>
       <el-button type="primary" @click="handleAddNew">Add new contact</el-button>
     </el-col>
+      <el-pagination
+      v-model:currentPage="currentPage"
+      v-model:page-size="pageSize"
+      :page-sizes="[10, 20, 30, 40]"
+      background
+      layout="sizes, total, prev, pager, next"
+      :total="contacts.length"
+    />
   </el-row>
   <el-row>
     <el-col>
-      <el-table v-loading="loading" :data="contacts" style="width: 100%">
+      <el-table v-loading="loading" :data="contactsPage" style="width: 100%">
         <el-table-column prop="id" label="id" width="40" />
         <el-table-column prop="name" label="Name" width="200" />
         <el-table-column prop="email" label="Email" />
@@ -98,6 +113,16 @@ const confirmDelete = () => {
         </el-table-column>
       </el-table>
     </el-col>
+  </el-row>
+  <el-row justify="end">
+      <el-pagination
+      v-model:currentPage="currentPage"
+      v-model:page-size="pageSize"
+      :page-sizes="[10, 20, 30, 40]"
+      background
+      layout="sizes, total, prev, pager, next"
+      :total="contacts.length"
+    />
   </el-row>
   <el-dialog v-model="dialogVisible" title="Tips" width="30%">
     <span>Are you sure you want to delete contact with ID {{ deleteID }}?</span>
@@ -115,15 +140,20 @@ const confirmDelete = () => {
   margin-right: 1rem;
 }
 
-.button_center {
-  align-self: center;
-}
-
 .message {
   line-height: .1rem;
 }
 
 .message pre {
   display: inline-block;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.flex-align-center {
+  display: flex;
+  align-items: center;
 }
 </style>
