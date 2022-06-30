@@ -2,6 +2,13 @@
 
 /**
  * Plugin Name: Contacts Manager
+ * Plugin URI: https://github.com/permafrost06/contacts-manager-wp/
+ * Description: A demonstration plugin that can add/edit/delete and view contacts
+ * Version: 1.0.0
+ * Author: permafrost06
+ * Author URI: https://github.com/permafrost06/
+ * License: GPL v2
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
 if (!defined('ABSPATH')) {
