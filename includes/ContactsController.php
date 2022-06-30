@@ -52,7 +52,7 @@ class ContactsController
   {
     $data = self::$db->get_results('SELECT * FROM ' . self::$table_name, "ARRAY_A");
 
-    if (!$data) {
+    if (is_null($data)) {
       throw new \Exception("Could not get contacts");
     }
 
