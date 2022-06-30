@@ -103,15 +103,3 @@ const formRules = reactive({
     </el-form-item>
   </el-form>
 </template>
-
-<style>
-.el-input > * > input {
-  border: none;
-  padding: 0;
-}
-
-.el-input > * > input:focus {
-  box-shadow: none;
-  outline: none;
-}
-</style>

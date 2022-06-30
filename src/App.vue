@@ -12,3 +12,20 @@
     </el-main>
   </div>
 </template>
+
+<style>
+.el-input > * > input {
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.el-input > * > input:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.el-input > * > input:focus-visible {
+  outline: none;
+}
+</style>
