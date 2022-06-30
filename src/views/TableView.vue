@@ -9,11 +9,13 @@ const contacts = ref([]);
 const deleteID = ref("");
 const router = useRouter();
 const dialogVisible = ref(false);
+const loading = ref(true);
 
 const getAllContacts = () => {
   sendAJAX("get_all_contacts", {}, ({ success, data }) => {
     if (success) {
       contacts.value = data.contacts;
+      loading.value = false;
     } else {
       ElMessage({
         message: "Could not get contacts - " + data.error,
@@ -80,7 +82,7 @@ const confirmDelete = () => {
   </el-row>
   <el-row>
     <el-col>
-      <el-table :data="contacts" style="width: 100%">
+      <el-table v-loading="loading" :data="contacts" style="width: 100%">
         <el-table-column prop="id" label="id" width="40" />
         <el-table-column prop="name" label="Name" width="200" />
         <el-table-column prop="email" label="Email" />
