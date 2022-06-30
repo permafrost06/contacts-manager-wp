@@ -23,7 +23,6 @@ class Ajax
   {
     return [
       'contact_form' => ['function' => [$this, 'submit_form'], 'nopriv' => true],
-      'ajax_test' => ['function' => [$this, 'ajax_test']],
       'get_all_contacts' => ['function' => [$this, 'handle_get_all_contacts']],
       'add_contact' => ['function' => [$this, 'handle_add_contact']],
       'get_contact' => ['function' => [$this, 'handle_get_contact']],
@@ -50,16 +49,7 @@ class Ajax
 
       wp_send_json_success(['message' => 'Successfully added contact!']);
     } catch (\Exception $error) {
-      wp_send_json_error(['message' => 'Could not add contact!']);
-    }
-  }
-
-  public function ajax_test()
-  {
-    if ('test' == $_POST['message']) {
-      wp_send_json_success();
-    } else {
-      wp_send_json_error();
+      wp_send_json_error(['message' => $error->getMessage()]);
     }
   }
 
