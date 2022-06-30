@@ -40,10 +40,10 @@ class Ajax
       ]);
     }
 
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
+    $name = sanitize_text_field($_POST['name']);
+    $email = sanitize_text_field($_POST['email']);
+    $phone = sanitize_text_field($_POST['phone']);
+    $address = sanitize_textarea_field($_POST['address']);
 
     try {
       ContactsController::add_contact($name, $email, $phone, $address);
@@ -76,10 +76,10 @@ class Ajax
 
   public function handle_add_contact()
   {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
+    $name = sanitize_text_field($_POST['name']);
+    $email = sanitize_text_field($_POST['email']);
+    $phone = sanitize_text_field($_POST['phone']);
+    $address = sanitize_textarea_field($_POST['address']);
 
     try {
       ContactsController::add_contact($name, $email, $phone, $address);
@@ -92,7 +92,7 @@ class Ajax
 
   public function handle_get_contact()
   {
-    $id = $_POST['id'];
+    $id = sanitize_text_field($_POST['id']);
 
     try {
       $contact = ContactsController::get_contact($id);
@@ -105,11 +105,11 @@ class Ajax
 
   public function handle_update_contact()
   {
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
+    $id = sanitize_text_field($_POST['id']);
+    $name = sanitize_text_field($_POST['name']);
+    $email = sanitize_text_field($_POST['email']);
+    $phone = sanitize_text_field($_POST['phone']);
+    $address = sanitize_textarea_field($_POST['address']);
 
     try {
       ContactsController::update_contact($id, $name, $email, $phone, $address);
@@ -122,7 +122,7 @@ class Ajax
 
   public function handle_delete_contact()
   {
-    $id = $_POST['id'];
+    $id = sanitize_text_field($_POST['id']);
 
     try {
       ContactsController::delete_contact($id);
