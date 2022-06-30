@@ -55,6 +55,8 @@ class Ajax
 
   public function handle_get_all_contacts()
   {
+    check_ajax_referer('admin_app');
+
     try {
       $contacts = ContactsController::get_all_contacts();
 
@@ -66,6 +68,8 @@ class Ajax
 
   public function handle_add_contact()
   {
+    check_ajax_referer('admin_app');
+
     $name = sanitize_text_field($_POST['name']);
     $email = sanitize_text_field($_POST['email']);
     $phone = sanitize_text_field($_POST['phone']);
@@ -82,6 +86,8 @@ class Ajax
 
   public function handle_get_contact()
   {
+    check_ajax_referer('admin_app');
+
     $id = sanitize_text_field($_POST['id']);
 
     try {
@@ -95,6 +101,8 @@ class Ajax
 
   public function handle_update_contact()
   {
+    check_ajax_referer('admin_app');
+
     $id = sanitize_text_field($_POST['id']);
     $name = sanitize_text_field($_POST['name']);
     $email = sanitize_text_field($_POST['email']);
@@ -112,6 +120,8 @@ class Ajax
 
   public function handle_delete_contact()
   {
+    check_ajax_referer('admin_app');
+
     $id = sanitize_text_field($_POST['id']);
 
     try {

@@ -89,6 +89,7 @@ class Assets
       'contactsMgrAdmin',
       [
         'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('admin_app'),
       ]
     );
   }
