@@ -17,11 +17,11 @@ Run `npm run build` to generate production bundle.
 
 Run `npm run build:dev` to generate dev bundle.
 Run `npm run watch` to generate dev bundle watch src folder for changes.
-Run `npm run watch:live` to run webpack-dev-server and get HMR. See HMR instructions for more info.
+Run `npm run watch:live` to run webpack-dev-server and get HMR. See [HMR instructions section](https://github.com/permafrost06/contacts-manager-wp#hmr-instructions) for more info.
 
 ## HMR Instructions
 
-To use HMR, load the js bundle from WDS e.g. `http://localhost:8081/main.js` instead of the assets folder in the `Assets.php` file. This must be changed back in all other cases.
+To use HMR, load the js bundle from WDS e.g. `http://localhost:8081/main.js` instead of the assets folder in the [`Assets.php`](https://github.com/permafrost06/contacts-manager-wp/blob/admin-vue-integration/includes/Assets.php#L30) file. This must be changed back in all other cases.
 
 ### Example:
 
