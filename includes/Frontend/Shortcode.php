@@ -95,6 +95,7 @@ class Shortcode
 
   public function render_contact_form($atts = [], $content = null)
   {
+    wp_enqueue_style('cm-base-style');
     wp_enqueue_script('cm-contact-form-ajax');
 
     ob_start();
