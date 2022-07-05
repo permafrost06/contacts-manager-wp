@@ -19,5 +19,5 @@ export const sendAJAX = (action, payload = {}, callback, onFail) => {
     .post(contactsMgrAdmin.ajax_url, payload, (data) => {
       callback(data);
     })
-    .fail(onFail());
+    .fail(onFail);
 };
