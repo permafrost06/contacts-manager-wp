@@ -64,3 +64,4 @@ To use HMR, load the js bundle from WDS e.g. `http://localhost:8081/main.js` ins
 - [ ] Fix update form momentarily blank on mount
 - [ ] Clean up shortcode code
 - [ ] Maybe change rendered shortcode styles
+- [ ] Add docblocks
