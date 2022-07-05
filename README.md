@@ -43,5 +43,21 @@ To use HMR, load the js bundle from WDS e.g. `http://localhost:8081/main.js` ins
 
 ## Todo:
 
-- Disable button if contact not changed
-- Add error codes to error JSON
+- [x] Add/remove/edit functionality in the admin panel.
+- [ ] Add plugin actions and filters.
+- [x] Handle errors
+- [x] Separate concerns
+- [x] Handle errors on admin app
+- [x] Add tree shaking for element-plus
+- [x] Add form validation
+- [x] Add pagination to admin table
+- [x] Add a better production build script
+- [x] Sanitize inputs
+- [x] Add plugin description, version etc.
+- [x] Move plugin menu and change icon
+- [x] Submit form on enter
+- [x] Submit and not fire action with form button
+- [x] Set submit method
+- [x] Try to enable hmr for the vue app dev
+- [ ] Disable button if contact not changed
+- [ ] Add error codes to error JSON
