@@ -21,3 +21,7 @@ Run `npm run watch` to watch src folder for changes.
 ## Todo:
 
 - Try to enable hmr for the vue app dev
+- Submit form on enter
+- Submit and not fire action with form button
+- Set submit method
+- Disable button if contact not changed
