@@ -25,3 +25,4 @@ Run `npm run watch` to watch src folder for changes.
 - Submit and not fire action with form button
 - Set submit method
 - Disable button if contact not changed
+- Add error codes to error JSON
