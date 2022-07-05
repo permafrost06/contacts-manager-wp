@@ -74,7 +74,7 @@ const formRules = reactive({
 
 <template>
   <el-form
-    @submit.prevent
+    @submit.prevent="onSubmit"
     :model="props.contact"
     :rules="formRules"
     label-width="100px"
@@ -100,7 +100,7 @@ const formRules = reactive({
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">{{
+      <el-button native-type="submit" type="primary">{{
         props.buttonText
       }}</el-button>
       <router-link :to="{ name: 'Contacts Table' }">
