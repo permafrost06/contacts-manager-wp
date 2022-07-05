@@ -36,6 +36,18 @@ const config = {
       resolvers: [ElementPlusResolver()],
     }),
   ],
+  devServer: {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "X-Requested-With, content-type, Authorization",
+    },
+    client: {
+      progress: true,
+      overlay: true,
+    },
+  },
 };
 
 module.exports = (env, argv) => {
