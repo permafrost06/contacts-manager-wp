@@ -62,3 +62,5 @@ To use HMR, load the js bundle from WDS e.g. `http://localhost:8081/main.js` ins
 - [ ] Disable button if contact not changed
 - [ ] Add error codes to error JSON
 - [ ] Fix update form momentarily blank on mount
+- [ ] Clean up shortcode code
+- [ ] Maybe change rendered shortcode styles
