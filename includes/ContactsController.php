@@ -72,7 +72,11 @@ class ContactsController
 
   public static function update_contact($id, $name, $email, $phone, $address)
   {
-    self::get_contact($id);
+    $contact = self::get_contact($id);
+
+    if ($contact->name == $name && $contact->email == $email && $contact->phone == $phone && $contact->address == $address) {
+      throw new \Exception('No changes were made');
+    }
 
     $response = self::$db->update(self::$table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address), array('id' => $id));
 
