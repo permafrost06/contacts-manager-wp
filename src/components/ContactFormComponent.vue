@@ -13,6 +13,10 @@ const props = defineProps({
       address: "",
     }),
   },
+  buttonText: {
+    type: String,
+    default: "Add Contact",
+  },
 });
 
 const onSubmit = () => {
@@ -96,7 +100,9 @@ const formRules = reactive({
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">Add Contact</el-button>
+      <el-button type="primary" @click="onSubmit">{{
+        props.buttonText
+      }}</el-button>
       <router-link :to="{ name: 'Contacts Table' }">
         <el-button>Cancel</el-button>
       </router-link>
