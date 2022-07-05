@@ -70,9 +70,9 @@ const contactsPage = computed(() => {
 <template>
   <el-row>
     <p class="message">
-      Use shortcode <pre>[contact-manager]</pre> to render contacts table. Specify ID with
+      Use shortcode <pre>[contacts-manager]</pre> to render contacts table. Specify ID with
       <pre>id</pre> attribute to render a specific contact card. Example:
-      <pre>[contact-manager id="7"]</pre> to render contact card with ID 7.
+      <pre>[contacts-manager id="7"]</pre> to render contact card with ID 7.
     </p>
   </el-row>
   <el-row>
