@@ -13,11 +13,13 @@ Shortcode `contact-form` can be used to create a form to add a new contact.
 
 ## Installation
 
-Run `npm run build` to generate production bundle.
-
 Run `npm run build:dev` to generate dev bundle.
+
 Run `npm run watch` to generate dev bundle watch src folder for changes.
+
 Run `npm run watch:live` to run webpack-dev-server and get HMR. See [HMR instructions section](https://github.com/permafrost06/contacts-manager-wp#hmr-instructions) for more info.
+
+Run `npm run build` to generate production bundle.
 
 ## HMR Instructions
 
