@@ -11,7 +11,6 @@ export const sendAJAX = (action, payload = {}, callback, onFail) => {
         message: "AJAX Request Failed",
         type: "error",
       });
-      console.log("AJAX Request Failed");
     };
   }
 
