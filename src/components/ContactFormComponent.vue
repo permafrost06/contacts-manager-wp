@@ -100,9 +100,9 @@ const formRules = reactive({
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-button native-type="submit" type="primary">{{
-        props.buttonText
-      }}</el-button>
+      <el-button native-type="submit" type="primary">
+        {{ props.buttonText }}
+      </el-button>
       <router-link :to="{ name: 'Contacts Table' }">
         <el-button>Cancel</el-button>
       </router-link>
