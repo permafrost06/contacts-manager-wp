@@ -21,6 +21,10 @@ Run `npm run watch:live` to run webpack-dev-server and get HMR. See [HMR instruc
 
 Run `npm run build` to generate production bundle.
 
+## Export to `.zip`
+
+Run `npm run export` to generate production bundle and compress the plugin into an archive that is ready to be installed in wordpress.
+
 ## HMR Instructions
 
 To use HMR, load the js bundle from WDS e.g. `http://localhost:8081/main.js` instead of the assets folder in the [`Assets.php`](https://github.com/permafrost06/contacts-manager-wp/blob/admin-vue-integration/includes/Assets.php#L30) file. This must be changed back in all other cases.
@@ -65,3 +69,16 @@ To use HMR, load the js bundle from WDS e.g. `http://localhost:8081/main.js` ins
 - [ ] Clean up shortcode code
 - [ ] Maybe change rendered shortcode styles
 - [ ] Add docblocks
+- [ ] validation and sanitization controller, db
+- [ ] Separation of concerns
+- [ ] Organize shortcode code
+- [ ] Use proper HTTP verbs for ajax
+- [ ] Fix frontend form validation
+- [ ] Add textdomain and translation
+- [ ] Add shortcode to table
+- [ ] Fix DB datatypes
+- [ ] Split css files and load separately
+- [ ] Fix form css (add container class)
+- [ ] Add php type hinting
+- [ ] Try to add typescript
+- [ ] Add tests!!!
