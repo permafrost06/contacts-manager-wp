@@ -82,3 +82,4 @@ To use HMR, load the js bundle from WDS e.g. `http://localhost:8081/main.js` ins
 - [ ] Add php type hinting
 - [ ] Try to add typescript
 - [ ] Add tests!!!
+- [ ] Change assets version from filemtime to plugin version in production
