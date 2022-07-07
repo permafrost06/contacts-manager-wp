@@ -27,8 +27,10 @@ class Assets
   {
     return [
       'admin-vue-app' => [
-        // 'src' => 'http://localhost:8081/main.js',  // use this when using webpack dev server
-        'src' => CONTACTS_MANAGER_ASSETS . '/js/admin_app/main.js', // use this in all other cases
+        /* remove-next-line-in-production */
+        'src' => 'http://localhost:8081/main.js',
+        /* uncomment-next-line-in-production */
+        // 'src' => CONTACTS_MANAGER_ASSETS . '/js/admin_app/main.js',
         'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/admin_app/main.js'),
         'deps' => ['jquery']
       ]

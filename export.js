@@ -2,6 +2,19 @@ const fs = require("fs");
 const archiver = require("archiver");
 const path = require("path");
 
+const assetFile = path.join(__dirname, "includes", "Assets.php");
+
+fs.copyFileSync(assetFile, "Assets_copy.php");
+
+const content = fs.readFileSync(assetFile, "utf-8");
+
+const removed = content.replace(
+  /\/\* remove-next-line-in-production \*\/\s+.*$\s+\/\* uncomment-next-line-in-production \*\/\s+\/\/\s+/gm,
+  ""
+);
+
+fs.writeFileSync(assetFile, removed, "utf8");
+
 const dir = path.resolve(path.join(__dirname, "dist"));
 
 if (!fs.existsSync(dir)) {
@@ -16,6 +29,9 @@ output.on("close", function () {
   console.log(
     "archiver has been finalized and the output file descriptor has closed."
   );
+
+  fs.copyFileSync("Assets_copy.php", assetFile);
+  fs.unlinkSync("Assets_copy.php");
 });
 
 archive.on("error", function (err) {
@@ -24,7 +40,6 @@ archive.on("error", function (err) {
 
 archive.pipe(output);
 
-// append files from a sub-directory, putting its contents at the root of archive
 archive.directory("assets");
 archive.directory("includes");
 archive.directory("vendor");
