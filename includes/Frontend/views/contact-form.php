@@ -1,5 +1,5 @@
 <div class="wrap">
-  <form class="signup" action="" method="post">
+  <form class="cm-contact-form" action="" method="post">
     <h3>Add Contact</h3>
 
     <div class="input-outer">

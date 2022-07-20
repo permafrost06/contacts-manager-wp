@@ -23,7 +23,7 @@ class Shortcode
    */
   function render_contacts($atts = [], $content = null)
   {
-    wp_enqueue_style('cm-base-style');
+    wp_enqueue_style('cm-contacts-table-style');
     $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
     $output = '';
@@ -95,7 +95,7 @@ class Shortcode
 
   public function render_contact_form($atts = [], $content = null)
   {
-    wp_enqueue_style('cm-base-style');
+    wp_enqueue_style('cm-contact-form-style');
     wp_enqueue_script('cm-contact-form-ajax');
 
     ob_start();

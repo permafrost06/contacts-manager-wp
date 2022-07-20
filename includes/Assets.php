@@ -40,9 +40,13 @@ class Assets
   public function get_styles()
   {
     return [
-      'cm-base-style' => [
-        'src' => CONTACTS_MANAGER_ASSETS . '/styles/base.css',
-        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/styles/base.css')
+      'cm-contacts-table-style' => [
+        'src' => CONTACTS_MANAGER_ASSETS . '/styles/contacts-table.css',
+        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/styles/contacts-table.css')
+      ],
+      'cm-contact-form-style' => [
+        'src' => CONTACTS_MANAGER_ASSETS . '/styles/contact-form.css',
+        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/styles/contact-form.css')
       ]
     ];
   }
