@@ -21,76 +21,53 @@ class Shortcode
    * 
    * @return string
    */
-  function render_contacts($atts = [], $content = null)
+  function render_contacts($atts = [])
   {
-    wp_enqueue_style('cm-contacts-table-style');
     $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
-    $output = '';
-
     if (array_key_exists('id', $atts)) {
-      $output .= $this->render_contact_card($atts['id']);
+      return $this->render_contact_card($atts['id']);
     } else {
-      $output .= $this->render_complete_table();
+      return $this->render_complete_table();
     }
-
-    if (!is_null($content)) {
-      $output .= apply_filters('the_content', $content);
-    }
-
-    return $output;
   }
 
   function render_contact_card($id)
   {
+    wp_enqueue_style('cm-contact-card-style');
+
     try {
       $contact = \Contacts\Manager\ContactsController::get_contact($id);
 
-      $output = '<div class="contacts-mgr-box"><div>
-    <p class="field">' . $contact->name . '</p>
-    <p class="field">' . $contact->email . '</p>
-    <p class="field">' . $contact->phone . '</p>
-    <p class="field">' . $contact->address . '</p>
-    </div></div>';
+      ob_start();
+      include __DIR__ . '/views/contact-card.php';
+      return ob_get_clean();
     } catch (\Exception $error) {
-      $output = '<div class="contacts-mgr-box"><p>Invalid contact selected</p></div>';
-    }
+      $message = "Contact does not exist";
 
-    return $output;
+      ob_start();
+      include __DIR__ . '/views/error.php';
+      return ob_get_clean();
+    }
   }
 
   function render_complete_table()
   {
+    wp_enqueue_style('cm-contacts-table-style');
+
     try {
-      $data = \Contacts\Manager\ContactsController::get_all_contacts();
+      $all_contacts = \Contacts\Manager\ContactsController::get_all_contacts();
 
-      $output = '<div class="contacts-mgr-box contacts-table"><table class="table table-hover">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>Address</th>
-        </tr>
-        </thead>
-      <tbody>';
-
-      foreach ($data as $row) {
-        $output .= '<tr>';
-        foreach ($row as $field) {
-          $output .= '<td>' . $field . '</td>';
-        }
-        $output .= '</tr>';
-      }
-
-      $output .= '</tbody>
-    </table></div>';
+      ob_start();
+      include __DIR__ . '/views/contact-table.php';
+      return ob_get_clean();
     } catch (\Exception $error) {
-      $output = '<div class="contacts-mgr-box"><p>Could not get table</p></div>';
-    }
+      $message = "Could not get table";
 
-    return $output;
+      ob_start();
+      include __DIR__ . '/views/error.php';
+      return ob_get_clean();
+    }
   }
 
   public function render_contact_form($atts = [], $content = null)

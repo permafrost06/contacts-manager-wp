@@ -47,6 +47,10 @@ class Assets
       'cm-contact-form-style' => [
         'src' => CONTACTS_MANAGER_ASSETS . '/styles/contact-form.css',
         'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/styles/contact-form.css')
+      ],
+      'cm-contact-card-style' => [
+        'src' => CONTACTS_MANAGER_ASSETS . '/styles/contact-card.css',
+        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/styles/contact-card.css')
       ]
     ];
   }
