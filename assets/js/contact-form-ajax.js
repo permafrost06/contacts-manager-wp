@@ -1,5 +1,6 @@
 (function ($) {
-  $("form.signup").on("submit", function (e) {
+  console.log("ajax js is loaded");
+  $("form.cm-contact-form").on("submit", function (e) {
     clearMessage();
     e.preventDefault();
 
