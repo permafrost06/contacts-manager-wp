@@ -9,6 +9,7 @@
  * Author URI: https://github.com/permafrost06/
  * License: GPL v2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: contacts-manager
  */
 
 if (!defined('ABSPATH')) {

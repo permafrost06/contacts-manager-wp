@@ -43,7 +43,7 @@ class Shortcode
       include __DIR__ . '/views/contact-card.php';
       return ob_get_clean();
     } catch (\Exception $error) {
-      $message = "Contact does not exist";
+      $message = __('Contact does not exist', 'contacts-manager');
 
       ob_start();
       include __DIR__ . '/views/error.php';
@@ -62,7 +62,7 @@ class Shortcode
       include __DIR__ . '/views/contact-table.php';
       return ob_get_clean();
     } catch (\Exception $error) {
-      $message = "Could not get table";
+      $message = __('Could not get table', 'contacts-manager');
 
       ob_start();
       include __DIR__ . '/views/error.php';
