@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
-import { sendAJAX } from "../composable";
+import { getAJAX, postAJAX } from "../composable";
 import { ElMessage } from "element-plus";
 import "element-plus/es/components/message/style/css";
 
@@ -12,7 +12,7 @@ const dialogVisible = ref(false);
 const loading = ref(true);
 
 const getAllContacts = () => {
-  sendAJAX("get_all_contacts", {}, ({ success, data }) => {
+  getAJAX("get_all_contacts", ({ success, data }) => {
     if (success) {
       contacts.value = data.contacts;
       loading.value = false;
@@ -41,7 +41,7 @@ const handleDelete = (id) => {
 };
 
 const confirmDelete = () => {
-  sendAJAX("delete_contact", { id: deleteID.value }, ({ success, data }) => {
+  postAJAX("delete_contact", { id: deleteID.value }, ({ success, data }) => {
     if (success) {
       ElMessage({
         message: "Contact Deleted",

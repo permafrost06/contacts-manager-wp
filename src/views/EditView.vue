@@ -1,14 +1,14 @@
 <script setup>
 import { ref } from "vue";
 import { useRoute } from "vue-router";
-import { sendAJAX } from "../composable";
+import { getAJAX, postAJAX } from "../composable";
 import { ElMessage } from "element-plus";
 import "element-plus/es/components/message/style/css";
 import ContactForm from "../components/ContactFormComponent.vue";
 
 const route = useRoute();
 
-sendAJAX("get_contact", { id: route.params.id }, ({ success, data }) => {
+getAJAX("get_contact", { id: route.params.id }, ({ success, data }) => {
   if (success) {
     oldContact.value = data.contact;
   }
@@ -17,7 +17,7 @@ sendAJAX("get_contact", { id: route.params.id }, ({ success, data }) => {
 const oldContact = ref({});
 
 const onSubmit = (contact) => {
-  sendAJAX("update_contact", contact, ({ success, data }) => {
+  postAJAX("update_contact", contact, ({ success, data }) => {
     if (success) {
       ElMessage({
         message: "Contact updated",

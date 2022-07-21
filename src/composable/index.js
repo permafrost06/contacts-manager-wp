@@ -1,18 +1,44 @@
 import { ElMessage } from "element-plus";
 
-export const sendAJAX = (action, payload = {}, callback, onFail) => {
+const onFailDefault = () => {
+  ElMessage({
+    message: "AJAX Request Failed",
+    type: "error",
+  });
+};
+
+const callbackDefault = (data) => {
+  console.log("No callback defined. Dumping data in console.");
+  console.debug(data);
+};
+
+export const getAJAX = (
+  action,
+  callback = callbackDefault,
+  onFail = onFailDefault
+) => {
+  const prefix = "cm";
+  const payload = {
+    action: `${prefix}_${action}`,
+    _ajax_nonce: contactsMgrAdmin.nonce,
+  };
+
+  window.jQuery
+    .get(contactsMgrAdmin.ajax_url, payload, (data) => {
+      callback(data);
+    })
+    .fail(onFail);
+};
+
+export const postAJAX = (
+  action,
+  payload = {},
+  callback = callbackDefault,
+  onFail = onFailDefault
+) => {
   const prefix = "cm";
   payload.action = `${prefix}_${action}`;
   payload._ajax_nonce = contactsMgrAdmin.nonce;
-
-  if (!onFail) {
-    onFail = () => {
-      ElMessage({
-        message: "AJAX Request Failed",
-        type: "error",
-      });
-    };
-  }
 
   window.jQuery
     .post(contactsMgrAdmin.ajax_url, payload, (data) => {
