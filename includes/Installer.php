@@ -36,10 +36,10 @@ class Installer
 
     $create_table_query = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}contacts_manager_table` (
               `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-              `name` text NOT NULL,
-              `email` text NOT NULL,
-              `phone` text NOT NULL,
-              `address` text NOT NULL
+              `name` varchar(32) NOT NULL,
+              `email` varchar(255) NOT NULL,
+              `phone` varchar(15) NOT NULL,
+              `address` varchar(255) NOT NULL
             ) {$charset_collate};
     ";
 
