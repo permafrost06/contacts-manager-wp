@@ -2,13 +2,19 @@
 
 namespace Contacts\Manager\Frontend;
 
+use Contacts\Manager\ContactsController;
+
 class Shortcode
 {
+  public $contacts_controller;
+
   /**
    * Initializes the class
    */
-  function __construct()
+  public function __construct(ContactsController $contacts_controller)
   {
+    $this->contacts_controller = $contacts_controller;
+
     add_shortcode('contacts-manager', [$this, 'render_contacts']);
     add_shortcode('contact-form', [$this, 'render_contact_form']);
   }
@@ -21,7 +27,7 @@ class Shortcode
    * 
    * @return string
    */
-  function render_contacts($atts = [])
+  public function render_contacts($atts = [])
   {
     $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
@@ -32,12 +38,12 @@ class Shortcode
     }
   }
 
-  function render_contact_card($id)
+  public function render_contact_card($id)
   {
     wp_enqueue_style('cm-contact-card-style');
 
     try {
-      $contact = \Contacts\Manager\ContactsController::get_contact($id);
+      $contact = $this->contacts_controller->get_contact($id);
 
       ob_start();
       include __DIR__ . '/views/contact-card.php';
@@ -51,12 +57,12 @@ class Shortcode
     }
   }
 
-  function render_complete_table()
+  public function render_complete_table()
   {
     wp_enqueue_style('cm-contacts-table-style');
 
     try {
-      $all_contacts = \Contacts\Manager\ContactsController::get_all_contacts();
+      $all_contacts = $this->contacts_controller->get_all_contacts();
 
       ob_start();
       include __DIR__ . '/views/contact-table.php';

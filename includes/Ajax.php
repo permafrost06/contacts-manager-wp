@@ -5,9 +5,12 @@ namespace Contacts\Manager;
 class Ajax
 {
   public $prefix = 'cm';
+  public $contacts_controller;
 
-  function __construct()
+  public function __construct(ContactsController $contacts_controller)
   {
+    $this->contacts_controller = $contacts_controller;
+
     foreach ($this->get_actions() as $action => $handler) {
       $nopriv = isset($handler['nopriv']) ? $handler['nopriv'] : false;
 
@@ -19,7 +22,7 @@ class Ajax
     }
   }
 
-  function get_actions()
+  public function get_actions()
   {
     return [
       'contact_form' => ['function' => [$this, 'submit_form'], 'nopriv' => true],
@@ -45,7 +48,7 @@ class Ajax
     $address = sanitize_textarea_field($_POST['address']);
 
     try {
-      ContactsController::add_contact($name, $email, $phone, $address);
+      $this->contacts_controller->add_contact($name, $email, $phone, $address);
 
       wp_send_json_success(['message' => 'Successfully added contact!']);
     } catch (\Exception $error) {
@@ -58,7 +61,7 @@ class Ajax
     check_ajax_referer('admin_app');
 
     try {
-      $contacts = ContactsController::get_all_contacts();
+      $contacts = $this->contacts_controller->get_all_contacts();
 
       wp_send_json_success(['contacts' => $contacts]);
     } catch (\Exception $error) {
@@ -76,7 +79,7 @@ class Ajax
     $address = sanitize_textarea_field($_POST['address']);
 
     try {
-      ContactsController::add_contact($name, $email, $phone, $address);
+      $this->contacts_controller->add_contact($name, $email, $phone, $address);
 
       wp_send_json_success();
     } catch (\Exception $error) {
@@ -91,7 +94,7 @@ class Ajax
     $id = sanitize_text_field($_POST['id']);
 
     try {
-      $contact = ContactsController::get_contact($id);
+      $contact = $this->contacts_controller->get_contact($id);
 
       wp_send_json_success(['contact' => $contact]);
     } catch (\Exception $error) {
@@ -110,7 +113,7 @@ class Ajax
     $address = sanitize_textarea_field($_POST['address']);
 
     try {
-      ContactsController::update_contact($id, $name, $email, $phone, $address);
+      $this->contacts_controller->update_contact($id, $name, $email, $phone, $address);
 
       wp_send_json_success();
     } catch (\Exception $error) {
@@ -125,7 +128,7 @@ class Ajax
     $id = sanitize_text_field($_POST['id']);
 
     try {
-      ContactsController::delete_contact($id);
+      $this->contacts_controller->delete_contact($id);
 
       wp_send_json_success();
     } catch (\Exception $error) {

@@ -4,7 +4,7 @@ namespace Contacts\Manager;
 
 class Admin
 {
-  function __construct()
+  public function __construct()
   {
     new Admin\Menu();
   }

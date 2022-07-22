@@ -83,16 +83,16 @@ final class Contacts_Manager
   {
     new Contacts\Manager\Assets();
 
-    Contacts\Manager\ContactsController::init();
+    $contacts_controller = new Contacts\Manager\ContactsController();
 
     if (defined('DOING_AJAX') && DOING_AJAX) {
-      new Contacts\Manager\Ajax();
+      new Contacts\Manager\Ajax($contacts_controller);
     }
 
     if (is_admin()) {
       new Contacts\Manager\Admin();
     } else {
-      new Contacts\Manager\Frontend();
+      new Contacts\Manager\Frontend($contacts_controller);
     }
   }
 

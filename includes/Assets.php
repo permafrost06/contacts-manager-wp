@@ -7,7 +7,7 @@ namespace Contacts\Manager;
  */
 class Assets
 {
-  function __construct()
+  public function __construct()
   {
     add_action('wp_enqueue_scripts', [$this, 'register_assets']);
     add_action('admin_enqueue_scripts', [$this, 'register_admin_assets']);
