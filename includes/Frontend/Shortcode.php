@@ -6,7 +6,7 @@ use Contacts\Manager\ContactsController;
 
 class Shortcode
 {
-  public $contacts_controller;
+  protected $contacts_controller;
 
   /**
    * Initializes the class

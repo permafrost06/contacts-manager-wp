@@ -4,8 +4,8 @@ namespace Contacts\Manager;
 
 class Ajax
 {
-  public $prefix = 'cm';
-  public $contacts_controller;
+  protected $prefix = 'cm';
+  protected $contacts_controller;
 
   public function __construct(ContactsController $contacts_controller)
   {

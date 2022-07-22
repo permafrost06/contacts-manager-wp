@@ -4,8 +4,8 @@ namespace Contacts\Manager;
 
 class ContactsController
 {
-  public $db;
-  public $table_name;
+  protected $db;
+  protected $table_name;
 
   public function __construct()
   {
