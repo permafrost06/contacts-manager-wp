@@ -9,15 +9,23 @@ class Menu
 {
   public function __construct()
   {
-    add_action('admin_menu', [$this, 'admin_menu']);
+    add_action('admin_menu', [$this, 'adminMenu']);
   }
 
-  public function admin_menu()
+  public function adminMenu()
   {
-    add_menu_page(__('Contacts Manager Settings', 'contacts-manager'), 'Contacts Manager', 'manage_options', 'contacts-manager', [$this, 'vue_app_entrypoint'], 'dashicons-id-alt', 25);
+    add_menu_page(
+      __('Contacts Manager Settings', 'contacts-manager'),
+      'Contacts Manager',
+      'manage_options',
+      'contacts-manager',
+      [$this, 'vueAppEntrypoint'],
+      'dashicons-id-alt',
+      25
+    );
   }
 
-  public function vue_app_entrypoint()
+  public function vueAppEntrypoint()
   {
 ?>
     <div id="app"></div>

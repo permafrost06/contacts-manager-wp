@@ -14,11 +14,11 @@ class Installer
    */
   public function run()
   {
-    $this->add_version();
-    $this->create_table();
+    $this->addVersion();
+    $this->createTable();
   }
 
-  public function add_version()
+  public function addVersion()
   {
     $installed = get_option('contacts_manager_installed');
 
@@ -29,7 +29,7 @@ class Installer
     update_option('contacts_manager_version', CONTACTS_MANAGER_VERSION);
   }
 
-  public function create_table()
+  public function createTable()
   {
     global $wpdb;
     $charset_collate = $wpdb->get_charset_collate();

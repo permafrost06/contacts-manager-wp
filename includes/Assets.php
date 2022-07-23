@@ -9,11 +9,11 @@ class Assets
 {
   public function __construct()
   {
-    add_action('wp_enqueue_scripts', [$this, 'register_assets']);
-    add_action('admin_enqueue_scripts', [$this, 'register_admin_assets']);
+    add_action('wp_enqueue_scripts', [$this, 'registerAssets']);
+    add_action('admin_enqueue_scripts', [$this, 'registerAdminAssets']);
   }
 
-  public function get_scripts()
+  public function getScripts()
   {
     return [
       'cm-contact-form-ajax' => [
@@ -23,7 +23,7 @@ class Assets
     ];
   }
 
-  public function get_admin_scripts()
+  public function getAdminScripts()
   {
     return [
       'admin-vue-app' => [
@@ -37,7 +37,7 @@ class Assets
     ];
   }
 
-  public function get_styles()
+  public function getStyles()
   {
     return [
       'cm-contacts-table-style' => [
@@ -55,9 +55,9 @@ class Assets
     ];
   }
 
-  public function register_assets()
+  public function registerAssets()
   {
-    $scripts = $this->get_scripts();
+    $scripts = $this->getScripts();
 
     foreach ($scripts as $handle => $script) {
       $deps = isset($script['deps']) ? $script['deps'] : false;
@@ -66,7 +66,7 @@ class Assets
       wp_register_script($handle, $script['src'], $deps, $script['version'], $footer);
     }
 
-    $styles = $this->get_styles();
+    $styles = $this->getStyles();
 
     foreach ($styles as $handle => $style) {
       $deps = isset($style['deps']) ? $style['deps'] : false;
@@ -84,9 +84,9 @@ class Assets
     );
   }
 
-  public function register_admin_assets()
+  public function registerAdminAssets()
   {
-    $scripts = $this->get_admin_scripts();
+    $scripts = $this->getAdminScripts();
 
     foreach ($scripts as $handle => $script) {
       $deps = isset($script['deps']) ? $script['deps'] : false;

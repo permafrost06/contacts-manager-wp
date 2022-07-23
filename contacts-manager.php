@@ -36,9 +36,9 @@ final class Contacts_Manager
    */
   private function __construct()
   {
-    $this->define_constants();
+    $this->defineConstants();
 
-    add_action('plugins_loaded', [$this, 'init_plugin']);
+    add_action('plugins_loaded', [$this, 'initPlugin']);
 
     // add db table registration hook
     register_activation_hook(__FILE__, [$this, 'activate']);
@@ -65,7 +65,7 @@ final class Contacts_Manager
    * 
    * @return void
    */
-  public function define_constants()
+  public function defineConstants()
   {
     define('CONTACTS_MANAGER_VERSION', self::version);
     define('CONTACTS_MANAGER_FILE', __FILE__);
@@ -79,7 +79,7 @@ final class Contacts_Manager
    * 
    * @return void
    */
-  public function init_plugin()
+  public function initPlugin()
   {
     new Contacts\Manager\Assets();
 

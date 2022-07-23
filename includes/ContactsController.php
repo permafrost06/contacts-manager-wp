@@ -17,7 +17,7 @@ class ContactsController
     $this->table_name = $wpdb->prefix . 'contacts_manager_table';
   }
 
-  public function add_contact($name, $email, $phone, $address)
+  public function addContact($name, $email, $phone, $address)
   {
     if (empty($name)) {
       throw new Exception("Name is empty");
@@ -29,7 +29,7 @@ class ContactsController
     }
   }
 
-  public function get_contact($id)
+  public function getContact($id)
   {
     $data = $this->db->get_row('SELECT * FROM ' . $this->table_name . " WHERE `id` = '$id'");
 
@@ -40,7 +40,7 @@ class ContactsController
     return $data;
   }
 
-  public function get_all_contacts()
+  public function getAllContacts()
   {
     $data = $this->db->get_results('SELECT * FROM ' . $this->table_name, "ARRAY_A");
 
@@ -51,9 +51,9 @@ class ContactsController
     return $data;
   }
 
-  public function delete_contact($id)
+  public function deleteContact($id)
   {
-    $this->get_contact($id);
+    $this->getContact($id);
 
     $response = $this->db->delete($this->table_name, array('id' => $id));
 
@@ -62,9 +62,9 @@ class ContactsController
     }
   }
 
-  public function update_contact($id, $name, $email, $phone, $address)
+  public function updateContact($id, $name, $email, $phone, $address)
   {
-    $contact = $this->get_contact($id);
+    $contact = $this->getContact($id);
 
     if ($contact->name == $name && $contact->email == $email && $contact->phone == $phone && $contact->address == $address) {
       throw new Exception('No changes were made');
