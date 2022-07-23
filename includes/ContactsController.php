@@ -2,6 +2,8 @@
 
 namespace Contacts\Manager;
 
+use Exception;
+
 class ContactsController
 {
   protected $db;
@@ -18,12 +20,12 @@ class ContactsController
   public function add_contact($name, $email, $phone, $address)
   {
     if (empty($name)) {
-      throw new \Exception("Name is empty");
+      throw new Exception("Name is empty");
     }
 
     $response = $this->db->insert($this->table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address));
     if (!$response) {
-      throw new \Exception("Could not insert contact");
+      throw new Exception("Could not insert contact");
     }
   }
 
@@ -32,7 +34,7 @@ class ContactsController
     $data = $this->db->get_row('SELECT * FROM ' . $this->table_name . " WHERE `id` = '$id'");
 
     if (!$data) {
-      throw new \Exception("Contact does not exist");
+      throw new Exception("Contact does not exist");
     }
 
     return $data;
@@ -43,7 +45,7 @@ class ContactsController
     $data = $this->db->get_results('SELECT * FROM ' . $this->table_name, "ARRAY_A");
 
     if (is_null($data)) {
-      throw new \Exception("Could not get contacts");
+      throw new Exception("Could not get contacts");
     }
 
     return $data;
@@ -56,7 +58,7 @@ class ContactsController
     $response = $this->db->delete($this->table_name, array('id' => $id));
 
     if (!$response) {
-      throw new \Exception("Could not delete contact. ID might be invalid");
+      throw new Exception("Could not delete contact. ID might be invalid");
     }
   }
 
@@ -65,13 +67,13 @@ class ContactsController
     $contact = $this->get_contact($id);
 
     if ($contact->name == $name && $contact->email == $email && $contact->phone == $phone && $contact->address == $address) {
-      throw new \Exception('No changes were made');
+      throw new Exception('No changes were made');
     }
 
     $response = $this->db->update($this->table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address), array('id' => $id));
 
     if (!$response) {
-      throw new \Exception("Could not update contact");
+      throw new Exception("Could not update contact");
     }
   }
 }

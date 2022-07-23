@@ -2,6 +2,8 @@
 
 namespace Contacts\Manager;
 
+use Exception;
+
 class Ajax
 {
   protected $prefix = 'cm';
@@ -51,7 +53,7 @@ class Ajax
       $this->contacts_controller->add_contact($name, $email, $phone, $address);
 
       wp_send_json_success(['message' => 'Successfully added contact!']);
-    } catch (\Exception $error) {
+    } catch (Exception $error) {
       wp_send_json_error(['message' => $error->getMessage()]);
     }
   }
@@ -64,7 +66,7 @@ class Ajax
       $contacts = $this->contacts_controller->get_all_contacts();
 
       wp_send_json_success(['contacts' => $contacts]);
-    } catch (\Exception $error) {
+    } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()]);
     }
   }
@@ -82,7 +84,7 @@ class Ajax
       $this->contacts_controller->add_contact($name, $email, $phone, $address);
 
       wp_send_json_success();
-    } catch (\Exception $error) {
+    } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()]);
     }
   }
@@ -97,7 +99,7 @@ class Ajax
       $contact = $this->contacts_controller->get_contact($id);
 
       wp_send_json_success(['contact' => $contact]);
-    } catch (\Exception $error) {
+    } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()]);
     }
   }
@@ -116,7 +118,7 @@ class Ajax
       $this->contacts_controller->update_contact($id, $name, $email, $phone, $address);
 
       wp_send_json_success();
-    } catch (\Exception $error) {
+    } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()]);
     }
   }
@@ -131,7 +133,7 @@ class Ajax
       $this->contacts_controller->delete_contact($id);
 
       wp_send_json_success();
-    } catch (\Exception $error) {
+    } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()]);
     }
   }

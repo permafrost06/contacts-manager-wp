@@ -2,6 +2,7 @@
 
 namespace Contacts\Manager\Frontend;
 
+use Exception;
 use Contacts\Manager\ContactsController;
 
 class Shortcode
@@ -48,7 +49,7 @@ class Shortcode
       ob_start();
       include __DIR__ . '/views/contact-card.php';
       return ob_get_clean();
-    } catch (\Exception $error) {
+    } catch (Exception $error) {
       $message = __('Contact does not exist', 'contacts-manager');
 
       ob_start();
@@ -67,7 +68,7 @@ class Shortcode
       ob_start();
       include __DIR__ . '/views/contact-table.php';
       return ob_get_clean();
-    } catch (\Exception $error) {
+    } catch (Exception $error) {
       $message = __('Could not get table', 'contacts-manager');
 
       ob_start();
