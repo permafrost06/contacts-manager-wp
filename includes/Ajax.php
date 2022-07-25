@@ -93,7 +93,7 @@ class Ajax
   {
     check_ajax_referer('admin_app');
 
-    $id = sanitize_text_field($_POST['id']);
+    $id = sanitize_text_field($_REQUEST['id']);
 
     try {
       $contact = $this->contacts_controller->getContact($id);

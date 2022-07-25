@@ -14,14 +14,13 @@ const callbackDefault = (data) => {
 
 export const getAJAX = (
   action,
+  payload = {},
   callback = callbackDefault,
   onFail = onFailDefault
 ) => {
   const prefix = "cm";
-  const payload = {
-    action: `${prefix}_${action}`,
-    _ajax_nonce: contactsMgrAdmin.nonce,
-  };
+  payload.action = `${prefix}_${action}`;
+  payload._ajax_nonce = contactsMgrAdmin.nonce;
 
   window.jQuery
     .get(contactsMgrAdmin.ajax_url, payload, (data) => {

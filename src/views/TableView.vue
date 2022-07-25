@@ -13,7 +13,7 @@ const dialogVisible = ref(false);
 const loading = ref(true);
 
 const getAllContacts = () => {
-  getAJAX("get_all_contacts", ({ success, data }) => {
+  getAJAX("get_all_contacts", {}, ({ success, data }) => {
     if (success) {
       contacts.value = data.contacts;
       loading.value = false;
