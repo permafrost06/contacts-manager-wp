@@ -3,15 +3,18 @@
 namespace Contacts\Manager;
 
 use Exception;
+use Contacts\Manager\Http\Request;
 
 class Ajax
 {
   protected $prefix = 'cm';
   protected $contacts_controller;
+  protected $request;
 
   public function __construct(ContactsController $contacts_controller)
   {
     $this->contacts_controller = $contacts_controller;
+    $this->request = new Request();
 
     foreach ($this->getActions() as $action => $handler) {
       $nopriv = isset($handler['nopriv']) ? $handler['nopriv'] : false;
@@ -36,21 +39,21 @@ class Ajax
     ];
   }
 
+  public function checkReferer($referer = 'admin_app')
+  {
+    if (!check_ajax_referer($referer, false, false)) {
+      wp_send_json_error(['message' => 'Nonce check failed'], 403);
+    }
+  }
+
   public function submitForm()
   {
-    if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'cm-contact-form')) {
-      wp_send_json_error([
-        'message' => 'Nonce verification failed'
-      ]);
-    }
+    $this->checkReferer('cm-contact-form');
 
-    $name = sanitize_text_field($_POST['name']);
-    $email = sanitize_text_field($_POST['email']);
-    $phone = sanitize_text_field($_POST['phone']);
-    $address = sanitize_textarea_field($_POST['address']);
+    $contact = $this->request->getContactObject();
 
     try {
-      $this->contacts_controller->addContact($name, $email, $phone, $address);
+      $this->contacts_controller->addContact($contact['name'], $contact['email'], $contact['phone'], $contact['address']);
 
       wp_send_json_success(['message' => 'Successfully added contact!']);
     } catch (Exception $error) {
@@ -60,7 +63,7 @@ class Ajax
 
   public function handleGetAllContacts()
   {
-    check_ajax_referer('admin_app');
+    $this->checkReferer();
 
     try {
       $contacts = $this->contacts_controller->getAllContacts();
@@ -73,15 +76,12 @@ class Ajax
 
   public function handleAddContact()
   {
-    check_ajax_referer('admin_app');
+    $this->checkReferer();
 
-    $name = sanitize_text_field($_POST['name']);
-    $email = sanitize_text_field($_POST['email']);
-    $phone = sanitize_text_field($_POST['phone']);
-    $address = sanitize_textarea_field($_POST['address']);
+    $contact = $this->request->getContactObject();
 
     try {
-      $this->contacts_controller->addContact($name, $email, $phone, $address);
+      $this->contacts_controller->addContact($contact['name'], $contact['email'], $contact['phone'], $contact['address']);
 
       wp_send_json_success();
     } catch (Exception $error) {
@@ -91,9 +91,9 @@ class Ajax
 
   public function handleGetContact()
   {
-    check_ajax_referer('admin_app');
+    $this->checkReferer();
 
-    $id = sanitize_text_field($_REQUEST['id']);
+    $id = $this->request->input('id');
 
     try {
       $contact = $this->contacts_controller->getContact($id);
@@ -106,16 +106,12 @@ class Ajax
 
   public function handleUpdateContact()
   {
-    check_ajax_referer('admin_app');
+    $this->checkReferer();
 
-    $id = sanitize_text_field($_POST['id']);
-    $name = sanitize_text_field($_POST['name']);
-    $email = sanitize_text_field($_POST['email']);
-    $phone = sanitize_text_field($_POST['phone']);
-    $address = sanitize_textarea_field($_POST['address']);
+    $contact = $this->request->getContactObject();
 
     try {
-      $this->contacts_controller->updateContact($id, $name, $email, $phone, $address);
+      $this->contacts_controller->updateContact($contact['id'], $contact['name'], $contact['email'], $contact['phone'], $contact['address']);
 
       wp_send_json_success();
     } catch (Exception $error) {
@@ -125,9 +121,9 @@ class Ajax
 
   public function handleDeleteContact()
   {
-    check_ajax_referer('admin_app');
+    $this->checkReferer();
 
-    $id = sanitize_text_field($_POST['id']);
+    $id = $this->request->input('id');
 
     try {
       $this->contacts_controller->deleteContact($id);
