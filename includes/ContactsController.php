@@ -17,11 +17,31 @@ class ContactsController
     $this->table_name = $wpdb->prefix . 'contacts_manager_table';
   }
 
-  public function addContact($name, $email, $phone, $address)
+  public function checkValidity($name, $email, $phone, $address)
   {
     if (empty($name)) {
-      throw new Exception("Name is empty");
+      throw new Exception('Name is empty');
     }
+    if (empty($email)) {
+      throw new Exception('Email is empty');
+    }
+    if (empty($phone)) {
+      throw new Exception('Phone is empty');
+    }
+    if (empty($address)) {
+      throw new Exception('Address is empty');
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      throw new Exception('Email is invalid');
+    }
+    if (!preg_match('/^[-+ ()\d]+$/', $phone)) {
+      throw new Exception('Phone number is invalid');
+    }
+  }
+
+  public function addContact($name, $email, $phone, $address)
+  {
+    $this->checkValidity($name, $email, $phone, $address);
 
     $response = $this->db->insert($this->table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address));
     if (!$response) {
@@ -64,6 +84,8 @@ class ContactsController
 
   public function updateContact($id, $name, $email, $phone, $address)
   {
+    $this->checkValidity($name, $email, $phone, $address);
+
     $contact = $this->getContact($id);
 
     if ($contact->name == $name && $contact->email == $email && $contact->phone == $phone && $contact->address == $address) {
