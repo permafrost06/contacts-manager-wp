@@ -43,7 +43,10 @@ class ContactsController
   {
     $this->checkValidity($name, $email, $phone, $address);
 
-    $response = $this->db->insert($this->table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address));
+    $response = $this->db->insert(
+      $this->table_name,
+      array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address)
+    );
     if (!$response) {
       throw new Exception("Could not insert contact");
     }
@@ -88,11 +91,18 @@ class ContactsController
 
     $contact = $this->getContact($id);
 
-    if ($contact->name == $name && $contact->email == $email && $contact->phone == $phone && $contact->address == $address) {
+    if (
+      $contact->name == $name && $contact->email == $email &&
+      $contact->phone == $phone && $contact->address == $address
+    ) {
       throw new Exception('No changes were made');
     }
 
-    $response = $this->db->update($this->table_name, array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address), array('id' => $id));
+    $response = $this->db->update(
+      $this->table_name,
+      array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address),
+      array('id' => $id)
+    );
 
     if (!$response) {
       throw new Exception("Could not update contact");
