@@ -1,7 +1,10 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
+import { ElMessage } from "element-plus";
 
 const emit = defineEmits(["form-submit"]);
+
+const formEl = ref();
 
 const props = defineProps({
   contact: {
@@ -20,7 +23,16 @@ const props = defineProps({
 });
 
 const onSubmit = () => {
-  emit("form-submit", props.contact);
+  formEl.value.validate((valid) => {
+    if (valid) {
+      emit("form-submit", props.contact);
+    } else {
+      ElMessage({
+        message: "Please fix the errors to submit the form",
+        type: "error",
+      });
+    }
+  });
 };
 
 const validateNumber = (rule, value, callback) => {
@@ -78,6 +90,7 @@ const formRules = reactive({
     :model="props.contact"
     :rules="formRules"
     label-width="100px"
+    ref="formEl"
   >
     <el-form-item prop="name" label="Name">
       <el-col :span="8">
