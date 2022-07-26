@@ -57,7 +57,7 @@ class Ajax
 
       wp_send_json_success(['message' => 'Successfully added contact!']);
     } catch (Exception $error) {
-      wp_send_json_error(['message' => $error->getMessage()]);
+      wp_send_json_error(['message' => $error->getMessage()], 403);
     }
   }
 
@@ -70,7 +70,7 @@ class Ajax
 
       wp_send_json_success(['contacts' => $contacts]);
     } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()]);
+      wp_send_json_error(['error' => $error->getMessage()], 403);
     }
   }
 
@@ -85,7 +85,7 @@ class Ajax
 
       wp_send_json_success();
     } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()]);
+      wp_send_json_error(['error' => $error->getMessage()], 403);
     }
   }
 
@@ -100,7 +100,7 @@ class Ajax
 
       wp_send_json_success(['contact' => $contact]);
     } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()]);
+      wp_send_json_error(['error' => $error->getMessage()], 404);
     }
   }
 
@@ -115,7 +115,7 @@ class Ajax
 
       wp_send_json_success();
     } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()]);
+      wp_send_json_error(['error' => $error->getMessage()], 401);
     }
   }
 
@@ -130,7 +130,7 @@ class Ajax
 
       wp_send_json_success();
     } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()]);
+      wp_send_json_error(['error' => $error->getMessage()], 404);
     }
   }
 }
