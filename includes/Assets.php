@@ -51,6 +51,10 @@ class Assets
       'cm-contact-card-style' => [
         'src' => CONTACTS_MANAGER_ASSETS . '/styles/contact-card.css',
         'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/styles/contact-card.css')
+      ],
+      'cm-error-page-style' => [
+        'src' => CONTACTS_MANAGER_ASSETS . '/styles/error-page.css',
+        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/styles/error-page.css')
       ]
     ];
   }

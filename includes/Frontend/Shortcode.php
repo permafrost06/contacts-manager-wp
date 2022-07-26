@@ -41,16 +41,18 @@ class Shortcode
 
   public function renderContactCard($id)
   {
-    wp_enqueue_style('cm-contact-card-style');
-
     try {
       $contact = $this->contacts_controller->getContact($id);
+
+      wp_enqueue_style('cm-contact-card-style');
 
       ob_start();
       include __DIR__ . '/views/contact-card.php';
       return ob_get_clean();
     } catch (Exception $error) {
       $message = __('Contact does not exist', 'contacts-manager');
+
+      wp_enqueue_style('cm-error-page-style');
 
       ob_start();
       include __DIR__ . '/views/error.php';
@@ -60,16 +62,18 @@ class Shortcode
 
   public function renderCompleteTable()
   {
-    wp_enqueue_style('cm-contacts-table-style');
-
     try {
       $all_contacts = $this->contacts_controller->getAllContacts();
+
+      wp_enqueue_style('cm-contacts-table-style');
 
       ob_start();
       include __DIR__ . '/views/contact-table.php';
       return ob_get_clean();
     } catch (Exception $error) {
       $message = __('Could not get table', 'contacts-manager');
+
+      wp_enqueue_style('cm-error-page-style');
 
       ob_start();
       include __DIR__ . '/views/error.php';

@@ -1,7 +1,3 @@
-<div class="wrap">
-  <div class="contact-mgr-box">
-    <p class="error">
-      <?php echo $message; ?>
-    </p>
-  </div>
+<div class="contact-mgr-box error">
+  <?php echo $message; ?>
 </div>
