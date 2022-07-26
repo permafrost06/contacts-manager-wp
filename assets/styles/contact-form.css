@@ -78,3 +78,17 @@
 #error-message {
   color: red;
 }
+
+#success-message {
+  color: green;
+}
+
+.input-error {
+  color: red;
+  font-size: 0.8rem;
+}
+
+.required-indicator {
+  color: red;
+  font-weight: 500;
+}

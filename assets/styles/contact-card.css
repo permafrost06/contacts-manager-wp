@@ -1,8 +1,18 @@
 .contacts-mgr-box.contact-card {
-  /* text-align: center; */
-
   line-height: 1rem;
 
-  /* margin-inline: auto !important; */
-  margin-bottom: 5rem;
+  width: 100%;
+  max-width: 350px;
+
+  padding: 0.2rem 1.5rem;
+
+  border-radius: 0.4rem;
+
+  background-color: hsl(0, 0%, 90%);
+}
+
+.contacts-mgr-box.contact-card .field .field-name {
+  display: inline-block;
+  width: 5rem;
+  font-weight: 600;
 }
