@@ -18,7 +18,8 @@ class Assets
     return [
       'cm-contact-form-ajax' => [
         'src' => CONTACTS_MANAGER_ASSETS . '/js/contact-form-ajax.js',
-        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/contact-form-ajax.js')
+        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/contact-form-ajax.js'),
+        'deps' => ['jquery']
       ],
     ];
   }
