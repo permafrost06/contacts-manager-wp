@@ -66,6 +66,7 @@ class Shortcode
       $all_contacts = $this->contacts_controller->getAllContacts();
 
       wp_enqueue_style('cm-contacts-table-style');
+      wp_enqueue_script('cm-contact-table-ajax');
 
       ob_start();
       include __DIR__ . '/views/contact-table.php';

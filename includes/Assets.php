@@ -21,6 +21,11 @@ class Assets
         'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/contact-form-ajax.js'),
         'deps' => ['jquery']
       ],
+      'cm-contact-table-ajax' => [
+        'src' => CONTACTS_MANAGER_ASSETS . '/js/contact-table-ajax.js',
+        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/contact-table-ajax.js'),
+        'deps' => ['jquery']
+      ]
     ];
   }
 
@@ -81,11 +86,19 @@ class Assets
 
     wp_localize_script(
       'cm-contact-form-ajax',
-      'contacts_manager_ajax',
-      array(
+      'contacts_manager_form_ajax',
+      [
         'ajax_url' => admin_url('admin-ajax.php'),
-        'error' => 'Something went wrong in the server',
-      )
+      ]
+    );
+
+    wp_localize_script(
+      'cm-contact-table-ajax',
+      'contacts_mgr_table_ajax',
+      [
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('admin_app'),
+      ]
     );
   }
 

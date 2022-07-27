@@ -103,7 +103,7 @@ function formValidated() {
     const errorEl = jQuery("#error-message");
 
     jQuery
-      .post(contacts_manager_ajax.ajax_url, data, function (data) {
+      .post(contacts_manager_form_ajax.ajax_url, data, function (data) {
         if (data.success) {
           successEl.text(data.data.message);
         } else {
