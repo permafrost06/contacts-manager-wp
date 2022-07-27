@@ -1,8 +1,10 @@
 import { ElMessage } from "element-plus";
 
-const onFailDefault = () => {
+const onFailDefault = (xhr) => {
+  const res = JSON.parse(xhr.responseText);
+
   ElMessage({
-    message: "AJAX Request Failed",
+    message: "AJAX Request Failed - " + res.data.message,
     type: "error",
   });
 };

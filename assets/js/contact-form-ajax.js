@@ -110,8 +110,9 @@ function formValidated() {
           errorEl.text(data.data.message);
         }
       })
-      .fail(function () {
-        errorEl.text("There was an error");
+      .fail(function (xhr) {
+        const res = JSON.parse(xhr.responseText);
+        errorEl.text(res.data.message);
       });
   });
 
