@@ -62,24 +62,12 @@ class Shortcode
 
   public function renderCompleteTable()
   {
-    try {
-      $all_contacts = $this->contacts_controller->getAllContacts();
+    wp_enqueue_style('cm-contacts-table-style');
+    wp_enqueue_script('cm-contact-table-ajax');
 
-      wp_enqueue_style('cm-contacts-table-style');
-      wp_enqueue_script('cm-contact-table-ajax');
-
-      ob_start();
-      include __DIR__ . '/views/contact-table.php';
-      return ob_get_clean();
-    } catch (Exception $error) {
-      $message = __('Could not get table', 'contacts-manager');
-
-      wp_enqueue_style('cm-error-page-style');
-
-      ob_start();
-      include __DIR__ . '/views/error.php';
-      return ob_get_clean();
-    }
+    ob_start();
+    include __DIR__ . '/views/contact-table.php';
+    return ob_get_clean();
   }
 
   public function renderContactForm($atts = [], $content = null)

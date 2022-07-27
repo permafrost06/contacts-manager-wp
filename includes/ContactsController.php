@@ -74,6 +74,43 @@ class ContactsController
     return $data;
   }
 
+  public function getContactsPaged($page = 0, $limit = 10, $order_by = 'id', $ascending = true)
+  {
+    $order = ($ascending) ? 'ASC' : 'DESC';
+    $offset = $page * $limit;
+
+    $data = $this->db->get_results(
+      "SELECT * FROM {$this->table_name} ORDER BY {$order_by} {$order} LIMIT {$offset}, {$limit}",
+      "ARRAY_A"
+    );
+
+    if (is_null($data)) {
+      throw new Exception("Could not get contacts");
+    }
+
+    $page = [
+      'page' => $page,
+      'limit' => $limit,
+      'total' => $this->getContactCount(),
+      'order_by' => $order_by,
+      'order' => $order,
+      'data' => $data
+    ];
+
+    return $page;
+  }
+
+  public function getContactCount()
+  {
+    $count = (int) $this->db->get_var("SELECT count(id) FROM {$this->table_name}");
+
+    if (is_null($count)) {
+      throw new Exception("Could not get contacts");
+    }
+
+    return $count;
+  }
+
   public function deleteContact($id)
   {
     $this->getContact($id);

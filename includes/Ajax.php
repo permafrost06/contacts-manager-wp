@@ -32,6 +32,7 @@ class Ajax
     return [
       'contact_form' => ['function' => [$this, 'submitForm'], 'nopriv' => true],
       'get_all_contacts' => ['function' => [$this, 'handleGetAllContacts']],
+      'get_contact_page' => ['function' => [$this, 'handleGetContactPage']],
       'add_contact' => ['function' => [$this, 'handleAddContact']],
       'get_contact' => ['function' => [$this, 'handleGetContact']],
       'update_contact' => ['function' => [$this, 'handleUpdateContact']],
@@ -51,7 +52,7 @@ class Ajax
     $this->checkReferer('cm-contact-form');
 
     try {
-    $contact = $this->request->getContactObject();
+      $contact = $this->request->getContactObject();
     } catch (Exception $error) {
       wp_send_json_error(['message' => $error->getMessage()], 403);
     }
@@ -78,12 +79,31 @@ class Ajax
     }
   }
 
+  public function handleGetContactPage()
+  {
+    $this->checkReferer();
+
+    try {
+      $pArgs = $this->request->getPaginationArgs();
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
+
+    try {
+      $page = $this->contacts_controller->getContactsPaged($pArgs["page"], $pArgs["limit"], $pArgs["orderby"], $pArgs["ascending"]);
+
+      wp_send_json_success($page);
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
+  }
+
   public function handleAddContact()
   {
     $this->checkReferer();
 
     try {
-    $contact = $this->request->getContactObject();
+      $contact = $this->request->getContactObject();
     } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()], 403);
     }
@@ -102,7 +122,7 @@ class Ajax
     $this->checkReferer();
 
     try {
-    $id = $this->request->input('id');
+      $id = $this->request->input('id');
     } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()], 403);
     }
@@ -121,7 +141,7 @@ class Ajax
     $this->checkReferer();
 
     try {
-    $contact = $this->request->getContactObject();
+      $contact = $this->request->getContactObject();
     } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()], 403);
     }
@@ -140,7 +160,7 @@ class Ajax
     $this->checkReferer();
 
     try {
-    $id = $this->request->input('id');
+      $id = $this->request->input('id');
     } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()], 403);
     }

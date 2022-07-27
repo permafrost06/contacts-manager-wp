@@ -1,5 +1,5 @@
 .contacts-table {
-  max-width: 800px !important;
+  max-width: 900px !important;
 }
 
 table {
@@ -49,4 +49,35 @@ th {
 .table-hover > tbody > tr:hover {
   --bs-table-accent-bg: var(--bs-table-hover-bg);
   color: var(--bs-table-hover-color);
+}
+
+p.center {
+  text-align: center;
+}
+
+.table-nav {
+  text-align: right;
+}
+
+#page_no {
+  display: inline-block;
+  width: 1.5rem;
+  text-align: center;
+}
+
+.table-nav button {
+  height: 2rem;
+  width: 2rem;
+
+  border: none;
+  border-radius: 0;
+
+  color: white;
+  background-color: rgb(64, 158, 255);
+
+  cursor: pointer;
+}
+
+.table-nav button:disabled {
+  background-color: rgb(240, 242, 245);
 }

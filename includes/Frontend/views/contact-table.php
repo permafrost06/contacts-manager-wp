@@ -9,14 +9,13 @@
         <th>Address</th>
       </tr>
     </thead>
-    <tbody>
-      <?php foreach ($all_contacts as $row) { ?>
-        <tr>
-          <?php foreach ($row as $field) { ?>
-            <td><?php esc_html_e($field) ?></td>
-          <?php } ?>
-        </tr>
-      <?php } ?>
+    <tbody class="cm-contacts-mgr table-body">
     </tbody>
   </table>
+  <p class="cm-contacts-mgr table-loading-message center">Loading...</p>
+  <div class="table-nav">
+    <button id="back_button">&lt;</button>
+    <span id="page_no"></span>
+    <button id="next_button">&gt;</button>
+  </div>
 </div>
