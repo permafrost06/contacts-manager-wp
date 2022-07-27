@@ -42,7 +42,7 @@ class Ajax
   public function checkReferer($referer = 'admin_app')
   {
     if (!check_ajax_referer($referer, false, false)) {
-      wp_send_json_error(['message' => 'Nonce check failed'], 403);
+      wp_send_json_error(['error' => 'Nonce check failed'], 403);
     }
   }
 
@@ -50,7 +50,11 @@ class Ajax
   {
     $this->checkReferer('cm-contact-form');
 
+    try {
     $contact = $this->request->getContactObject();
+    } catch (Exception $error) {
+      wp_send_json_error(['message' => $error->getMessage()], 403);
+    }
 
     try {
       $this->contacts_controller->addContact($contact['name'], $contact['email'], $contact['phone'], $contact['address']);
@@ -78,7 +82,11 @@ class Ajax
   {
     $this->checkReferer();
 
+    try {
     $contact = $this->request->getContactObject();
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
 
     try {
       $this->contacts_controller->addContact($contact['name'], $contact['email'], $contact['phone'], $contact['address']);
@@ -93,7 +101,11 @@ class Ajax
   {
     $this->checkReferer();
 
+    try {
     $id = $this->request->input('id');
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
 
     try {
       $contact = $this->contacts_controller->getContact($id);
@@ -108,7 +120,11 @@ class Ajax
   {
     $this->checkReferer();
 
+    try {
     $contact = $this->request->getContactObject();
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
 
     try {
       $this->contacts_controller->updateContact($contact['id'], $contact['name'], $contact['email'], $contact['phone'], $contact['address']);
@@ -123,7 +139,11 @@ class Ajax
   {
     $this->checkReferer();
 
+    try {
     $id = $this->request->input('id');
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
 
     try {
       $this->contacts_controller->deleteContact($id);
