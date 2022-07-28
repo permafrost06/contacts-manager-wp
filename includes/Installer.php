@@ -16,6 +16,7 @@ class Installer
   {
     $this->addVersion();
     $this->createTable();
+    $this->updateDefaultOptions();
   }
 
   public function addVersion()
@@ -48,5 +49,12 @@ class Installer
     }
 
     dbDelta($create_table_query);
+  }
+
+  public function updateDefaultOptions()
+  {
+    update_option("contacts_manager_table_limit", 10);
+    update_option("contacts_manager_table_order_by", "id");
+    update_option("contacts_manager_background_color", "FFFFFF");
   }
 }
