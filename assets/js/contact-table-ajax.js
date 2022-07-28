@@ -1,5 +1,7 @@
 let currentPage = 0;
-const limit = 10;
+let limit;
+let orderby;
+let bg_color;
 
 const messageEl = jQuery(".cm-contacts-mgr.table-loading-message");
 const tableEl = jQuery(".cm-contacts-mgr.table-body");
@@ -82,15 +84,21 @@ async function renderTable(
 }
 
 (async function () {
+  limit = await getSetting("table_limit");
+  orderby = await getSetting("table_order_by");
+  bg_color = await getSetting("background_color");
+
+  jQuery(".contacts-mgr-box .table").css("background-color", bg_color);
+
   messageEl.height(44 * limit);
 
-  renderTable(0, 10);
+  renderTable(0, limit, orderby);
 
   jQuery("#prev_button").on("click", function () {
-    if (currentPage > 0) renderTable(--currentPage, limit);
+    if (currentPage > 0) renderTable(--currentPage, limit, orderby);
   });
 
   jQuery("#next_button").on("click", function () {
-    renderTable(++currentPage, limit);
+    renderTable(++currentPage, limit, orderby);
   });
 })();

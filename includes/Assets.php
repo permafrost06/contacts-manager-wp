@@ -24,8 +24,13 @@ class Assets
       'cm-contact-table-ajax' => [
         'src' => CONTACTS_MANAGER_ASSETS . '/js/contact-table-ajax.js',
         'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/contact-table-ajax.js'),
+        'deps' => ['jquery', 'cm-settings-ajax']
+      ],
+      'cm-settings-ajax' => [
+        'src' => CONTACTS_MANAGER_ASSETS . '/js/settings-ajax.js',
+        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/settings-ajax.js'),
         'deps' => ['jquery']
-      ]
+      ],
     ];
   }
 
