@@ -23,6 +23,14 @@ class Menu
       'dashicons-id-alt',
       25
     );
+    add_submenu_page(
+      'contacts-manager',
+      __('Contacts Manager Settings', 'contacts-manager'),
+      __('Settings', 'contacts-manager'),
+      'manage_options',
+      'contacts-manager#/settings',
+      [$this, 'vueAppEntrypoint']
+    );
   }
 
   public function vueAppEntrypoint()

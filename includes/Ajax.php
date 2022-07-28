@@ -9,11 +9,13 @@ class Ajax
 {
   protected $prefix = 'cm';
   protected $contacts_controller;
+  protected $settings_controller;
   protected $request;
 
-  public function __construct(ContactsController $contacts_controller)
+  public function __construct(ContactsController $contacts_controller, SettingsController $settings_controller)
   {
     $this->contacts_controller = $contacts_controller;
+    $this->settings_controller = $settings_controller;
     $this->request = new Request();
 
     foreach ($this->getActions() as $action => $handler) {
@@ -37,6 +39,8 @@ class Ajax
       'get_contact' => ['function' => [$this, 'handleGetContact']],
       'update_contact' => ['function' => [$this, 'handleUpdateContact']],
       'delete_contact' => ['function' => [$this, 'handleDeleteContact']],
+      'get_setting' => ['function' => [$this, 'handleGetSetting']],
+      'update_setting' => ['function' => [$this, 'handleUpdateSetting']],
     ];
   }
 
@@ -171,6 +175,46 @@ class Ajax
       wp_send_json_success();
     } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()], 404);
+    }
+  }
+
+  public function handleGetSetting()
+  {
+    $this->checkReferer();
+
+    try {
+      $option = $this->request->input('option_name');
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
+
+    try {
+      $option_value = $this->settings_controller->getOption($option);
+
+      if ($option_value)
+        wp_send_json_success($option_value);
+      else wp_send_json_error(['error' => 'Setting value not set']);
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
+  }
+
+  public function handleUpdateSetting()
+  {
+    $this->checkReferer();
+
+    try {
+      $option = $this->request->input('option_name');
+      $value = $this->request->input('option_value');
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
+
+    try {
+      $this->settings_controller->updateOption($option, $value);
+      wp_send_json_success(['message' => 'Setting updated successfully']);
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
     }
   }
 }

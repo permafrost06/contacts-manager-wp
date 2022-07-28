@@ -84,9 +84,10 @@ final class Contacts_Manager
     new Contacts\Manager\Assets();
 
     $contacts_controller = new Contacts\Manager\ContactsController();
+    $settings_controller = new Contacts\Manager\SettingsController();
 
     if (defined('DOING_AJAX') && DOING_AJAX) {
-      new Contacts\Manager\Ajax($contacts_controller);
+      new Contacts\Manager\Ajax($contacts_controller, $settings_controller);
     }
 
     if (is_admin()) {

@@ -48,3 +48,36 @@ export const postAJAX = async (
     })
     .fail(onFail);
 };
+
+export const getSetting = async (option) => {
+  let value;
+
+  await postAJAX(
+    "get_setting",
+    {
+      option_name: option,
+    },
+    ({ success, data }) => {
+      value = data;
+    }
+  );
+
+  return value;
+};
+
+export const updateSetting = async (option, value) => {
+  let success;
+
+  await postAJAX(
+    "update_setting",
+    {
+      option_name: option,
+      option_value: value,
+    },
+    (data) => {
+      success = data.success;
+    }
+  );
+
+  return success;
+};

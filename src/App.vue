@@ -1,10 +1,27 @@
-<script setup></script>
+<script setup>
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+watch(
+  () => route.name,
+  (routeName) => {
+    if (routeName == "Settings") heading.value = "Contacts Manager Settings";
+    else heading.value = "Contacts Manager";
+  }
+);
+
+const heading = ref("Contacts Manager");
+</script>
 
 <template>
   <div class="common-layout">
     <el-header>
       <el-row>
-        <el-col><h1>Contacts Manager</h1></el-col>
+        <el-col
+          ><h1>{{ heading }}</h1></el-col
+        >
       </el-row>
     </el-header>
     <el-main>
