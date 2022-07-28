@@ -12,9 +12,9 @@
     <tbody class="cm-contacts-mgr table-body">
     </tbody>
   </table>
-  <p class="cm-contacts-mgr table-loading-message center">Loading...</p>
+  <p class="cm-contacts-mgr table-loading-message center">Loading</p>
   <div class="table-nav">
-    <button id="back_button">&lt;</button>
+    <button id="prev_button">&lt;</button>
     <span id="page_no"></span>
     <button id="next_button">&gt;</button>
   </div>

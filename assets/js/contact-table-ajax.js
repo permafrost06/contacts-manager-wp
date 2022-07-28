@@ -1,6 +1,9 @@
 let currentPage = 0;
 const limit = 10;
 
+const messageEl = jQuery(".cm-contacts-mgr.table-loading-message");
+const tableEl = jQuery(".cm-contacts-mgr.table-body");
+
 async function getContactsPage(page, limit, orderby, ascending) {
   let pageObj;
 
@@ -29,14 +32,18 @@ async function renderTable(
   ascending = true
 ) {
   jQuery("#next_button").prop("disabled", true);
-  jQuery("#back_button").prop("disabled", true);
+  jQuery("#prev_button").prop("disabled", true);
 
   jQuery("#page_no").text(currentPage + 1);
 
-  const messageEl = jQuery(".cm-contacts-mgr.table-loading-message");
-  const tableEl = jQuery(".cm-contacts-mgr.table-body");
+  const animateText = setInterval(() => {
+    messageEl.text((index, value) => {
+      if (value.length < 10) value += ".";
+      else value = "Loading";
+      return value;
+    });
+  }, 200);
 
-  messageEl.text("Loading...");
   messageEl.show();
 
   tableEl.empty();
@@ -62,10 +69,11 @@ async function renderTable(
   }
 
   if (currentPage !== 0) {
-    jQuery("#back_button").prop("disabled", false);
+    jQuery("#prev_button").prop("disabled", false);
   }
 
   messageEl.hide();
+  clearInterval(animateText);
 
   if (pageObj.data.length === 0) {
     messageEl.text("No Data");
@@ -74,9 +82,11 @@ async function renderTable(
 }
 
 (async function () {
+  messageEl.height(44 * limit);
+
   renderTable(0, 10);
 
-  jQuery("#back_button").on("click", function () {
+  jQuery("#prev_button").on("click", function () {
     if (currentPage > 0) renderTable(--currentPage, limit);
   });
 
