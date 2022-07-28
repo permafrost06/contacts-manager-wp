@@ -2,9 +2,10 @@ import { ElMessage } from "element-plus";
 
 const onFailDefault = (xhr) => {
   const res = JSON.parse(xhr.responseText);
+  const err_msg = res.data.message ? res.data.message : res.data.error;
 
   ElMessage({
-    message: "AJAX Request Failed - " + res.data.message,
+    message: "AJAX Request Failed - " + err_msg,
     type: "error",
   });
 };
@@ -14,7 +15,7 @@ const callbackDefault = (data) => {
   console.debug(data);
 };
 
-export const getAJAX = (
+export const getAJAX = async (
   action,
   payload = {},
   callback = callbackDefault,
@@ -24,14 +25,14 @@ export const getAJAX = (
   payload.action = `${prefix}_${action}`;
   payload._ajax_nonce = contactsMgrAdmin.nonce;
 
-  window.jQuery
+  await window.jQuery
     .get(contactsMgrAdmin.ajax_url, payload, (data) => {
       callback(data);
     })
     .fail(onFail);
 };
 
-export const postAJAX = (
+export const postAJAX = async (
   action,
   payload = {},
   callback = callbackDefault,
@@ -41,7 +42,7 @@ export const postAJAX = (
   payload.action = `${prefix}_${action}`;
   payload._ajax_nonce = contactsMgrAdmin.nonce;
 
-  window.jQuery
+  await window.jQuery
     .post(contactsMgrAdmin.ajax_url, payload, (data) => {
       callback(data);
     })
