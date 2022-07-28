@@ -6,33 +6,33 @@ use Exception;
 
 class SettingsController
 {
-  protected $prefix = "contacts_manager_";
+  protected $prefix = 'contacts_manager';
 
   public function getSettingOptions()
   {
     return [
       'table_limit' => ['desc' => 'Number of table items to show in one page', 'numeric' => true],
       'table_order_by' => ['desc' => 'Order table items by', 'values_list' => ['id', 'name', 'email', 'phone', 'address']],
-      'background_color' => ['desc' => 'Background color of table and contact card', 'regex' => "/^#\d{6,8}/"]
+      'background_color' => ['desc' => 'Background color of table and contact card', 'regex' => "/^#[A-Fa-f\d]{6,8}/"]
     ];
   }
 
-  public function checkValidity($option, $value = "NO_VALUE")
+  public function checkValidity($option, $value = 'NO_VALUE')
   {
     $options = $this->getSettingOptions();
 
     if (!isset($option, $options)) {
-      throw new Exception("Trying to access invalid option");
+      throw new Exception('Trying to access invalid option');
     }
 
-    if ($value != "NO_VALUE") {
+    if ($value != 'NO_VALUE') {
       $validator = $options[$option];
 
       $numeric = isset($validator['numeric']) ? $validator['numeric'] : false;
       $values_list = isset($validator['values_list']) ? $validator['values_list'] : [];
       $regex = isset($validator['regex']) ? $validator['regex'] : '';
 
-      $exception = new Exception("Invalid value provided for option");
+      $exception = new Exception("Invalid value $value provided for option $option");
 
       if ($numeric) {
         if (!is_numeric($value)) throw $exception;
@@ -48,13 +48,13 @@ class SettingsController
   {
     $this->checkValidity($option);
 
-    return get_option("{$this->prefix}{$option}");
+    return get_option("{$this->prefix}_{$option}");
   }
 
   public function updateOption($option, $value)
   {
     $this->checkValidity($option, $value);
 
-    return update_option("{$this->prefix}{$option}", $value);
+    return update_option("{$this->prefix}_{$option}", $value);
   }
 }

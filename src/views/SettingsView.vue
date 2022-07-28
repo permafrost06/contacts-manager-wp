@@ -66,7 +66,7 @@ const options = ref([
       label="Background color of table and contact card"
     >
       <el-col :span="3">
-        <el-input v-model="settings.background_color" />
+        <el-color-picker v-model="settings.background_color" />
       </el-col>
     </el-form-item>
     <el-form-item>
