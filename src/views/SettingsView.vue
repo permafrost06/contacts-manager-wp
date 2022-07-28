@@ -46,7 +46,7 @@ const options = ref([
   <el-form @submit.prevent="onSubmit" :model="settings" label-width="300px">
     <el-form-item prop="table_limit" label="Table items to show in one page">
       <el-col :span="3">
-        <el-input v-model="settings.table_limit" />
+        <el-input-number v-model="settings.table_limit" :min="5" :max="20" />
       </el-col>
     </el-form-item>
     <el-form-item prop="table_order_by" label="Order table items by">
