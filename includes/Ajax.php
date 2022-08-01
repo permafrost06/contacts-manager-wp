@@ -53,6 +53,19 @@ class Ajax
     }
   }
 
+  public function checkRefererMultiple($referers = ['cm-contact-form', 'admin_app'])
+  {
+    $verified = false;
+
+    foreach ($referers as $referer) {
+      $verified = $verified || check_ajax_referer($referer, false, false);
+    }
+
+    if (!$verified) {
+      wp_send_json_error(['error' => 'Nonce check failed'], 403);
+    }
+  }
+
   public function submitForm()
   {
     $this->checkReferer('cm-contact-form');
@@ -106,7 +119,7 @@ class Ajax
 
   public function handleCheckEmailExists()
   {
-    $this->checkReferer('cm-contact-form');
+    $this->checkRefererMultiple();
 
     try {
       $email = $this->request->input('email');
