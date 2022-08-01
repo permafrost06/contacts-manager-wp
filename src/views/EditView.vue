@@ -8,13 +8,13 @@ import ContactForm from "../components/ContactFormComponent.vue";
 
 const route = useRoute();
 
-getAJAX("get_contact", { id: route.params.id }, ({ success, data }) => {
+const oldContact = ref({});
+
+await getAJAX("get_contact", { id: route.params.id }, ({ success, data }) => {
   if (success) {
     oldContact.value = data.contact;
   }
 });
-
-const oldContact = ref({});
 
 const onSubmit = (contact) => {
   postAJAX("update_contact", contact, ({ success, data }) => {
@@ -34,10 +34,12 @@ const onSubmit = (contact) => {
 </script>
 
 <template>
-  <h2>Edit Contact</h2>
-  <ContactForm
-    :contact="oldContact"
-    button-text="Update Contact"
-    @form-submit="onSubmit"
-  />
+  <div>
+    <h2>Edit Contact</h2>
+    <ContactForm
+      :contact="oldContact"
+      button-text="Update Contact"
+      @form-submit="onSubmit"
+    />
+  </div>
 </template>

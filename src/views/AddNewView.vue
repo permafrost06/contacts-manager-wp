@@ -35,6 +35,8 @@ const onSubmit = (contact) => {
 </script>
 
 <template>
-  <h2>Add New Contact</h2>
-  <ContactForm :contact="oldContact" @form-submit="onSubmit" />
+  <div>
+    <h2>Add New Contact</h2>
+    <ContactForm :contact="oldContact" @form-submit="onSubmit" />
+  </div>
 </template>

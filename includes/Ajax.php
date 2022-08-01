@@ -41,6 +41,7 @@ class Ajax
       'delete_contact' => ['function' => [$this, 'handleDeleteContact']],
       'get_setting' => ['function' => [$this, 'handleGetSetting']],
       'update_setting' => ['function' => [$this, 'handleUpdateSetting']],
+      'get_all_settings' => ['function' => [$this, 'handleGetAllSettings']]
     ];
   }
 
@@ -213,6 +214,18 @@ class Ajax
     try {
       $this->settings_controller->updateOption($option, $value);
       wp_send_json_success(['message' => 'Setting updated successfully']);
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
+  }
+
+  public function handleGetAllSettings()
+  {
+    $this->checkReferer();
+
+    try {
+      $settings = $this->settings_controller->getSettingOptions();
+      wp_send_json_success($settings);
     } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()], 403);
     }

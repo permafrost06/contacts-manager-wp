@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import { ElLoading } from "element-plus";
 
 const route = useRoute();
 
@@ -12,11 +13,21 @@ watch(
   }
 );
 
+const loading = ref(false);
+
+const pendingHandler = () => {
+  loading.value = true;
+};
+
+const resolveHandler = () => {
+  loading.value = false;
+};
+
 const heading = ref("Contacts Manager");
 </script>
 
 <template>
-  <div class="common-layout">
+  <div v-loading.lock="loading">
     <el-header>
       <el-row>
         <el-col
@@ -25,7 +36,13 @@ const heading = ref("Contacts Manager");
       </el-row>
     </el-header>
     <el-main>
-      <router-view></router-view>
+      <router-view v-slot="{ Component }">
+        <template v-if="Component">
+          <Suspense @pending="pendingHandler" @resolve="resolveHandler">
+            <component :is="Component"></component>
+          </Suspense>
+        </template>
+      </router-view>
     </el-main>
   </div>
 </template>

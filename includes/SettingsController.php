@@ -11,9 +11,15 @@ class SettingsController
   public function getSettingOptions()
   {
     return [
-      'table_limit' => ['desc' => 'Number of table items to show in one page', 'numeric' => true],
-      'table_order_by' => ['desc' => 'Order table items by', 'values_list' => ['id', 'name', 'email', 'phone', 'address']],
-      'background_color' => ['desc' => 'Background color of table and contact card', 'regex' => "/^#[A-Fa-f\d]{6,8}/"]
+      'table_limit' => ['type' => 'numeric', 'desc' => 'Number of table items to show in one page', 'min' => 5, 'max' => 20],
+      'table_order_by' => ['type' => 'select', 'desc' => 'Order table items by', 'options' => [
+        ['label' => "ID", 'value' => "id"],
+        ['label' => "Name", 'value' => "name"],
+        ['label' => "Email", 'value' => "email"],
+        ['label' => "Phone", 'value' => "phone"],
+        ['label' => "Address", 'value' => "address"],
+      ]],
+      'background_color' => ['type' => 'color', 'desc' => 'Background color of table and contact card', 'regex' => "/^#[A-Fa-f\d]{6,8}/"]
     ];
   }
 
@@ -27,19 +33,20 @@ class SettingsController
 
     if ($value != 'NO_VALUE') {
       $validator = $options[$option];
+      $type = $validator['type'];
 
-      $numeric = isset($validator['numeric']) ? $validator['numeric'] : false;
-      $values_list = isset($validator['values_list']) ? $validator['values_list'] : [];
-      $regex = isset($validator['regex']) ? $validator['regex'] : '';
+      $exception = new Exception("Invalid value '$value' provided for option '$option'");
 
-      $exception = new Exception("Invalid value $value provided for option $option");
-
-      if ($numeric) {
+      if ($type == 'numeric') {
         if (!is_numeric($value)) throw $exception;
-      } elseif (!empty($values_list)) {
-        if (!in_array($value, $values_list)) throw $exception;
-      } elseif ($regex != '') {
-        if (!preg_match($regex, $value)) throw $exception;
+      } elseif ($type == 'select') {
+        $values = array_map(function ($opt) {
+          return $opt['value'];
+        }, $validator['options']);
+
+        if (!in_array($value, $values)) throw $exception;
+      } elseif (isset($validator['regex'])) {
+        if (!preg_match($validator['regex'], $value)) throw $exception;
       }
     }
   }

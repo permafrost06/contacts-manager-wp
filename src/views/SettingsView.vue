@@ -1,19 +1,21 @@
 <script setup>
 import { ElMessage } from "element-plus";
-import { ref, onBeforeMount } from "vue";
-import { getSetting, updateSetting } from "../composable";
+import { ref } from "vue";
+import { getAJAX, getSetting, updateSetting } from "../composable";
 
-const settings = ref({
-  table_limit: null,
-  table_order_by: "",
-  background_color: "",
+const settings = ref({});
+
+const settingsObj = ref({});
+
+await getAJAX("get_all_settings", {}, ({ success, data }) => {
+  settingsObj.value = data;
 });
 
-onBeforeMount(async () => {
-  for (let setting in settings.value) {
-    settings.value[setting] = await getSetting(setting);
-  }
-});
+for (let setting in settingsObj.value) {
+  if (setting == "table_limit")
+    settings.value[setting] = Number(await getSetting(setting));
+  else settings.value[setting] = await getSetting(setting);
+}
 
 const onSubmit = () => {
   for (let setting in settings.value) {
@@ -32,41 +34,35 @@ const onSubmit = () => {
     type: "success",
   });
 };
-
-const options = ref([
-  { label: "ID", value: "id" },
-  { label: "Name", value: "name" },
-  { label: "Email", value: "email" },
-  { label: "Phone", value: "phone" },
-  { label: "Address", value: "address" },
-]);
 </script>
 
 <template>
   <el-form @submit.prevent="onSubmit" :model="settings" label-width="300px">
-    <el-form-item prop="table_limit" label="Table items to show in one page">
+    <el-form-item
+      v-for="(attrs, setting) in settingsObj"
+      :key="setting"
+      :prop="setting"
+      :label="attrs.desc"
+    >
       <el-col :span="3">
-        <el-input-number v-model="settings.table_limit" :min="5" :max="20" />
-      </el-col>
-    </el-form-item>
-    <el-form-item prop="table_order_by" label="Order table items by">
-      <el-col :span="3">
-        <el-select v-model="settings.table_order_by">
+        <el-input-number
+          v-if="attrs.type == 'numeric'"
+          v-model="settings[setting]"
+          :min="attrs.min"
+          :max="attrs.max"
+        />
+        <el-select v-if="attrs.type == 'select'" v-model="settings[setting]">
           <el-option
-            v-for="item in options"
+            v-for="item in attrs.options"
             :key="item.value"
             :label="item.label"
             :value="item.value"
           />
         </el-select>
-      </el-col>
-    </el-form-item>
-    <el-form-item
-      prop="background_color"
-      label="Background color of table and contact card"
-    >
-      <el-col :span="3">
-        <el-color-picker v-model="settings.background_color" />
+        <el-color-picker
+          v-if="attrs.type == 'color'"
+          v-model="settings[setting]"
+        />
       </el-col>
     </el-form-item>
     <el-form-item>
