@@ -13,7 +13,12 @@ const removed = content.replace(
   ""
 );
 
-fs.writeFileSync(assetFile, removed, "utf8");
+const change_version = removed.replace(
+  /filemtime.+$/gm,
+  "CONTACTS_MANAGER_VERSION,"
+);
+
+fs.writeFileSync(assetFile, change_version, "utf8");
 
 const dir = path.resolve(path.join(__dirname, "dist"));
 
