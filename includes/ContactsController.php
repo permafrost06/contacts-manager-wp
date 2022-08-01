@@ -43,6 +43,10 @@ class ContactsController
   {
     $this->checkValidity($name, $email, $phone, $address);
 
+    if ($this->checkEmailExists($email)) {
+      throw new Exception("Email '$email' already used");
+    }
+
     $response = $this->db->insert(
       $this->table_name,
       array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address)
