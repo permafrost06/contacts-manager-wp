@@ -4,9 +4,9 @@
   width: 100%;
   max-width: 350px;
 
-  padding: 0.2rem 1.5rem;
+  padding: 3px 24px;
 
-  border-radius: 0.4rem;
+  border-radius: 6px;
 
   background-color: rgb(240, 242, 245);
 }
