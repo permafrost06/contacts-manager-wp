@@ -85,6 +85,12 @@ const formRules = reactive({
       trigger: "blur",
     },
     {
+      min: 5,
+      max: 20,
+      message: "Phone number length must be between 5 and 20",
+      trigger: "blur",
+    },
+    {
       validator: validateNumber,
       trigger: ["blur", "change"],
     },

@@ -37,6 +37,9 @@ class ContactsController
     if (!preg_match('/^[-+ ()\d]+$/', $phone)) {
       throw new Exception('Phone number is invalid');
     }
+    if (strlen($phone) < 5 || strlen($phone) > 20) {
+      throw new Exception('Phone number length must be between 5 and 20');
+    }
   }
 
   public function addContact($name, $email, $phone, $address)

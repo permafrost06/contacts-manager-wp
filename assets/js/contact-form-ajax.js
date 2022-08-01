@@ -58,6 +58,11 @@ function validatePhone() {
     return false;
   }
 
+  if (value.length < 5 || value.length > 20) {
+    errorEl.text("Phone number length must be between 5 and 20");
+    return false;
+  }
+
   const phoneRegex = new RegExp("^[-+ ()\\d]+$");
 
   if (!phoneRegex.test(value)) {
