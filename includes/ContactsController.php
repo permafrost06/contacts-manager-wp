@@ -61,7 +61,7 @@ class ContactsController
 
   public function getContact($id)
   {
-    $data = $this->db->get_row('SELECT * FROM ' . $this->table_name . " WHERE `id` = '$id'");
+    $data = $this->db->get_row("SELECT * FROM {$this->table_name} WHERE `id` = '$id'");
 
     if (!$data) {
       throw new Exception("Contact with '$id' does not exist");
@@ -80,7 +80,7 @@ class ContactsController
 
   public function getAllContacts()
   {
-    $data = $this->db->get_results('SELECT * FROM ' . $this->table_name, "ARRAY_A");
+    $data = $this->db->get_results("SELECT * FROM {$this->table_name}", "ARRAY_A");
 
     if (is_null($data)) {
       throw new Exception("Could not get contacts");
