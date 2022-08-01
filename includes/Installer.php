@@ -55,6 +55,6 @@ class Installer
   {
     update_option("contacts_manager_table_limit", 10);
     update_option("contacts_manager_table_order_by", "id");
-    update_option("contacts_manager_background_color", "FFFFFF");
+    update_option("contacts_manager_background_color", "#FFFFFF");
   }
 }
