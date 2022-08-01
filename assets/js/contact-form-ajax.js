@@ -11,7 +11,17 @@ function validateName() {
   return true;
 }
 
-function validateEmail() {
+async function emailExists(email) {
+  const response = await jQuery.get(contacts_manager_form_ajax.ajax_url, {
+    action: "cm_check_email_exists",
+    _ajax_nonce: jQuery("#_wpnonce").val(),
+    email,
+  });
+
+  return response.data;
+}
+
+async function validateEmail() {
   const errorEl = jQuery("#email_error");
   errorEl.text("");
 
@@ -26,6 +36,11 @@ function validateEmail() {
 
   if (!emailRegex.test(value)) {
     errorEl.text("Please enter a valid email address");
+    return false;
+  }
+
+  if (await emailExists(value)) {
+    errorEl.text("Email already used");
     return false;
   }
 
@@ -67,9 +82,9 @@ function validateAddress() {
   return true;
 }
 
-function formValidated() {
+async function formValidated() {
   const nameValidated = validateName();
-  const emailValidated = validateEmail();
+  const emailValidated = await validateEmail();
   const phoneValidated = validatePhone();
   const addressValidated = validateAddress();
 
@@ -85,12 +100,12 @@ function formValidated() {
 
   jQuery("#contact_address").on("input", validateAddress);
 
-  jQuery("form.cm-contact-form").on("submit", function (e) {
+  jQuery("form.cm-contact-form").on("submit", async function (e) {
     clearMessage();
 
     e.preventDefault();
 
-    if (!formValidated()) {
+    if (!(await formValidated())) {
       jQuery("#error-message").text(
         "Please fix the errors before submitting the form"
       );

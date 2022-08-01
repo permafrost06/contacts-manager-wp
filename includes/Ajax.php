@@ -35,6 +35,7 @@ class Ajax
       'contact_form' => ['function' => [$this, 'submitForm'], 'nopriv' => true],
       'get_all_contacts' => ['function' => [$this, 'handleGetAllContacts']],
       'get_contact_page' => ['function' => [$this, 'handleGetContactPage']],
+      'check_email_exists' => ['function' => [$this, 'handleCheckEmailExists']],
       'add_contact' => ['function' => [$this, 'handleAddContact']],
       'get_contact' => ['function' => [$this, 'handleGetContact']],
       'update_contact' => ['function' => [$this, 'handleUpdateContact']],
@@ -98,6 +99,25 @@ class Ajax
       $page = $this->contacts_controller->getContactsPaged($pArgs["page"], $pArgs["limit"], $pArgs["orderby"], $pArgs["ascending"]);
 
       wp_send_json_success($page);
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
+  }
+
+  public function handleCheckEmailExists()
+  {
+    $this->checkReferer('cm-contact-form');
+
+    try {
+      $email = $this->request->input('email');
+    } catch (Exception $error) {
+      wp_send_json_error(['error' => $error->getMessage()], 403);
+    }
+
+    try {
+      $exists = $this->contacts_controller->checkEmailExists($email);
+
+      wp_send_json_success($exists);
     } catch (Exception $error) {
       wp_send_json_error(['error' => $error->getMessage()], 403);
     }

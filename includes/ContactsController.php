@@ -63,6 +63,14 @@ class ContactsController
     return $data;
   }
 
+  public function checkEmailExists($email)
+  {
+    $row = $this->db->get_row("SELECT email FROM {$this->table_name} WHERE email = '$email'");
+
+    if (is_null($row)) return false;
+    else return true;
+  }
+
   public function getAllContacts()
   {
     $data = $this->db->get_results('SELECT * FROM ' . $this->table_name, "ARRAY_A");
@@ -118,7 +126,7 @@ class ContactsController
     $response = $this->db->delete($this->table_name, array('id' => $id));
 
     if (!$response) {
-      throw new Exception("Could not delete contact. ID might be invalid");
+      throw new Exception("Could not delete contact with id '$id'. ID might be invalid");
     }
   }
 
@@ -142,7 +150,7 @@ class ContactsController
     );
 
     if (!$response) {
-      throw new Exception("Could not update contact");
+      throw new Exception("Could not update contact with id '$id'");
     }
   }
 }
