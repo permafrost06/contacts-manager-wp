@@ -17,6 +17,10 @@ const props = defineProps({
       address: "",
     }),
   },
+  contactEmail: {
+    type: String,
+    default: "",
+  },
   buttonText: {
     type: String,
     default: "Add Contact",
@@ -44,8 +48,13 @@ const validateNumber = (rule, value, callback) => {
   }
 };
 
-const checkEmailExists = (rule, email, callback) => {
-  getAJAX("check_email_exists", { email }, ({ success, data }) => {
+const checkEmailExists = async (rule, email, callback) => {
+  if (props.contactEmail.length > 0 && email === props.contactEmail) {
+    console.log("Emails are same", email, props.contactEmail);
+    callback();
+  }
+
+  await getAJAX("check_email_exists", { email }, ({ success, data }) => {
     if (data) {
       callback(new Error("Email already exists"));
     } else {
