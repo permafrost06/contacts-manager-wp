@@ -39,7 +39,7 @@ class Installer
               `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
               `name` varchar(32) NOT NULL,
               `email` varchar(255) NOT NULL,
-              `phone` varchar(15) NOT NULL,
+              `phone` varchar(20) NOT NULL,
               `address` varchar(255) NOT NULL
             ) {$charset_collate};
     ";
