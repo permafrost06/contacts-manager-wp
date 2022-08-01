@@ -37,15 +37,30 @@ class Request
     $object = [];
 
     foreach ($fields as $field) {
-      $object[$field] = $sanitized ? $this->input($field) : $this->input($field, false);
+      try {
+        $object[$field] = $sanitized ? $this->input($field) : $this->input($field, false);
+      } catch (Exception $error) {
+        if ($error->getMessage() != "Request variable '$field' does not exist")
+          throw $error;
+      }
     }
 
     foreach ($textarea_fields as $field) {
-      $object[$field] = $sanitized ? $this->input($field, true, true) : $this->input($field, false);
+      try {
+        $object[$field] = $sanitized ? $this->input($field, true, true) : $this->input($field, false);
+      } catch (Exception $error) {
+        if ($error->getMessage() != "Request variable '$field' does not exist")
+          throw $error;
+      }
     }
 
     foreach ($bool_fields as $field) {
-      $object[$field] = $sanitized ? $this->inputBool($field) : $this->inputBool($field, false);
+      try {
+        $object[$field] = $sanitized ? $this->inputBool($field) : $this->inputBool($field, false);
+      } catch (Exception $error) {
+        if ($error->getMessage() != "Request variable '$field' does not exist")
+          throw $error;
+      }
     }
 
     return $object;
