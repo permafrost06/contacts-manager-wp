@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
+import { getAJAX } from "../composable";
 
 const emit = defineEmits(["form-submit"]);
 
@@ -43,6 +44,16 @@ const validateNumber = (rule, value, callback) => {
   }
 };
 
+const checkEmailExists = (rule, email, callback) => {
+  getAJAX("check_email_exists", { email }, ({ success, data }) => {
+    if (data) {
+      callback(new Error("Email already exists"));
+    } else {
+      callback();
+    }
+  });
+};
+
 const formRules = reactive({
   name: [
     {
@@ -60,6 +71,10 @@ const formRules = reactive({
     {
       type: "email",
       message: "Please enter a valid email address",
+      trigger: ["blur", "change"],
+    },
+    {
+      validator: checkEmailExists,
       trigger: ["blur", "change"],
     },
   ],
