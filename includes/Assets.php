@@ -31,6 +31,11 @@ class Assets
         'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/settings-ajax.js'),
         'deps' => ['jquery']
       ],
+      'cm-contact-card-ajax' => [
+        'src' => CONTACTS_MANAGER_ASSETS . '/js/contact-card-ajax.js',
+        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/contact-card-ajax.js'),
+        'deps' => ['jquery', 'cm-settings-ajax']
+      ]
     ];
   }
 
@@ -103,6 +108,15 @@ class Assets
       [
         'ajax_url' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('admin_app'),
+      ]
+    );
+
+    wp_localize_script(
+      'cm-contact-card-ajax',
+      'contacts_manager_card_ajax',
+      [
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('admin_app')
       ]
     );
   }

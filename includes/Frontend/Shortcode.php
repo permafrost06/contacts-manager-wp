@@ -45,6 +45,7 @@ class Shortcode
       $contact = $this->contacts_controller->getContact($id);
 
       wp_enqueue_style('cm-contact-card-style');
+      wp_enqueue_script('cm-contact-card-ajax');
 
       ob_start();
       include __DIR__ . '/views/contact-card.php';

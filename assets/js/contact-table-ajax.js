@@ -84,9 +84,12 @@ async function renderTable(
 }
 
 (async function () {
-  limit = await getSetting("table_limit");
-  orderby = await getSetting("table_order_by");
-  bg_color = await getSetting("background_color");
+  const ajax_url = contacts_mgr_table_ajax.ajax_url;
+  const nonce = contacts_mgr_table_ajax.nonce;
+
+  limit = await getSetting("table_limit", ajax_url, nonce);
+  orderby = await getSetting("table_order_by", ajax_url, nonce);
+  bg_color = await getSetting("background_color", ajax_url, nonce);
 
   jQuery(".contacts-mgr-box .table").css("background-color", bg_color);
 
