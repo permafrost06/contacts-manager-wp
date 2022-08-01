@@ -28,7 +28,7 @@ class SettingsController
     $options = $this->getSettingOptions();
 
     if (!isset($option, $options)) {
-      throw new Exception('Trying to access invalid option');
+      throw new Exception("Trying to access invalid option '$option'");
     }
 
     if ($value != 'NO_VALUE') {

@@ -57,7 +57,7 @@ class ContactsController
     $data = $this->db->get_row('SELECT * FROM ' . $this->table_name . " WHERE `id` = '$id'");
 
     if (!$data) {
-      throw new Exception("Contact does not exist");
+      throw new Exception("Contact with '$id' does not exist");
     }
 
     return $data;

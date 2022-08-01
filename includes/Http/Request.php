@@ -16,7 +16,7 @@ class Request
     if (key_exists($name, $_REQUEST)) {
       $var = $_REQUEST[$name];
     } else {
-      throw new Exception("Request variable does not exist");
+      throw new Exception("Request variable '$name' does not exist");
     }
 
     if ($textarea && $sanitized)
