@@ -23,7 +23,6 @@
   "homepage": "https://github.com/permafrost06/contacts-manager-wp#readme",
   "dependencies": {
     "element-plus": "^2.2.6",
-    "pinia": "^2.0.14",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16"
   },
