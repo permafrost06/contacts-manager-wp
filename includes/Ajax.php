@@ -73,7 +73,7 @@ class Ajax
     try {
       $contact = $this->request->getContactObject();
     } catch (Exception $error) {
-      wp_send_json_error(['message' => $error->getMessage()], 403);
+      wp_send_json_error(['error' => $error->getMessage()], 403);
     }
 
     try {
@@ -81,7 +81,7 @@ class Ajax
 
       wp_send_json_success(['message' => 'Successfully added contact!']);
     } catch (Exception $error) {
-      wp_send_json_error(['message' => $error->getMessage()], 403);
+      wp_send_json_error(['error' => $error->getMessage()], 403);
     }
   }
 

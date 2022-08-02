@@ -127,12 +127,12 @@ async function formValidated() {
         if (data.success) {
           successEl.text(data.data.message);
         } else {
-          errorEl.text(data.data.message);
+          errorEl.text(data.data.error);
         }
       })
       .fail(function (xhr) {
         const res = JSON.parse(xhr.responseText);
-        errorEl.text(res.data.message);
+        errorEl.text(res.data.error);
       });
   });
 
