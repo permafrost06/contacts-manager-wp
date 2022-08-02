@@ -18,6 +18,8 @@ class Ajax
     $this->settings_controller = $settings_controller;
     $this->request = new Request();
 
+    set_exception_handler([$this, 'exceptionHandler']);
+
     foreach ($this->getActions() as $action => $handler) {
       $nopriv = isset($handler['nopriv']) ? $handler['nopriv'] : false;
 
@@ -27,6 +29,11 @@ class Ajax
 
       add_action("wp_ajax_{$this->prefix}_{$action}", $handler['function']);
     }
+  }
+
+  public function exceptionHandler(Exception $error)
+  {
+    wp_send_json_error(['error' => $error->getMessage()], $error->getCode());
   }
 
   public function getActions()
@@ -49,7 +56,7 @@ class Ajax
   public function checkReferer($referer = 'admin_app')
   {
     if (!check_ajax_referer($referer, false, false)) {
-      wp_send_json_error(['error' => 'Nonce check failed'], 403);
+      wp_send_json_error(['error' => 'Nonce check failed'], 401);
     }
   }
 
@@ -62,7 +69,7 @@ class Ajax
     }
 
     if (!$verified) {
-      wp_send_json_error(['error' => 'Nonce check failed'], 403);
+      wp_send_json_error(['error' => 'Nonce check failed'], 401);
     }
   }
 
@@ -70,18 +77,19 @@ class Ajax
   {
     $this->checkReferer('cm-contact-form');
 
-    try {
-      $contact = $this->request->getContactObject();
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    $contact = $this->request->getContactObject();
 
     try {
-      $this->contacts_controller->addContact($contact['name'], $contact['email'], $contact['phone'], $contact['address']);
+      $this->contacts_controller->addContact(
+        $contact['name'],
+        $contact['email'],
+        $contact['phone'],
+        $contact['address']
+      );
 
       wp_send_json_success(['message' => 'Successfully added contact!']);
     } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
+      wp_send_json_error(['error' => $error->getMessage()], $error->getCode());
     }
   }
 
@@ -89,178 +97,122 @@ class Ajax
   {
     $this->checkReferer();
 
-    try {
-      $contacts = $this->contacts_controller->getAllContacts();
+    $contacts = $this->contacts_controller->getAllContacts();
 
-      wp_send_json_success(['contacts' => $contacts]);
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    wp_send_json_success(['contacts' => $contacts]);
   }
 
   public function handleGetContactPage()
   {
     $this->checkReferer();
 
-    try {
-      $pArgs = $this->request->getPaginationArgs();
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    $pArgs = $this->request->getPaginationArgs();
 
-    try {
-      $page = $this->contacts_controller->getContactsPaged($pArgs["page"], $pArgs["limit"], $pArgs["orderby"], $pArgs["ascending"]);
+    $page = $this->contacts_controller->getContactsPaged(
+      $pArgs["page"],
+      $pArgs["limit"],
+      $pArgs["orderby"],
+      $pArgs["ascending"]
+    );
 
-      wp_send_json_success($page);
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    wp_send_json_success($page);
   }
 
   public function handleCheckEmailExists()
   {
     $this->checkRefererMultiple();
 
-    try {
-      $email = $this->request->input('email');
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    $email = $this->request->input('email');
 
-    try {
-      $exists = $this->contacts_controller->checkEmailExists($email);
+    $exists = $this->contacts_controller->checkEmailExists($email);
 
-      wp_send_json_success($exists);
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    wp_send_json_success($exists);
   }
 
   public function handleAddContact()
   {
     $this->checkReferer();
 
-    try {
-      $contact = $this->request->getContactObject();
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    $contact = $this->request->getContactObject();
 
-    try {
-      $this->contacts_controller->addContact($contact['name'], $contact['email'], $contact['phone'], $contact['address']);
+    $this->contacts_controller->addContact(
+      $contact['name'],
+      $contact['email'],
+      $contact['phone'],
+      $contact['address']
+    );
 
-      wp_send_json_success();
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    wp_send_json_success();
   }
 
   public function handleGetContact()
   {
     $this->checkReferer();
 
-    try {
-      $id = $this->request->input('id');
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    $id = $this->request->input('id');
 
-    try {
-      $contact = $this->contacts_controller->getContact($id);
+    $contact = $this->contacts_controller->getContact($id);
 
-      wp_send_json_success(['contact' => $contact]);
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 404);
-    }
+    wp_send_json_success(['contact' => $contact]);
   }
 
   public function handleUpdateContact()
   {
     $this->checkReferer();
 
-    try {
-      $contact = $this->request->getContactObject();
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    $contact = $this->request->getContactObject();
 
-    try {
-      $this->contacts_controller->updateContact($contact['id'], $contact['name'], $contact['email'], $contact['phone'], $contact['address']);
+    $this->contacts_controller->updateContact(
+      $contact['id'],
+      $contact['name'],
+      $contact['email'],
+      $contact['phone'],
+      $contact['address']
+    );
 
-      wp_send_json_success();
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 401);
-    }
+    wp_send_json_success();
   }
 
   public function handleDeleteContact()
   {
     $this->checkReferer();
 
-    try {
-      $id = $this->request->input('id');
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    $id = $this->request->input('id');
 
-    try {
-      $this->contacts_controller->deleteContact($id);
+    $this->contacts_controller->deleteContact($id);
 
-      wp_send_json_success();
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 404);
-    }
+    wp_send_json_success();
   }
 
   public function handleGetSetting()
   {
     $this->checkReferer();
 
-    try {
-      $option = $this->request->input('option_name');
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    $option = $this->request->input('option_name');
 
-    try {
-      $option_value = $this->settings_controller->getOption($option);
+    $option_value = $this->settings_controller->getOption($option);
 
-      if ($option_value)
-        wp_send_json_success($option_value);
-      else wp_send_json_error(['error' => 'Setting value not set']);
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    if ($option_value)
+      wp_send_json_success($option_value);
+    else wp_send_json_error(['error' => 'Setting value not set']);
   }
 
   public function handleUpdateSetting()
   {
     $this->checkReferer();
 
-    try {
-      $option = $this->request->input('option_name');
-      $value = $this->request->input('option_value');
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    $option = $this->request->input('option_name');
+    $value = $this->request->input('option_value');
 
-    try {
-      $this->settings_controller->updateOption($option, $value);
-      wp_send_json_success(['message' => 'Setting updated successfully']);
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    $this->settings_controller->updateOption($option, $value);
+    wp_send_json_success(['message' => 'Setting updated successfully']);
   }
 
   public function handleGetAllSettings()
   {
     $this->checkReferer();
 
-    try {
-      $settings = $this->settings_controller->getSettingOptions();
-      wp_send_json_success($settings);
-    } catch (Exception $error) {
-      wp_send_json_error(['error' => $error->getMessage()], 403);
-    }
+    $settings = $this->settings_controller->getSettingOptions();
+    wp_send_json_success($settings);
   }
 }

@@ -28,14 +28,14 @@ class SettingsController
     $options = $this->getSettingOptions();
 
     if (!isset($option, $options)) {
-      throw new Exception("Trying to access invalid option '$option'");
+      throw new Exception("Trying to access invalid option '$option'", 404);
     }
 
     if ($value != 'NO_VALUE') {
       $validator = $options[$option];
       $type = $validator['type'];
 
-      $exception = new Exception("Invalid value '$value' provided for option '$option'");
+      $exception = new Exception("Invalid value '$value' provided for option '$option'", 400);
 
       if ($type == 'numeric') {
         if (!is_numeric($value)) throw $exception;

@@ -20,25 +20,25 @@ class ContactsController
   public function checkValidity($name, $email, $phone, $address)
   {
     if (empty($name)) {
-      throw new Exception('Name is empty');
+      throw new Exception('Name is empty', 400);
     }
     if (empty($email)) {
-      throw new Exception('Email is empty');
+      throw new Exception('Email is empty', 400);
     }
     if (empty($phone)) {
-      throw new Exception('Phone is empty');
+      throw new Exception('Phone is empty', 400);
     }
     if (empty($address)) {
-      throw new Exception('Address is empty');
+      throw new Exception('Address is empty', 400);
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      throw new Exception('Email is invalid');
+      throw new Exception('Email is invalid', 400);
     }
     if (!preg_match('/^[-+ ()\d]+$/', $phone)) {
-      throw new Exception('Phone number is invalid');
+      throw new Exception('Phone number is invalid', 400);
     }
     if (strlen($phone) < 5 || strlen($phone) > 20) {
-      throw new Exception('Phone number length must be between 5 and 20');
+      throw new Exception('Phone number length must be between 5 and 20', 400);
     }
   }
 
@@ -47,7 +47,7 @@ class ContactsController
     $this->checkValidity($name, $email, $phone, $address);
 
     if ($this->checkEmailExists($email)) {
-      throw new Exception("Email '$email' already used");
+      throw new Exception("Email '$email' already used", 400);
     }
 
     $response = $this->db->insert(
@@ -55,7 +55,7 @@ class ContactsController
       array('name' => $name, 'email' => $email, 'phone' => $phone, 'address' => $address)
     );
     if (!$response) {
-      throw new Exception("Could not insert contact");
+      throw new Exception("Could not insert contact", 500);
     }
   }
 
@@ -64,7 +64,7 @@ class ContactsController
     $data = $this->db->get_row("SELECT * FROM {$this->table_name} WHERE `id` = '$id'");
 
     if (!$data) {
-      throw new Exception("Contact with '$id' does not exist");
+      throw new Exception("Contact with '$id' does not exist", 404);
     }
 
     return $data;
@@ -83,7 +83,7 @@ class ContactsController
     $data = $this->db->get_results("SELECT * FROM {$this->table_name}", "ARRAY_A");
 
     if (is_null($data)) {
-      throw new Exception("Could not get contacts");
+      throw new Exception("Could not get contacts", 500);
     }
 
     return $data;
@@ -100,7 +100,7 @@ class ContactsController
     );
 
     if (is_null($data)) {
-      throw new Exception("Could not get contacts");
+      throw new Exception("Could not get contacts", 500);
     }
 
     $page = [
@@ -120,7 +120,7 @@ class ContactsController
     $count = (int) $this->db->get_var("SELECT count(id) FROM {$this->table_name}");
 
     if (is_null($count)) {
-      throw new Exception("Could not get contacts");
+      throw new Exception("Could not get contacts", 500);
     }
 
     return $count;
@@ -133,7 +133,7 @@ class ContactsController
     $response = $this->db->delete($this->table_name, array('id' => $id));
 
     if (!$response) {
-      throw new Exception("Could not delete contact with id '$id'. ID might be invalid");
+      throw new Exception("Could not delete contact with id '$id'. ID might be invalid", 404);
     }
   }
 
@@ -147,7 +147,7 @@ class ContactsController
       $contact->name == $name && $contact->email == $email &&
       $contact->phone == $phone && $contact->address == $address
     ) {
-      throw new Exception('No changes were made');
+      throw new Exception('No changes were made', 400);
     }
 
     $response = $this->db->update(
@@ -157,7 +157,7 @@ class ContactsController
     );
 
     if (!$response) {
-      throw new Exception("Could not update contact with id '$id'");
+      throw new Exception("Could not update contact with id '$id'", 500);
     }
   }
 }
