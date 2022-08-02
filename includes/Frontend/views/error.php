@@ -1,3 +1,3 @@
 <div class="contact-mgr-box error">
-  <?php echo $message; ?>
+  <?php echo $data; ?>
 </div>

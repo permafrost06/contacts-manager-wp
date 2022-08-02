@@ -24,6 +24,19 @@ class Shortcode
   }
 
   /**
+   * Load the content of a file to a string and return it
+   * 
+   * @param string  $filename Name of the file in the "views" folder
+   * @param mixed   $data     Any data the file may need
+   */
+  public function loadFile(string $filename, $data = ""): string
+  {
+    ob_start();
+    include __DIR__ . '/views/' . $filename;
+    return ob_get_clean();
+  }
+
+  /**
    * Shortcode handler function for shortcode 'contact-form'
    */
   public function renderContactForm(): string
@@ -31,9 +44,7 @@ class Shortcode
     wp_enqueue_style('cm-contact-form-style');
     wp_enqueue_script('cm-contact-form-ajax');
 
-    ob_start();
-    include __DIR__ . '/views/contact-form.php';
-    return ob_get_clean();
+    return $this->loadFile('contact-form.php');
   }
 
   /**
@@ -65,17 +76,13 @@ class Shortcode
       wp_enqueue_style('cm-contact-card-style');
       wp_enqueue_script('cm-contact-card-ajax');
 
-      ob_start();
-      include __DIR__ . '/views/contact-card.php';
-      return ob_get_clean();
+      return $this->loadFile('contact-card.php', $contact);
     } catch (Exception $error) {
       $message = __('Contact does not exist', 'contacts-manager');
 
       wp_enqueue_style('cm-error-page-style');
 
-      ob_start();
-      include __DIR__ . '/views/error.php';
-      return ob_get_clean();
+      return $this->loadFile('error.php', $message);
     }
   }
 
@@ -87,8 +94,6 @@ class Shortcode
     wp_enqueue_style('cm-contacts-table-style');
     wp_enqueue_script('cm-contact-table-ajax');
 
-    ob_start();
-    include __DIR__ . '/views/contact-table.php';
-    return ob_get_clean();
+    return $this->loadFile('contact-table.php');
   }
 }
