@@ -4,6 +4,7 @@ namespace Contacts\Manager;
 
 use Exception;
 use Contacts\Manager\Http\Request;
+use Contacts\Manager\Admin\Ajax as AdminAjax;
 
 class Ajax
 {
@@ -29,6 +30,10 @@ class Ajax
 
       add_action("wp_ajax_{$this->prefix}_{$action}", $handler['function']);
     }
+
+    if (is_admin()) {
+      new AdminAjax($contacts_controller, $settings_controller, $this->request);
+    }
   }
 
   public function exceptionHandler(Exception $error)
@@ -43,13 +48,8 @@ class Ajax
       'get_all_contacts' => ['function' => [$this, 'handleGetAllContacts']],
       'get_contact_page' => ['function' => [$this, 'handleGetContactPage']],
       'check_email_exists' => ['function' => [$this, 'handleCheckEmailExists']],
-      'add_contact' => ['function' => [$this, 'handleAddContact']],
-      'get_contact' => ['function' => [$this, 'handleGetContact']],
-      'update_contact' => ['function' => [$this, 'handleUpdateContact']],
-      'delete_contact' => ['function' => [$this, 'handleDeleteContact']],
       'get_setting' => ['function' => [$this, 'handleGetSetting']],
       'update_setting' => ['function' => [$this, 'handleUpdateSetting']],
-      'get_all_settings' => ['function' => [$this, 'handleGetAllSettings']]
     ];
   }
 
@@ -129,61 +129,6 @@ class Ajax
     wp_send_json_success($exists);
   }
 
-  public function handleAddContact()
-  {
-    $this->checkReferer();
-
-    $contact = $this->request->getContactObject();
-
-    $this->contacts_controller->addContact(
-      $contact['name'],
-      $contact['email'],
-      $contact['phone'],
-      $contact['address']
-    );
-
-    wp_send_json_success();
-  }
-
-  public function handleGetContact()
-  {
-    $this->checkReferer();
-
-    $id = $this->request->input('id');
-
-    $contact = $this->contacts_controller->getContact($id);
-
-    wp_send_json_success(['contact' => $contact]);
-  }
-
-  public function handleUpdateContact()
-  {
-    $this->checkReferer();
-
-    $contact = $this->request->getContactObject();
-
-    $this->contacts_controller->updateContact(
-      $contact['id'],
-      $contact['name'],
-      $contact['email'],
-      $contact['phone'],
-      $contact['address']
-    );
-
-    wp_send_json_success();
-  }
-
-  public function handleDeleteContact()
-  {
-    $this->checkReferer();
-
-    $id = $this->request->input('id');
-
-    $this->contacts_controller->deleteContact($id);
-
-    wp_send_json_success();
-  }
-
   public function handleGetSetting()
   {
     $this->checkReferer();
@@ -206,13 +151,5 @@ class Ajax
 
     $this->settings_controller->updateOption($option, $value);
     wp_send_json_success(['message' => 'Setting updated successfully']);
-  }
-
-  public function handleGetAllSettings()
-  {
-    $this->checkReferer();
-
-    $settings = $this->settings_controller->getSettingOptions();
-    wp_send_json_success($settings);
   }
 }
