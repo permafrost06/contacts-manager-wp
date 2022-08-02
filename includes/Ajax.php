@@ -6,11 +6,29 @@ use Exception;
 use Contacts\Manager\Http\Request;
 use Contacts\Manager\Admin\Ajax as AdminAjax;
 
+/**
+ * AJAX handler class for common AJAX calls
+ */
 class Ajax
 {
+  /**
+   * @var string Prefix for AJAX actions for the plugin
+   */
   protected $prefix = 'cm';
+
+  /**
+   * @var ContactsController
+   */
   protected $contacts_controller;
+
+  /**
+   * @var SettingsController
+   */
   protected $settings_controller;
+
+  /**
+   * @var Request
+   */
   protected $request;
 
   public function __construct(ContactsController $contacts_controller)
@@ -36,12 +54,18 @@ class Ajax
     }
   }
 
-  public function exceptionHandler(Exception $error)
+  /**
+   * Handles exceptions that occur during AJAX calls
+   */
+  public function exceptionHandler(Exception $error): void
   {
     wp_send_json_error(['error' => $error->getMessage()], $error->getCode());
   }
 
-  public function getActions()
+  /**
+   * Gets the actions and handlers for AJAX calls
+   */
+  public function getActions(): array
   {
     return [
       'contact_form' => ['function' => [$this, 'submitForm'], 'nopriv' => true],
@@ -53,14 +77,24 @@ class Ajax
     ];
   }
 
-  public function checkReferer($referer = 'admin_app')
+  /**
+   * Checks the referer by validating nonce
+   * 
+   * @param string $referer
+   */
+  public function checkReferer(string $referer = 'admin_app'): void
   {
     if (!check_ajax_referer($referer, false, false)) {
       wp_send_json_error(['error' => 'Nonce check failed'], 401);
     }
   }
 
-  public function checkRefererMultiple($referers = ['cm-contact-form', 'admin_app'])
+  /**
+   * Checks multiple referers, continues if one nonce is validated
+   * 
+   * @param array $referers An array of referer strings
+   */
+  public function checkRefererMultiple(array $referers = ['cm-contact-form', 'admin_app']): void
   {
     $verified = false;
 
@@ -73,7 +107,10 @@ class Ajax
     }
   }
 
-  public function submitForm()
+  /**
+   * Handles the frontend shortcode form submission
+   */
+  public function submitForm(): void
   {
     $this->checkReferer('cm-contact-form');
 
@@ -93,7 +130,10 @@ class Ajax
     }
   }
 
-  public function handleGetAllContacts()
+  /**
+   * Handles the AJAX call for getting all contacts
+   */
+  public function handleGetAllContacts(): void
   {
     $this->checkReferer();
 
@@ -102,7 +142,10 @@ class Ajax
     wp_send_json_success(['contacts' => $contacts]);
   }
 
-  public function handleGetContactPage()
+  /**
+   * Handles the AJAX call for getting a page of contacts
+   */
+  public function handleGetContactPage(): void
   {
     $this->checkReferer();
 
@@ -118,7 +161,10 @@ class Ajax
     wp_send_json_success($page);
   }
 
-  public function handleCheckEmailExists()
+  /**
+   * Handles the AJAX call for checking if a contact with an email exists
+   */
+  public function handleCheckEmailExists(): void
   {
     $this->checkRefererMultiple();
 
@@ -129,7 +175,10 @@ class Ajax
     wp_send_json_success($exists);
   }
 
-  public function handleGetSetting()
+  /**
+   * Handles the AJAX call for getting an option value
+   */
+  public function handleGetSetting(): void
   {
     $this->checkReferer();
 
@@ -142,7 +191,10 @@ class Ajax
     else wp_send_json_error(['error' => 'Setting value not set']);
   }
 
-  public function handleUpdateSetting()
+  /**
+   * Handles the AJAX call for updating an option value
+   */
+  public function handleUpdateSetting(): void
   {
     $this->checkReferer();
 

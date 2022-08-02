@@ -13,7 +13,10 @@ class Assets
     add_action('admin_enqueue_scripts', [$this, 'registerAdminAssets']);
   }
 
-  public function getScripts()
+  /**
+   * Get the javascript files for the plugin
+   */
+  public function getScripts(): array
   {
     return [
       'cm-contact-form-ajax' => [
@@ -39,7 +42,10 @@ class Assets
     ];
   }
 
-  public function getAdminScripts()
+  /**
+   * Get the admin javascript files for the plugin
+   */
+  public function getAdminScripts(): array
   {
     return [
       'admin-vue-app' => [
@@ -53,7 +59,10 @@ class Assets
     ];
   }
 
-  public function getStyles()
+  /**
+   * Get the stylesheets for the plugin
+   */
+  public function getStyles(): array
   {
     return [
       'cm-contacts-table-style' => [
@@ -75,7 +84,10 @@ class Assets
     ];
   }
 
-  public function registerAssets()
+  /**
+   * Register the plugin assets
+   */
+  public function registerAssets(): void
   {
     $scripts = $this->getScripts();
 
@@ -121,7 +133,10 @@ class Assets
     );
   }
 
-  public function registerAdminAssets()
+  /**
+   * Register the plugin admin assets
+   */
+  public function registerAdminAssets(): void
   {
     $scripts = $this->getAdminScripts();
 

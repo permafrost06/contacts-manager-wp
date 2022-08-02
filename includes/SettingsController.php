@@ -4,11 +4,20 @@ namespace Contacts\Manager;
 
 use Exception;
 
+/**
+ * Plugin settings handler class
+ */
 class SettingsController
 {
+  /**
+   * @var string $prefix  Prefix for the plugin option names
+   */
   protected $prefix = 'contacts_manager';
 
-  public function getSettingOptions()
+  /**
+   * Gets the plugin options object
+   */
+  public function getSettingOptions(): array
   {
     return [
       'table_limit' => ['type' => 'numeric', 'desc' => 'Number of table items to show in one page', 'min' => 5, 'max' => 20],
@@ -23,7 +32,13 @@ class SettingsController
     ];
   }
 
-  public function checkValidity($option, $value = 'NO_VALUE')
+  /**
+   * Checks if the option name and the value (if exists) are valid
+   * 
+   * @param string $option  The name of the option
+   * @param string $value   The option value
+   */
+  public function checkValidity($option, $value = 'NO_VALUE'): void
   {
     $options = $this->getSettingOptions();
 
@@ -51,14 +66,25 @@ class SettingsController
     }
   }
 
-  public function getOption($option)
+  /**
+   * Gets the value of the given option
+   * 
+   * @param string $option  The option name
+   */
+  public function getOption($option): string
   {
     $this->checkValidity($option);
 
     return get_option("{$this->prefix}_{$option}");
   }
 
-  public function updateOption($option, $value)
+  /**
+   * Updates the value of an option
+   * 
+   * @param string $option  The option name
+   * @param string $value   The option value
+   */
+  public function updateOption($option, $value): bool
   {
     $this->checkValidity($option, $value);
 

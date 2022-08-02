@@ -7,13 +7,11 @@ use Contacts\Manager\SettingsController;
 use Contacts\Manager\Ajax as AjaxBase;
 use Contacts\Manager\Http\Request;
 
+/**
+ * AJAX handler class for Admin or protected AJAX calls
+ */
 class Ajax extends AjaxBase
 {
-  protected $prefix = 'cm';
-  protected $contacts_controller;
-  protected $settings_controller;
-  protected $request;
-
   public function __construct(ContactsController $contacts_controller, SettingsController $settings_controller, Request $request)
   {
     $this->contacts_controller = $contacts_controller;
@@ -25,7 +23,10 @@ class Ajax extends AjaxBase
     }
   }
 
-  public function getActions()
+  /**
+   * Gets the actions and handlers for AJAX calls
+   */
+  public function getActions(): array
   {
     return [
       'get_contact' => ['function' => [$this, 'handleGetContact']],
@@ -36,14 +37,22 @@ class Ajax extends AjaxBase
     ];
   }
 
-  public function checkReferer($referer = 'admin_app')
+  /**
+   * Checks the referer by validating nonce
+   * 
+   * @param string $referer
+   */
+  public function checkReferer($referer = 'admin_app'): void
   {
     if (!check_ajax_referer($referer, false, false)) {
       wp_send_json_error(['error' => 'Nonce check failed'], 401);
     }
   }
 
-  public function handleGetContact()
+  /**
+   * Handles the AJAX call for getting a single contact
+   */
+  public function handleGetContact(): void
   {
     $this->checkReferer();
 
@@ -54,7 +63,10 @@ class Ajax extends AjaxBase
     wp_send_json_success(['contact' => $contact]);
   }
 
-  public function handleAddContact()
+  /**
+   * Handles the AJAX call for adding a contact
+   */
+  public function handleAddContact(): void
   {
     $this->checkReferer();
 
@@ -70,7 +82,10 @@ class Ajax extends AjaxBase
     wp_send_json_success();
   }
 
-  public function handleUpdateContact()
+  /**
+   * Handles the AJAX call for updating a contact
+   */
+  public function handleUpdateContact(): void
   {
     $this->checkReferer();
 
@@ -87,7 +102,10 @@ class Ajax extends AjaxBase
     wp_send_json_success();
   }
 
-  public function handleDeleteContact()
+  /**
+   * Handles the AJAX call for deleting a contact
+   */
+  public function handleDeleteContact(): void
   {
     $this->checkReferer();
 
@@ -98,7 +116,10 @@ class Ajax extends AjaxBase
     wp_send_json_success();
   }
 
-  public function handleGetAllSettings()
+  /**
+   * Handles the AJAX call for getting a settings object
+   */
+  public function handleGetAllSettings(): void
   {
     $this->checkReferer();
 

@@ -5,13 +5,16 @@ namespace Contacts\Manager\Frontend;
 use Exception;
 use Contacts\Manager\ContactsController;
 
+/**
+ * Shortcode handler class
+ */
 class Shortcode
 {
+  /**
+   * @var ContactsController $contacts_controller
+   */
   protected $contacts_controller;
 
-  /**
-   * Initializes the class
-   */
   public function __construct(ContactsController $contacts_controller)
   {
     $this->contacts_controller = $contacts_controller;
@@ -21,14 +24,24 @@ class Shortcode
   }
 
   /**
-   * Shortcode handler function
-   * 
-   * @param array $atts
-   * @param string content
-   * 
-   * @return string
+   * Shortcode handler function for shortcode 'contact-form'
    */
-  public function renderContacts($atts = [])
+  public function renderContactForm(): string
+  {
+    wp_enqueue_style('cm-contact-form-style');
+    wp_enqueue_script('cm-contact-form-ajax');
+
+    ob_start();
+    include __DIR__ . '/views/contact-form.php';
+    return ob_get_clean();
+  }
+
+  /**
+   * Shortcode handler function for shortcode 'contacts-manager'
+   * 
+   * @param array $atts   The shortcode attributes
+   */
+  public function renderContacts(array $atts = []): string
   {
     $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
@@ -39,7 +52,12 @@ class Shortcode
     }
   }
 
-  public function renderContactCard($id)
+  /**
+   * Render function for contact card
+   * 
+   * @param string $id  The ID of the contact
+   */
+  public function renderContactCard(string $id): string
   {
     try {
       $contact = $this->contacts_controller->getContact($id);
@@ -61,23 +79,16 @@ class Shortcode
     }
   }
 
-  public function renderCompleteTable()
+  /**
+   * Render function for contact table
+   */
+  public function renderCompleteTable(): string
   {
     wp_enqueue_style('cm-contacts-table-style');
     wp_enqueue_script('cm-contact-table-ajax');
 
     ob_start();
     include __DIR__ . '/views/contact-table.php';
-    return ob_get_clean();
-  }
-
-  public function renderContactForm($atts = [], $content = null)
-  {
-    wp_enqueue_style('cm-contact-form-style');
-    wp_enqueue_script('cm-contact-form-ajax');
-
-    ob_start();
-    include __DIR__ . '/views/contact-form.php';
     return ob_get_clean();
   }
 }

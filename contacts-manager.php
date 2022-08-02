@@ -19,10 +19,10 @@ if (!defined('ABSPATH')) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 /**
- * The main plugin class
+ * The main plugin class of Contacts Controller
  */
 
-final class Contacts_Manager
+final class ContactsManager
 {
   /**
    * Plugin version
@@ -31,9 +31,6 @@ final class Contacts_Manager
    */
   const version = '1.0';
 
-  /**
-   * Class constructor
-   */
   private function __construct()
   {
     $this->defineConstants();
@@ -45,11 +42,10 @@ final class Contacts_Manager
   }
 
   /**
-   * Initializes a singleton instance
-   * 
-   * @return \Contacts_Manager
+   * Initializes a singleton instance of the plugin
+   * or gets instance of plugin
    */
-  public static function init()
+  public static function init(): ContactsManager
   {
     static $instance = false;
 
@@ -62,10 +58,8 @@ final class Contacts_Manager
 
   /**
    * Define the required plugin constants
-   * 
-   * @return void
    */
-  public function defineConstants()
+  public function defineConstants(): void
   {
     define('CONTACTS_MANAGER_VERSION', self::version);
     define('CONTACTS_MANAGER_FILE', __FILE__);
@@ -76,10 +70,8 @@ final class Contacts_Manager
 
   /**
    * Initialize the plugin
-   * 
-   * @return void
    */
-  public function initPlugin()
+  public function initPlugin(): void
   {
     new Contacts\Manager\Assets();
 
@@ -96,10 +88,8 @@ final class Contacts_Manager
 
   /**
    * Plugin activation function
-   * 
-   * @return void
    */
-  public function activate()
+  public function activate(): void
   {
     $installer = new \Contacts\Manager\Installer();
     $installer->run();
@@ -108,7 +98,7 @@ final class Contacts_Manager
 
 function contacts_manager()
 {
-  return Contacts_Manager::init();
+  return ContactsManager::init();
 }
 
 contacts_manager();

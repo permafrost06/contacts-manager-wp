@@ -4,9 +4,16 @@ namespace Contacts\Manager;
 
 use Exception;
 
+/**
+ * Contacts controller class
+ */
 class ContactsController
 {
   protected $db;
+
+  /**
+   * @var string Name of the plugin table
+   */
   protected $table_name;
 
   public function __construct()
@@ -17,7 +24,10 @@ class ContactsController
     $this->table_name = $wpdb->prefix . 'contacts_manager_table';
   }
 
-  public function checkValidity($name, $email, $phone, $address)
+  /**
+   * Checks the variables for validity
+   */
+  public function checkValidity(string $name, string $email, string $phone, string $address): void
   {
     if (empty($name)) {
       throw new Exception('Name is empty', 400);
@@ -42,7 +52,10 @@ class ContactsController
     }
   }
 
-  public function addContact($name, $email, $phone, $address)
+  /**
+   * Adds a new contact to database
+   */
+  public function addContact(string $name, string  $email, string  $phone, string  $address): void
   {
     $this->checkValidity($name, $email, $phone, $address);
 
@@ -59,7 +72,10 @@ class ContactsController
     }
   }
 
-  public function getContact($id)
+  /**
+   * Gets a contact from database using the ID
+   */
+  public function getContact(string $id): object
   {
     $data = $this->db->get_row("SELECT * FROM {$this->table_name} WHERE `id` = '$id'");
 
@@ -70,7 +86,10 @@ class ContactsController
     return $data;
   }
 
-  public function checkEmailExists($email)
+  /**
+   * Checks if a contact has already been registered with the given email
+   */
+  public function checkEmailExists(string $email): bool
   {
     $row = $this->db->get_row("SELECT email FROM {$this->table_name} WHERE email = '$email'");
 
@@ -78,7 +97,10 @@ class ContactsController
     else return true;
   }
 
-  public function getAllContacts()
+  /**
+   * Gets all contacts from the database
+   */
+  public function getAllContacts(): array
   {
     $data = $this->db->get_results("SELECT * FROM {$this->table_name}", "ARRAY_A");
 
@@ -89,7 +111,15 @@ class ContactsController
     return $data;
   }
 
-  public function getContactsPaged($page = 0, $limit = 10, $order_by = 'id', $ascending = true)
+  /**
+   * Gets a page of contacts
+   * 
+   * @param int    $page        Page number
+   * @param int    $limit       Number of contacts in a page
+   * @param string $order_by    Field to order by
+   * @param bool   $ascending   Whether to sort ascending
+   */
+  public function getContactsPaged(int $page = 0, int $limit = 10, string $order_by = 'id', bool $ascending = true): array
   {
     $order = ($ascending) ? 'ASC' : 'DESC';
     $offset = $page * $limit;
@@ -115,7 +145,10 @@ class ContactsController
     return $page;
   }
 
-  public function getContactCount()
+  /**
+   * Gets number of contacts in database
+   */
+  public function getContactCount(): int
   {
     $count = (int) $this->db->get_var("SELECT count(id) FROM {$this->table_name}");
 
@@ -126,7 +159,10 @@ class ContactsController
     return $count;
   }
 
-  public function deleteContact($id)
+  /**
+   * Deletes contacts from database
+   */
+  public function deleteContact(string $id): void
   {
     $this->getContact($id);
 
@@ -137,7 +173,10 @@ class ContactsController
     }
   }
 
-  public function updateContact($id, $name, $email, $phone, $address)
+  /**
+   * Updates a contact in database
+   */
+  public function updateContact(string $id, string  $name, string  $email, string  $phone, string  $address): void
   {
     $this->checkValidity($name, $email, $phone, $address);
 

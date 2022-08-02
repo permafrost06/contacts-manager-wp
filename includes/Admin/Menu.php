@@ -12,7 +12,10 @@ class Menu
     add_action('admin_menu', [$this, 'adminMenu']);
   }
 
-  public function adminMenu()
+  /**
+   * Creates a menu for the plugin in the admin panel
+   */
+  public function adminMenu(): void
   {
     add_menu_page(
       __('Contacts Manager Settings', 'contacts-manager'),
@@ -33,7 +36,10 @@ class Menu
     );
   }
 
-  public function vueAppEntrypoint()
+  /**
+   * Creates an entrypoint for the Vue.js app
+   */
+  public function vueAppEntrypoint(): void
   {
 ?>
     <div id="app"></div>

@@ -3,23 +3,24 @@
 namespace Contacts\Manager;
 
 /**
- * Initialize the installer class
+ * Installer class, initialized on plugin activation
  */
 class Installer
 {
   /**
    * Run the installer
-   * 
-   * @return void
    */
-  public function run()
+  public function run(): void
   {
     $this->addVersion();
     $this->createTable();
     $this->updateDefaultOptions();
   }
 
-  public function addVersion()
+  /**
+   * Add the plugin version to option database
+   */
+  public function addVersion(): void
   {
     $installed = get_option('contacts_manager_installed');
 
@@ -30,7 +31,10 @@ class Installer
     update_option('contacts_manager_version', CONTACTS_MANAGER_VERSION);
   }
 
-  public function createTable()
+  /**
+   * Create the database table(s) used by the plugin
+   */
+  public function createTable(): void
   {
     global $wpdb;
     $charset_collate = $wpdb->get_charset_collate();
@@ -51,7 +55,10 @@ class Installer
     dbDelta($create_table_query);
   }
 
-  public function updateDefaultOptions()
+  /**
+   * Initialize the default option values for the plugin options
+   */
+  public function updateDefaultOptions(): void
   {
     update_option("contacts_manager_table_limit", 10);
     update_option("contacts_manager_table_order_by", "id");

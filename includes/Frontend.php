@@ -2,6 +2,9 @@
 
 namespace Contacts\Manager;
 
+/**
+ * Frontend handler class
+ */
 class Frontend
 {
   public function __construct(ContactsController $contacts_controller)
