@@ -9,7 +9,7 @@ fs.copyFileSync(assetFile, "Assets_copy.php");
 const content = fs.readFileSync(assetFile, "utf-8");
 
 const removed = content.replace(
-  /\/\* remove-next-line-in-production \*\/\s+.*$\s+\/\* uncomment-next-line-in-production \*\/\s+\/\/\s+/gm,
+  /\/\* next-line-enables-hmr \*\/\s+.*$\s+\/\* next-line-disables-hmr \*\/\s+\/\/\s+/gm,
   ""
 );
 
