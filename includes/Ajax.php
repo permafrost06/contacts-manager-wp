@@ -13,10 +13,10 @@ class Ajax
   protected $settings_controller;
   protected $request;
 
-  public function __construct(ContactsController $contacts_controller, SettingsController $settings_controller)
+  public function __construct(ContactsController $contacts_controller)
   {
     $this->contacts_controller = $contacts_controller;
-    $this->settings_controller = $settings_controller;
+    $this->settings_controller = new SettingsController();
     $this->request = new Request();
 
     set_exception_handler([$this, 'exceptionHandler']);
@@ -32,7 +32,7 @@ class Ajax
     }
 
     if (is_admin()) {
-      new AdminAjax($contacts_controller, $settings_controller, $this->request);
+      new AdminAjax($contacts_controller, $this->settings_controller, $this->request);
     }
   }
 
