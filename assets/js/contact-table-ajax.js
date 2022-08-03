@@ -10,10 +10,10 @@ async function getContactsPage(page, limit, orderby, ascending) {
   let pageObj;
 
   await jQuery.get(
-    contacts_mgr_table_ajax.ajax_url,
+    contacts_manager_ajax.ajax_url,
     {
       action: "cm_get_contact_page",
-      _ajax_nonce: contacts_mgr_table_ajax.nonce,
+      _ajax_nonce: contacts_manager_ajax.nonce,
       page,
       limit,
       orderby,
@@ -84,12 +84,9 @@ async function renderTable(
 }
 
 (async function () {
-  const ajax_url = contacts_mgr_table_ajax.ajax_url;
-  const nonce = contacts_mgr_table_ajax.nonce;
-
-  limit = await getSetting("table_limit", ajax_url, nonce);
-  orderby = await getSetting("table_order_by", ajax_url, nonce);
-  bg_color = await getSetting("background_color", ajax_url, nonce);
+  limit = await getSetting("table_limit");
+  orderby = await getSetting("table_order_by");
+  bg_color = await getSetting("background_color");
 
   jQuery(".contacts-mgr-box .table").css("background-color", bg_color);
 

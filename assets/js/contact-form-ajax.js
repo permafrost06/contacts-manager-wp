@@ -12,9 +12,9 @@ function validateName() {
 }
 
 async function emailExists(email) {
-  const response = await jQuery.get(contacts_manager_form_ajax.ajax_url, {
+  const response = await jQuery.get(contacts_manager_ajax.ajax_url, {
     action: "cm_check_email_exists",
-    _ajax_nonce: jQuery("#_wpnonce").val(),
+    _ajax_nonce: contacts_manager_ajax.nonce,
     email,
   });
 
@@ -123,7 +123,7 @@ async function formValidated() {
     const errorEl = jQuery("#error-message");
 
     jQuery
-      .post(contacts_manager_form_ajax.ajax_url, data, function (data) {
+      .post(contacts_manager_ajax.ajax_url, data, function (data) {
         if (data.success) {
           successEl.text(data.data.message);
         } else {

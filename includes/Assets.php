@@ -19,20 +19,20 @@ class Assets
   public function getScripts(): array
   {
     return [
+      'cm-settings-ajax' => [
+        'src' => CONTACTS_MANAGER_ASSETS . '/js/settings-ajax.js',
+        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/settings-ajax.js'),
+        'deps' => ['jquery']
+      ],
       'cm-contact-form-ajax' => [
         'src' => CONTACTS_MANAGER_ASSETS . '/js/contact-form-ajax.js',
         'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/contact-form-ajax.js'),
-        'deps' => ['jquery']
+        'deps' => ['jquery', 'cm-settings-ajax']
       ],
       'cm-contact-table-ajax' => [
         'src' => CONTACTS_MANAGER_ASSETS . '/js/contact-table-ajax.js',
         'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/contact-table-ajax.js'),
         'deps' => ['jquery', 'cm-settings-ajax']
-      ],
-      'cm-settings-ajax' => [
-        'src' => CONTACTS_MANAGER_ASSETS . '/js/settings-ajax.js',
-        'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/settings-ajax.js'),
-        'deps' => ['jquery']
       ],
       'cm-contact-card-ajax' => [
         'src' => CONTACTS_MANAGER_ASSETS . '/js/contact-card-ajax.js',
@@ -107,28 +107,11 @@ class Assets
     }
 
     wp_localize_script(
-      'cm-contact-form-ajax',
-      'contacts_manager_form_ajax',
+      'cm-settings-ajax',
+      'contacts_manager_ajax',
       [
         'ajax_url' => admin_url('admin-ajax.php'),
-      ]
-    );
-
-    wp_localize_script(
-      'cm-contact-table-ajax',
-      'contacts_mgr_table_ajax',
-      [
-        'ajax_url' => admin_url('admin-ajax.php'),
-        'nonce' => wp_create_nonce('admin_app'),
-      ]
-    );
-
-    wp_localize_script(
-      'cm-contact-card-ajax',
-      'contacts_manager_card_ajax',
-      [
-        'ajax_url' => admin_url('admin-ajax.php'),
-        'nonce' => wp_create_nonce('admin_app')
+        'nonce' => wp_create_nonce('cm-frontend-shortcode')
       ]
     );
   }

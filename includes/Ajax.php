@@ -92,7 +92,7 @@ class Ajax
    * 
    * @param array $referers An array of referer strings
    */
-  public function checkRefererMultiple(array $referers = ['cm-contact-form', 'admin_app']): void
+  public function checkRefererMultiple(array $referers = ['cm-frontend-shortcode', 'admin_app']): void
   {
     $verified = false;
 
@@ -110,7 +110,7 @@ class Ajax
    */
   public function submitForm(): void
   {
-    $this->checkReferer('cm-contact-form');
+    $this->checkReferer('cm-frontend-shortcode');
 
     $contact = $this->request->getContactObject();
 
@@ -145,7 +145,7 @@ class Ajax
    */
   public function handleGetContactPage(): void
   {
-    $this->checkReferer();
+    $this->checkRefererMultiple();
 
     $pArgs = $this->request->getPaginationArgs();
 
@@ -178,7 +178,7 @@ class Ajax
    */
   public function handleGetSetting(): void
   {
-    $this->checkReferer();
+    $this->checkRefererMultiple();
 
     $option = $this->request->input('option_name');
 

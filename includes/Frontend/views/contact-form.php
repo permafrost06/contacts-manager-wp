@@ -54,7 +54,7 @@
       <div class="input-error" id="address_error"></div>
     </div>
 
-    <?php wp_nonce_field('cm-contact-form'); ?>
+    <?php wp_nonce_field('cm-frontend-shortcode'); ?>
 
     <input type="hidden" name="action" value="cm_contact_form">
 
