@@ -38,18 +38,6 @@ class Ajax extends AjaxBase
   }
 
   /**
-   * Checks the referer by validating nonce
-   * 
-   * @param string $referer
-   */
-  public function checkReferer($referer = 'admin_app'): void
-  {
-    if (!check_ajax_referer($referer, false, false)) {
-      wp_send_json_error(['error' => 'Nonce check failed'], 401);
-    }
-  }
-
-  /**
    * Handles the AJAX call for getting a single contact
    */
   public function handleGetContact(): void
