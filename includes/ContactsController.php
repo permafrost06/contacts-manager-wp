@@ -102,7 +102,7 @@ class ContactsController
    */
   public function getAllContacts(): array
   {
-    $data = $this->db->get_results("SELECT * FROM {$this->table_name}", "ARRAY_A");
+    $data = $this->db->get_results("SELECT * FROM {$this->table_name}");
 
     if (is_null($data)) {
       throw new Exception("Could not get contacts", 500);
@@ -125,8 +125,7 @@ class ContactsController
     $offset = $page * $limit;
 
     $data = $this->db->get_results(
-      "SELECT * FROM {$this->table_name} ORDER BY {$order_by} {$order} LIMIT {$offset}, {$limit}",
-      "ARRAY_A"
+      "SELECT * FROM {$this->table_name} ORDER BY {$order_by} {$order} LIMIT {$offset}, {$limit}"
     );
 
     if (is_null($data)) {
