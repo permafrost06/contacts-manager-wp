@@ -49,9 +49,7 @@ class Ajax
       add_action("wp_ajax_{$this->prefix}_{$action}", $handler['function']);
     }
 
-    if (is_admin()) {
-      new AdminAjax($contacts_controller, $this->settings_controller, $this->request);
-    }
+    new AdminAjax($contacts_controller, $this->settings_controller, $this->request);
   }
 
   /**
