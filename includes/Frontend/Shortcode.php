@@ -39,9 +39,9 @@ class Shortcode
   /**
    * Shortcode handler function for shortcode 'contacts-manager'
    * 
-   * @param array $atts   The shortcode attributes
+   * @param array|string $atts  The shortcode attributes
    */
-  public function renderContacts(array $atts = []): string
+  public function renderContacts($atts): string
   {
     $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
