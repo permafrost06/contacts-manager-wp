@@ -75,12 +75,41 @@
   transition: width 0.25s, border 0.25s, margin-right 0.25s;
 }
 
+.cm-contact-form {
+  position: relative;
+  padding: 8px;
+}
+
 .error-message {
   color: red;
 }
 
 .success-message {
-  color: green;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  inset: 0;
+
+  margin: 0;
+  padding: 0;
+
+  font-size: 32px;
+  font-weight: 600;
+
+  background-color: #ffffffdd;
+}
+
+.success-message .close-link {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.close-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .input-error {
