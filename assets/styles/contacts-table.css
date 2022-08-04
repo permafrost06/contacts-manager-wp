@@ -1,24 +1,24 @@
-.contacts-table {
+.contacts-mgr-box.contacts-table {
   max-width: 900px !important;
 }
 
-table {
+.contacts-mgr-box table {
   caption-side: bottom;
   border-collapse: collapse;
 }
 
-thead,
-tbody,
-tfoot,
-tr,
-td,
-th {
+.contacts-mgr-box thead,
+.contacts-mgr-box tbody,
+.contacts-mgr-box tfoot,
+.contacts-mgr-box tr,
+.contacts-mgr-box td,
+.contacts-mgr-box th {
   border-color: inherit;
   border-style: solid;
   border-width: 0;
 }
 
-.table {
+.contacts-mgr-box .table {
   --bs-table-bg: transparent;
   --bs-table-accent-bg: transparent;
   --bs-table-striped-color: #212529;
@@ -35,39 +35,39 @@ th {
   border-color: #dee2e6;
 }
 
-.table > :not(caption) > * > * {
+.contacts-mgr-box .table > :not(caption) > * > * {
   padding: 8px;
   background-color: var(--bs-table-bg);
   border-bottom-width: 1px;
   box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
 }
 
-.table > thead {
+.contacts-mgr-box .table > thead {
   vertical-align: bottom;
 }
 
-.table-hover > tbody > tr:hover {
+.contacts-mgr-box .table-hover > tbody > tr:hover {
   --bs-table-accent-bg: var(--bs-table-hover-bg);
   color: var(--bs-table-hover-color);
 }
 
-p.center {
+.contacts-mgr-box p.center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.table-nav {
+.contacts-mgr-box .table-nav {
   text-align: right;
 }
 
-.page-number {
+.contacts-mgr-box .page-number {
   display: inline-block;
   width: 24px;
   text-align: center;
 }
 
-.table-nav button {
+.contacts-mgr-box .table-nav button {
   height: 32px;
   width: 32px;
 
@@ -82,6 +82,6 @@ p.center {
   cursor: pointer;
 }
 
-.table-nav button:disabled {
+.contacts-mgr-box .table-nav button:disabled {
   background-color: rgb(240, 242, 245);
 }
