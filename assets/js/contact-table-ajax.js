@@ -1,10 +1,6 @@
-let currentPage = 0;
 let limit;
 let orderby;
 let bg_color;
-
-const messageEl = jQuery(".cm-contacts-mgr.table-loading-message");
-const tableEl = jQuery(".cm-contacts-mgr.table-body");
 
 async function getContactsPage(page, limit, orderby, ascending) {
   let pageObj;
@@ -28,27 +24,37 @@ async function getContactsPage(page, limit, orderby, ascending) {
 }
 
 async function renderTable(
+  tableEls,
   page = 0,
   limit = 10,
   orderby = "id",
   ascending = true
 ) {
-  jQuery("#next_button").prop("disabled", true);
-  jQuery("#prev_button").prop("disabled", true);
+  const messageEls = tableEls.siblings(".table-loading-message");
 
-  jQuery("#page_no").text(currentPage + 1);
+  const next_button = tableEls.siblings(".table-nav").find(".next-button");
+  const prev_button = tableEls.siblings(".table-nav").find(".prev-button");
+
+  next_button.prop("disabled", true);
+  prev_button.prop("disabled", true);
+
+  const page_num = page + 1;
+
+  tableEls.siblings(".table-nav").find(".page-number").text(page_num);
 
   const animateText = setInterval(() => {
-    messageEl.text((index, value) => {
+    messageEls.text((index, value) => {
       if (value.length < 10) value += ".";
       else value = "Loading";
       return value;
     });
   }, 200);
 
-  messageEl.show();
+  messageEls.show();
 
-  tableEl.empty();
+  const tableBody = tableEls.find("tbody.cm-contacts-mgr");
+
+  tableBody.empty();
 
   const pageObj = await getContactsPage(page, limit, orderby, ascending);
 
@@ -63,42 +69,46 @@ async function renderTable(
     row.append(jQuery("<td/>").text(contact.phone));
     row.append(jQuery("<td/>").text(contact.address));
 
-    tableEl.append(row);
+    tableBody.append(row);
   }
 
-  if (totalPages !== currentPage + 1) {
-    jQuery("#next_button").prop("disabled", false);
+  if (totalPages !== page + 1) {
+    next_button.prop("disabled", false);
   }
 
-  if (currentPage !== 0) {
-    jQuery("#prev_button").prop("disabled", false);
+  if (page !== 0) {
+    prev_button.prop("disabled", false);
   }
 
-  messageEl.hide();
+  messageEls.hide();
   clearInterval(animateText);
 
   if (pageObj.data.length === 0) {
-    messageEl.text("No Data");
-    messageEl.show();
+    messageEls.text("No Data");
+    messageEls.show();
   }
 }
 
 (async function () {
   limit = await getSetting("table_limit");
-  orderby = await getSetting("table_order_by");
-  bg_color = await getSetting("background_color");
+  jQuery(".cm-contacts-mgr.table-loading-message").height(44 * limit);
 
+  bg_color = await getSetting("background_color");
   jQuery(".contacts-mgr-box .table").css("background-color", bg_color);
 
-  messageEl.height(44 * limit);
+  const allTables = jQuery(".contacts-mgr-box table.table-hover");
+  orderby = await getSetting("table_order_by");
+  renderTable(allTables, 0, limit, orderby);
 
-  renderTable(0, limit, orderby);
-
-  jQuery("#prev_button").on("click", function () {
-    if (currentPage > 0) renderTable(--currentPage, limit, orderby);
+  jQuery(".prev-button").on("click", function () {
+    const table = jQuery(this).parent().siblings("table.table-hover");
+    const page_no = jQuery(this).siblings(".page-number").text() - 1;
+    if (page_no > 0) renderTable(table, page_no - 1, limit, orderby);
   });
 
-  jQuery("#next_button").on("click", function () {
-    renderTable(++currentPage, limit, orderby);
+  jQuery(".next-button").on("click", function () {
+    const table = jQuery(this).parent().siblings("table.table-hover");
+    const page_no = jQuery(this).siblings(".page-number").text() - 1;
+    renderTable(table, page_no + 1, limit, orderby);
   });
 })();

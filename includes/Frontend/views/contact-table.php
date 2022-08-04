@@ -14,8 +14,8 @@
   </table>
   <p class="cm-contacts-mgr table-loading-message center">Loading</p>
   <div class="table-nav">
-    <button id="prev_button">&lt;</button>
-    <span id="page_no"></span>
-    <button id="next_button">&gt;</button>
+    <button class="prev-button">&lt;</button>
+    <span class="page-number"></span>
+    <button class="next-button">&gt;</button>
   </div>
 </div>
