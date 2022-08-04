@@ -9,10 +9,10 @@
           Name:
         </label>
         <div class="input-inner">
-          <input class="target" type="text" name="name" id="contact_name">
+          <input class="input name-input" type="text" name="name" id="contact_name">
         </div>
       </div>
-      <div class="input-error" id="name_error"></div>
+      <div class="input-error name-error"></div>
     </div>
 
     <div class="input-outer">
@@ -22,10 +22,10 @@
           Email:
         </label>
         <div class="input-inner">
-          <input type="email" name="email" id="contact_email">
+          <input class="input email-input" type="email" name="email" id="contact_email">
         </div>
       </div>
-      <div class="input-error" id="email_error"></div>
+      <div class="input-error email-error"></div>
     </div>
 
     <div class="input-outer">
@@ -35,10 +35,10 @@
           Phone no:
         </label>
         <div class="input-inner">
-          <input type="text" name="phone" id="contact_phone">
+          <input class="input phone-input" type="text" name="phone" id="contact_phone">
         </div>
       </div>
-      <div class="input-error" id="phone_error"></div>
+      <div class="input-error phone-error"></div>
     </div>
 
     <div class="input-outer">
@@ -48,18 +48,18 @@
           Address:
         </label>
         <div class="input-inner">
-          <input type="text" name="address" id="contact_address">
+          <input class="input address-input" type="text" name="address" id="contact_address">
         </div>
       </div>
-      <div class="input-error" id="address_error"></div>
+      <div class="input-error address-error"></div>
     </div>
 
     <?php wp_nonce_field('cm-frontend-shortcode'); ?>
 
     <input type="hidden" name="action" value="cm_contact_form">
 
-    <p id="success-message"></p>
-    <p id="error-message"></p>
+    <p class="message success-message"></p>
+    <p class="message error-message"></p>
 
     <input type="submit" name="send_form" value="Submit">
   </form>

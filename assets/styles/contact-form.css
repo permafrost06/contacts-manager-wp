@@ -75,11 +75,11 @@
   transition: width 0.25s, border 0.25s, margin-right 0.25s;
 }
 
-#error-message {
+.error-message {
   color: red;
 }
 
-#success-message {
+.success-message {
   color: green;
 }
 
