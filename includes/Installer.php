@@ -60,8 +60,11 @@ class Installer
    */
   public function updateDefaultOptions(): void
   {
-    update_option("contacts_manager_table_limit", 10);
-    update_option("contacts_manager_table_order_by", "id");
-    update_option("contacts_manager_background_color", "#FFFFFF");
+    if (false == get_option("contacts_manager_table_limit"))
+      update_option("contacts_manager_table_limit", 10);
+    if (false == get_option("contacts_manager_table_order_by"))
+      update_option("contacts_manager_table_order_by", "id");
+    if (false == get_option("contacts_manager_background_color"))
+      update_option("contacts_manager_background_color", "#FFFFFF");
   }
 }
