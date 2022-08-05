@@ -162,7 +162,9 @@ async function formValidated(formEl) {
       });
   });
 
-  jQuery("input").on("input", clearMessage);
+  jQuery("input").on("input", function () {
+    clearMessage(jQuery(this).parents("form.cm-contact-form"));
+  });
 
   function clearMessage() {
     const formEl = jQuery(this).parents("form.cm-contact-form");
