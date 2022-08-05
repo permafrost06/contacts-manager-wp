@@ -50,7 +50,6 @@ const validateNumber = (rule, value, callback) => {
 
 const checkEmailExists = async (rule, email, callback) => {
   if (props.contactEmail.length > 0 && email === props.contactEmail) {
-    console.log("Emails are same", email, props.contactEmail);
     callback();
   }
 
