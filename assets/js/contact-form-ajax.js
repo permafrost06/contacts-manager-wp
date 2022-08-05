@@ -120,8 +120,6 @@ async function formValidated(formEl) {
 }
 
 (function () {
-  jQuery(".success-message").hide();
-
   jQuery(".name-input").on("input", validateName);
 
   jQuery(".email-input").on("input", validateEmail);
@@ -131,7 +129,9 @@ async function formValidated(formEl) {
   jQuery(".address-input").on("input", validateAddress);
 
   jQuery("form.cm-contact-form").on("submit", async function (e) {
-    clearMessage();
+    const formEl = jQuery(this);
+
+    clearMessage(formEl);
 
     e.preventDefault();
 
@@ -145,13 +145,11 @@ async function formValidated(formEl) {
 
     const data = jQuery(this).serialize();
 
-    const formEl = jQuery(this);
-
     jQuery
       .post(contacts_manager_ajax.ajax_url, data, function (data) {
         if (data.success) {
-          formEl.find(".submit-input").prop("disabled", true);
-          successEl.show();
+          successEl.text("Contact added successfully ");
+          clearForm(formEl);
         } else {
           errorEl.text(data.data.error);
         }
@@ -166,19 +164,11 @@ async function formValidated(formEl) {
     clearMessage(jQuery(this).parents("form.cm-contact-form"));
   });
 
-  function clearMessage() {
-    const formEl = jQuery(this).parents("form.cm-contact-form");
+  function clearMessage(formEl) {
+    const successEl = formEl.find(".success-message");
     const errorEl = formEl.find(".error-message");
 
+    successEl.text("");
     errorEl.text("");
   }
-
-  jQuery(".close-link").on("click", function () {
-    jQuery(this).parent().hide();
-    jQuery(this)
-      .parents("form.cm-contact-form")
-      .find(".submit-input")
-      .prop("disabled", false);
-    clearForm(jQuery(this).parents("form.cm-contact-form"));
-  });
 })();

@@ -58,7 +58,7 @@
 
     <input type="hidden" name="action" value="cm_contact_form">
 
-    <div class="message success-message">Contact added successfully <br> <span class="close-link">Add another one</span></div>
+    <p class="message success-message"></p>
     <p class="message error-message"></p>
 
     <input class="submit-input" type="submit" name="send_form" value="Submit">
