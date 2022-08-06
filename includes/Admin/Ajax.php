@@ -205,15 +205,17 @@ class Ajax extends AjaxBase
         $content .= $line . "\n";
       }
 
-      $my_post = array(
-        'post_title'    => $title,
-        'post_content'  => $content,
-        'post_status'   => 'publish',
-        'post_author'   => 1,
-        'post_type'     => 'page',
-      );
+      if (!post_exists($title)) {
+        $my_post = array(
+          'post_title'    => $title,
+          'post_content'  => $content,
+          'post_status'   => 'publish',
+          'post_author'   => 1,
+          'post_type'     => 'page',
+        );
 
-      wp_insert_post($my_post);
+        wp_insert_post($my_post);
+      }
     }
 
     wp_send_json_success();
