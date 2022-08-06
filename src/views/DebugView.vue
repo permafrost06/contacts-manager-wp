@@ -1,7 +1,8 @@
 <script setup>
 import { ref } from "vue";
 import { faker } from "@faker-js/faker";
-import { postAJAX } from "../composable/index.js";
+import { getAJAX, postAJAX } from "../composable/index.js";
+import { ElMessage } from "element-plus";
 
 const createRandomContact = () => {
   return {
@@ -42,12 +43,34 @@ const createContacts = async () => {
     type: "success",
   });
 };
+
+const genPages = async () => {
+  await getAJAX("create_example_pages", {}, ({ success, data }) => {
+    if (success) {
+      ElMessage({
+        message: "Pages created",
+        type: "success",
+      });
+    } else {
+      ElMessage({
+        message: "Could not create pages",
+        type: "error",
+      });
+    }
+  });
+};
 </script>
 
 <template>
-  <el-button @click="numMinus">-</el-button>
-  <el-button @click="createContacts"
-    >Generate {{ contactsNum }} contacts</el-button
-  >
-  <el-button @click="numPlus">+</el-button>
+  <el-row style="margin-bottom: 20px">
+    <el-button @click="numMinus">-</el-button>
+    <el-button @click="createContacts"
+      >Generate {{ contactsNum }} contacts</el-button
+    >
+    <el-button @click="numPlus">+</el-button>
+  </el-row>
+
+  <el-row style="margin-bottom: 20px">
+    <el-button @click="genPages">Generate example pages</el-button>
+  </el-row>
 </template>

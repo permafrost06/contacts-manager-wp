@@ -34,6 +34,9 @@ class Ajax extends AjaxBase
       'update_contact' => ['function' => [$this, 'handleUpdateContact']],
       'delete_contact' => ['function' => [$this, 'handleDeleteContact']],
       'get_all_settings' => ['function' => [$this, 'handleGetAllSettings']],
+      /* debug-start */
+      'create_example_pages' => ['function' => [$this, 'handlePageCreation']],
+      /* debug-end */
     ];
   }
 
@@ -114,4 +117,106 @@ class Ajax extends AjaxBase
     $settings = $this->settings_controller->getSettingOptions();
     wp_send_json_success($settings);
   }
+
+  /* debug-start */
+  /**
+   * Handles the creation of example pages - debug only
+   */
+  public function handlePageCreation(): void
+  {
+    $posts = [
+      'Contact Form Only' => [
+        'content_lines' => [
+          '<!-- wp:shortcode -->',
+          '[contact-form]',
+          '<!-- /wp:shortcode -->'
+        ]
+      ],
+      'Contact Form Multiple' => [
+        'content_lines' => [
+          '<!-- wp:shortcode -->',
+          '[contact-form]',
+          '<!-- /wp:shortcode -->',
+          '<!-- wp:shortcode -->',
+          '[contact-form]',
+          '<!-- /wp:shortcode -->',
+          '<!-- wp:shortcode -->',
+          '[contact-form]',
+          '<!-- /wp:shortcode -->',
+        ]
+      ],
+      'Contact Table Only' => [
+        'content_lines' => [
+          '<!-- wp:shortcode -->',
+          '[contacts-manager]',
+          '<!-- /wp:shortcode -->'
+        ]
+      ],
+      'Contact Table Multiple' => [
+        'content_lines' => [
+          '<!-- wp:shortcode -->',
+          '[contacts-manager]',
+          '<!-- /wp:shortcode -->',
+          '<!-- wp:shortcode -->',
+          '[contacts-manager]',
+          '<!-- /wp:shortcode -->',
+          '<!-- wp:shortcode -->',
+          '[contacts-manager]',
+          '<!-- /wp:shortcode -->',
+        ]
+      ],
+      'Contact Card Only' => [
+        'content_lines' => [
+          '<!-- wp:shortcode -->',
+          '[contacts-manager id="5"]',
+          '<!-- /wp:shortcode -->'
+        ]
+      ],
+      'Contact Card Error' => [
+        'content_lines' => [
+          '<!-- wp:shortcode -->',
+          '[contacts-manager id="50000"]',
+          '<!-- /wp:shortcode -->'
+        ]
+      ],
+      'Contact Card Multiple' => [
+        'content_lines' => [
+          '<!-- wp:shortcode -->',
+          '[contacts-manager id="1"]',
+          '<!-- /wp:shortcode -->',
+          '<!-- wp:shortcode -->',
+          '[contacts-manager id="5"]',
+          '<!-- /wp:shortcode -->',
+          '<!-- wp:shortcode -->',
+          '[contacts-manager id="7"]',
+          '<!-- /wp:shortcode -->',
+          '<!-- wp:shortcode -->',
+          '[contacts-manager id="50000"]',
+          '<!-- /wp:shortcode -->',
+        ]
+      ],
+    ];
+
+    foreach ($posts as $post => $attrs) {
+      $title = "Contacts Manager - $post";
+      $content = '';
+
+      foreach ($attrs['content_lines'] as $line) {
+        $content .= $line . "\n";
+      }
+
+      $my_post = array(
+        'post_title'    => $title,
+        'post_content'  => $content,
+        'post_status'   => 'publish',
+        'post_author'   => 1,
+        'post_type'     => 'page',
+      );
+
+      wp_insert_post($my_post);
+    }
+
+    wp_send_json_success();
+  }
+  /* debug-end */
 }
