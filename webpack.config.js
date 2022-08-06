@@ -25,6 +25,10 @@ const config = {
         test: /\.js$/,
         use: "babel-loader",
       },
+      {
+        test: /\.scss$/,
+        use: ["vue-style-loader", "css-loader", "sass-loader"],
+      },
     ],
   },
   plugins: [

@@ -174,7 +174,7 @@ const copyShortcode = async (id) => {
   </div>
 </template>
 
-<style>
+<style lang="scss" scoped>
 .space-after {
   margin-right: 1rem;
 }

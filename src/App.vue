@@ -35,7 +35,7 @@ const heading = ref("Contacts Manager");
         >
       </el-row>
     </el-header>
-    <el-main>
+    <el-main class="cm-admin-app-main">
       <router-view v-slot="{ Component }">
         <template v-if="Component">
           <Suspense @pending="pendingHandler" @resolve="resolveHandler">
@@ -47,19 +47,21 @@ const heading = ref("Contacts Manager");
   </div>
 </template>
 
-<style>
-.el-input > * > input {
-  border: none;
-  background: none;
-  padding: 0;
-}
+<style lang="scss">
+.cm-admin-app-main .el-input > * {
+  & > input {
+    border: none;
+    background: none;
+    padding: 0;
+  }
 
-.el-input > * > input:focus {
-  box-shadow: none;
-  outline: none;
-}
+  & > input:focus {
+    box-shadow: none;
+    outline: none;
+  }
 
-.el-input > * > input:focus-visible {
-  outline: none;
+  & > input:focus-visible {
+    outline: none;
+  }
 }
 </style>
