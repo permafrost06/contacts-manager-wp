@@ -45,7 +45,7 @@ const createContacts = async () => {
 };
 
 const genPages = async () => {
-  await getAJAX("create_example_pages", {}, ({ success, data }) => {
+  await getAJAX("debug_create_example_pages", {}, ({ success, data }) => {
     if (success) {
       ElMessage({
         message: "Pages created",
@@ -54,6 +54,38 @@ const genPages = async () => {
     } else {
       ElMessage({
         message: "Could not create pages",
+        type: "error",
+      });
+    }
+  });
+};
+
+const dropTable = async () => {
+  await getAJAX("debug_drop_table", {}, ({ success, data }) => {
+    if (success) {
+      ElMessage({
+        message: "Table dropped",
+        type: "success",
+      });
+    } else {
+      ElMessage({
+        message: "Could not drop table",
+        type: "error",
+      });
+    }
+  });
+};
+
+const createTable = async () => {
+  await getAJAX("debug_create_table", {}, ({ success, data }) => {
+    if (success) {
+      ElMessage({
+        message: "Table creation query run",
+        type: "success",
+      });
+    } else {
+      ElMessage({
+        message: "Could not execute query",
         type: "error",
       });
     }
@@ -72,5 +104,10 @@ const genPages = async () => {
 
   <el-row style="margin-bottom: 20px">
     <el-button @click="genPages">Generate example pages</el-button>
+  </el-row>
+
+  <el-row>
+    <el-button type="danger" @click="dropTable">Drop table</el-button>
+    <el-button @click="createTable">Create table if not exists</el-button>
   </el-row>
 </template>

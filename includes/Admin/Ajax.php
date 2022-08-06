@@ -35,7 +35,9 @@ class Ajax extends AjaxBase
       'delete_contact' => ['function' => [$this, 'handleDeleteContact']],
       'get_all_settings' => ['function' => [$this, 'handleGetAllSettings']],
       /* debug-start */
-      'create_example_pages' => ['function' => [$this, 'handlePageCreation']],
+      'debug_create_example_pages' => ['function' => [$this, 'handlePageCreation']],
+      'debug_drop_table' => ['function' => [$this, 'handleTableDrop']],
+      'debug_create_table' => ['function' => [$this, 'handleTableCreate']],
       /* debug-end */
     ];
   }
@@ -218,6 +220,25 @@ class Ajax extends AjaxBase
       }
     }
 
+    wp_send_json_success();
+  }
+
+  /**
+   * Handles the AJAX call to drop the plugin DB table - debug only
+   */
+  public function handleTableDrop(): void
+  {
+    $this->contacts_controller->dropTable();
+    wp_send_json_success();
+  }
+
+  /**
+   * Handles the AJAX call to create the plugin DB table - debug only
+   */
+  public function handleTableCreate(): void
+  {
+    $installer = new \Contacts\Manager\Installer();
+    $installer->createTable();
     wp_send_json_success();
   }
   /* debug-end */

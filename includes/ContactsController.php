@@ -198,4 +198,18 @@ class ContactsController
       throw new Exception("Could not update contact with id '$id'", 500);
     }
   }
+
+  /* debug-start */
+  /**
+   * Drops the plugin database table - debug only
+   */
+  public function dropTable(): void
+  {
+    $response =  $this->db->query("DROP TABLE IF EXISTS {$this->table_name}");
+
+    if (false == $response) {
+      throw new Exception("Could not drop table", 500);
+    }
+  }
+  /* debug-end */
 }
