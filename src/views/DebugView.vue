@@ -24,7 +24,9 @@ const numPlus = () => {
 };
 
 const createContacts = async () => {
-  Array.from({ length: contactsNum.value }).forEach(async () => {
+  let failed = false;
+
+  for (let i = 0; i < contactsNum.value; i++) {
     await postAJAX(
       "add_contact",
       createRandomContact(),
@@ -34,14 +36,18 @@ const createContacts = async () => {
             message: "Could not add contact - " + data.error,
             type: "error",
           });
+          failed = true;
         }
       }
     );
-  });
-  ElMessage({
-    message: `Added ${contactsNum.value} contacts`,
-    type: "success",
-  });
+  }
+
+  if (!failed) {
+    ElMessage({
+      message: `Added ${contactsNum.value} contacts`,
+      type: "success",
+    });
+  }
 };
 
 const genPages = async () => {
