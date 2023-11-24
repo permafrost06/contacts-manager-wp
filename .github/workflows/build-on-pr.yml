@@ -22,5 +22,5 @@ jobs:
             - name: Upload plugin zip as artifact
               uses: actions/upload-artifact@v3
               with:
-                  name: contacts-manager
+                  name: contacts-manager-wp
                   path: dist
