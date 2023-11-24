@@ -1,0 +1,26 @@
+name: Build on pr
+on: pull_request
+jobs:
+    Create-Plugin-Zip:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+            - name: Use node
+              uses: actions/setup-node@v3
+            - name: npm install build export
+              run: |
+                  npm i
+                  npm run build
+                  npm run export
+            - name: create plugin directory
+              run: |
+                  mkdir export
+                  cd export
+                  unzip ../tableberg.zip
+            - name: Upload plugin zip as artifact
+              uses: actions/upload-artifact@v3
+              with:
+                  name: tableberg
+                  path: export
