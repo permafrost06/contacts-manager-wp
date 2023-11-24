@@ -16,11 +16,11 @@ jobs:
                   npm run export
             - name: create plugin directory
               run: |
-                  mkdir export
-                  cd export
-                  unzip ../tableberg.zip
+                  cd dist
+                  unzip contacts-manager.zip
+                  rm contacts-manager.zip
             - name: Upload plugin zip as artifact
               uses: actions/upload-artifact@v3
               with:
-                  name: tableberg
+                  name: contacts-manager
                   path: export
