@@ -1,5 +1,5 @@
 name: Build on pr
-on: [pull_request, push] # change to only pull_request after testing
+on: pull_request # change to only pull_request after testing
 jobs:
     Create-Plugin-Zip:
         runs-on: ubuntu-latest
