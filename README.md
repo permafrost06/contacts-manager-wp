@@ -24,3 +24,4 @@ Run `npm run build` to generate production bundle.
 ## Export plugin as `.zip`
 
 Run `npm run export` to generate production bundle and compress the plugin into an archive that can be uploaded and installed in wordpress.
+newline
