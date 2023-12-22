@@ -50,9 +50,9 @@ class Assets
     return [
       'admin-vue-app' => [
         /* next-line-enables-hmr */
-        'src' => 'http://localhost:8081/main.js',
+        // 'src' => 'http://localhost:8081/main.js',
         /* next-line-disables-hmr */
-        // 'src' => CONTACTS_MANAGER_ASSETS . '/js/admin_app/main.js',
+        'src' => CONTACTS_MANAGER_ASSETS . '/js/admin_app/main.js',
         'version' => filemtime(CONTACTS_MANAGER_PATH . '/assets/js/admin_app/main.js'),
         'deps' => ['jquery']
       ]

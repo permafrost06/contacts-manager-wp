@@ -3,7 +3,7 @@
         'name' => 'permafrost/contacts-manager',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '4945653f4c5f9e01599c51abf7a4df153dc65174',
+        'reference' => '95cd946e78d48dd7b30c8aea7508aa4b612baa0d',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'permafrost/contacts-manager' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '4945653f4c5f9e01599c51abf7a4df153dc65174',
+            'reference' => '95cd946e78d48dd7b30c8aea7508aa4b612baa0d',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
