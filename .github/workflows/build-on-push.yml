@@ -9,7 +9,7 @@ jobs:
 
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
             - name: Use node
               uses: actions/setup-node@v3
             - name: npm install build export
@@ -23,7 +23,7 @@ jobs:
                   unzip contacts-manager.zip
                   rm contacts-manager.zip
             - name: Upload plugin zip as artifact
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: contacts-manager-wp
                   path: dist
