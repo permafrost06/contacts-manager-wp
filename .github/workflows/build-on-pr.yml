@@ -1,5 +1,8 @@
 name: Build on pr
-on: pull_request # change to only pull_request after testing
+on:
+  push:
+  workflow_dispatch:
+
 jobs:
     Create-Plugin-Zip:
         runs-on: ubuntu-latest
