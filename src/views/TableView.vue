@@ -99,7 +99,7 @@ const copyShortcode = async (id) => {
     </el-row>
     <el-row justify="space-between">
       <el-col class="flex-align-center" :span="9">
-        <h2 class="inline space-after">Contacts List</h2>
+        <h2 class="inline space-after">List of Contacts</h2>
         <el-button type="primary" @click="handleAddNew"
           >Add new contact</el-button
         >
